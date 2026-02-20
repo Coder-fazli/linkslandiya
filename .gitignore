@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editor
+*.code-workspace
+
+# old prototype files
+/Dashboard/
+/LandginPage/
+/index.html
+/script.js
+/site.html
+/site.js
+/styles.css
+/nul
