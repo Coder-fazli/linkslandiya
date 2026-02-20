@@ -152,10 +152,9 @@ export default function Features() {
 
     <Link
      href = '/login'
-    className='btn-primary'
-    target="_blank"     // opens in new tab
-    rel="noopener noreferrer"
     className="features-cta"
+    target="_blank"
+    rel="noopener noreferrer"
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="5" y1="12" x2="19" y2="12"/>
