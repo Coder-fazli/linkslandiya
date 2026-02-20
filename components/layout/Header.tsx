@@ -20,7 +20,7 @@ export default function Header ({ cartCount = 0 }: HeaderProps) {
                 <span className='logo-text'>Linkslandiya</span>   
                </Link>
                 <nav className="nav">
-                    <Link href="/" className="nav-link active">All Sites</Link>
+                    <Link href="/websites" className="nav-link">Websites</Link>
                     <Link href="/packages" className="nav-link">Packages</Link>
                     <Link href="/how-it-works" className="nav-link">How It Works</Link>
                     <Link href="/contact" className="nav-link">Contact</Link>
@@ -50,8 +50,8 @@ export default function Header ({ cartCount = 0 }: HeaderProps) {
                      </button>
                
              <nav className="mobile-nav">
-                     <Link href="/" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
-                              All Sites
+                     <Link href="/websites" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
+                              Websites
                     </Link>
                       <Link href="/packages" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
                       Packages
