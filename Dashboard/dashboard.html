@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkslandiya - Admin Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                </div>
+                <span class="logo-text">Linkslandiya</span>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <div class="nav-item active" data-section="dashboard">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Dashboard
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Management</div>
+                    <div class="nav-item" data-section="websites">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        Websites
+                        <span class="badge">20</span>
+                    </div>
+                    <div class="nav-item" data-section="orders">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        Orders
+                        <span class="badge">5</span>
+                    </div>
+                    <div class="nav-item" data-section="users">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Users
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Content</div>
+                    <div class="nav-item" data-section="posts">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                        Posts
+                    </div>
+                    <div class="nav-item" data-section="pages">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        Pages
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Settings</div>
+                    <div class="nav-item" data-section="settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        Settings
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="btn btn-primary" id="add-new-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Add New
+                    </button>
+                    <div class="user-avatar">AD</div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <div class="section-content active" id="section-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon teal">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                            </div>
+                            <span class="stat-card-trend up">+12.5%</span>
+                        </div>
+                        <div class="stat-card-value">$24,580</div>
+                        <div class="stat-card-label">Total Revenue</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon green">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                            </div>
+                            <span class="stat-card-trend up">+8.2%</span>
+                        </div>
+                        <div class="stat-card-value">156</div>
+                        <div class="stat-card-label">Total Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon yellow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"></path>
+                                </svg>
+                            </div>
+                            <span class="stat-card-trend up">+3</span>
+                        </div>
+                        <div class="stat-card-value">20</div>
+                        <div class="stat-card-label">Total Websites</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon navy">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <span class="stat-card-trend up">+24</span>
+                        </div>
+                        <div class="stat-card-value">1,248</div>
+                        <div class="stat-card-label">Total Users</div>
+                    </div>
+                </div>
+
+                <!-- Traffic Charts -->
+                <div class="charts-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Website Traffic Overview</h3>
+                            <div class="chart-period-selector">
+                                <button class="chart-period active">7 Days</button>
+                                <button class="chart-period">30 Days</button>
+                                <button class="chart-period">90 Days</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="trafficChart" height="100"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Traffic by Country</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="countryChart" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Websites by Traffic -->
+                <div class="card" style="margin-bottom: 1.25rem;">
+                    <div class="card-header">
+                        <h3>Top Websites by Traffic</h3>
+                        <button class="btn btn-secondary">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="traffic-bars">
+                            <div class="traffic-bar-item">
+                                <div class="traffic-bar-info">
+                                    <span class="traffic-bar-name">globalnews.com</span>
+                                    <span class="traffic-bar-value">450K visits</span>
+                                </div>
+                                <div class="traffic-bar-track">
+                                    <div class="traffic-bar-fill" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="traffic-bar-item">
+                                <div class="traffic-bar-info">
+                                    <span class="traffic-bar-name">businessinsider.de</span>
+                                    <span class="traffic-bar-value">250K visits</span>
+                                </div>
+                                <div class="traffic-bar-track">
+                                    <div class="traffic-bar-fill" style="width: 55%;"></div>
+                                </div>
+                            </div>
+                            <div class="traffic-bar-item">
+                                <div class="traffic-bar-info">
+                                    <span class="traffic-bar-name">financepro.com</span>
+                                    <span class="traffic-bar-value">210K visits</span>
+                                </div>
+                                <div class="traffic-bar-track">
+                                    <div class="traffic-bar-fill" style="width: 47%;"></div>
+                                </div>
+                            </div>
+                            <div class="traffic-bar-item">
+                                <div class="traffic-bar-info">
+                                    <span class="traffic-bar-name">entertainhub.com</span>
+                                    <span class="traffic-bar-value">180K visits</span>
+                                </div>
+                                <div class="traffic-bar-track">
+                                    <div class="traffic-bar-fill" style="width: 40%;"></div>
+                                </div>
+                            </div>
+                            <div class="traffic-bar-item">
+                                <div class="traffic-bar-info">
+                                    <span class="traffic-bar-name">techblog.com</span>
+                                    <span class="traffic-bar-value">125K visits</span>
+                                </div>
+                                <div class="traffic-bar-track">
+                                    <div class="traffic-bar-fill" style="width: 28%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Recent Orders</h3>
+                            <button class="btn btn-secondary">View All</button>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Website</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-001</td>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">JD</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">John Doe</span>
+                                                <span class="user-cell-email">john@example.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>techblog.com</td>
+                                    <td>$150</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-002</td>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #1a365d, #2d4a7c);">AS</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">Alice Smith</span>
+                                                <span class="user-cell-email">alice@example.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>globalnews.com</td>
+                                    <td>$250</td>
+                                    <td><span class="status-badge in-progress">In Progress</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: rgba(34, 197, 94, 0.2); color: #22c55e;">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Order #ORD-001 completed</div>
+                                        <div class="activity-time">2 minutes ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: rgba(13, 148, 136, 0.2); color: #0d9488;">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="8.5" cy="7" r="4"></circle>
+                                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">New user registered</div>
+                                        <div class="activity-time">15 minutes ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Websites Section -->
+            <div class="section-content" id="section-websites">
+                <div class="tabs">
+                    <div class="tab active">All Websites</div>
+                    <div class="tab">Active</div>
+                    <div class="tab">Pending</div>
+                </div>
+
+                <div id="websites-list">
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Website</th>
+                                    <th>DA</th>
+                                    <th>DR</th>
+                                    <th>Traffic</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">T</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">techblog.com</span>
+                                                <span class="user-cell-email">Technology</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>65</td>
+                                    <td>58</td>
+                                    <td>125K</td>
+                                    <td>$150</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn edit" onclick="showWebsiteEdit()">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="action-btn delete">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #1a365d, #2d4a7c);">G</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">globalnews.com</span>
+                                                <span class="user-cell-email">News</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>75</td>
+                                    <td>70</td>
+                                    <td>450K</td>
+                                    <td>$250</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn edit" onclick="showWebsiteEdit()">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="action-btn delete">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="website-edit" class="edit-page" style="display: none;">
+                    <div class="back-link" onclick="hideWebsiteEdit()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to Websites
+                    </div>
+                    <div class="edit-header">
+                        <h2 id="website-edit-title">Add New Website</h2>
+                        <div class="edit-actions">
+                            <button class="btn btn-secondary" onclick="hideWebsiteEdit()">Cancel</button>
+                            <button class="btn btn-primary">Save Website</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Website Name <span>*</span></label>
+                                    <input type="text" class="form-input" placeholder="example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Website URL <span>*</span></label>
+                                    <input type="url" class="form-input" placeholder="https://example.com">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-textarea" placeholder="Brief description of the website..."></textarea>
+                                </div>
+                            </div>
+
+                            <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary); font-size: 0.9rem;">SEO Metrics</h4>
+                            <div class="form-grid three-col">
+                                <div class="form-group">
+                                    <label class="form-label">DA (Moz)</label>
+                                    <input type="number" class="form-input" placeholder="0-100">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">DR (Ahrefs)</label>
+                                    <input type="number" class="form-input" placeholder="0-100">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Monthly Traffic</label>
+                                    <input type="number" class="form-input" placeholder="e.g., 50000">
+                                </div>
+                            </div>
+
+                            <h4 style="margin: 1.5rem 0 1rem; color: var(--text-secondary); font-size: 0.9rem;">Details</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Country</label>
+                                    <select class="form-select">
+                                        <option value="">Select Country</option>
+                                        <option value="US">United States</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="DE">Germany</option>
+                                        <option value="Global">Global</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Language</label>
+                                    <select class="form-select">
+                                        <option value="">Select Language</option>
+                                        <option value="English">English</option>
+                                        <option value="German">German</option>
+                                        <option value="French">French</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Topic/Category</label>
+                                    <select class="form-select">
+                                        <option value="">Select Topic</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Finance">Finance</option>
+                                        <option value="Health">Health</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Price ($)</label>
+                                    <input type="number" class="form-input" placeholder="e.g., 100">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Link Type</label>
+                                <div class="toggle-wrapper">
+                                    <div class="toggle active" onclick="this.classList.toggle('active')"></div>
+                                    <span>Dofollow Link</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" style="max-width: 200px;">
+                                    <option value="active">Active</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div class="section-content" id="section-orders">
+                <div class="tabs">
+                    <div class="tab active">All Orders</div>
+                    <div class="tab">Pending</div>
+                    <div class="tab">In Progress</div>
+                    <div class="tab">Completed</div>
+                </div>
+
+                <div id="orders-list">
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Website</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable" onclick="showOrderDetail('001')">
+                                    <td>#ORD-001</td>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">JD</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">John Doe</span>
+                                                <span class="user-cell-email">john@example.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>techblog.com</td>
+                                    <td>$150</td>
+                                    <td>Jan 15, 2026</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view" onclick="event.stopPropagation(); showOrderDetail('001')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="clickable" onclick="showOrderDetail('002')">
+                                    <td>#ORD-002</td>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #1a365d, #2d4a7c);">AS</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">Alice Smith</span>
+                                                <span class="user-cell-email">alice@example.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>globalnews.com</td>
+                                    <td>$250</td>
+                                    <td>Jan 14, 2026</td>
+                                    <td><span class="status-badge in-progress">In Progress</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view" onclick="event.stopPropagation(); showOrderDetail('002')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="clickable" onclick="showOrderDetail('003')">
+                                    <td>#ORD-003</td>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">MJ</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">Mike Johnson</span>
+                                                <span class="user-cell-email">mike@example.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>healthnews.org</td>
+                                    <td>$95</td>
+                                    <td>Jan 13, 2026</td>
+                                    <td><span class="status-badge pending">Pending</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view" onclick="event.stopPropagation(); showOrderDetail('003')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Order Detail View -->
+                <div id="order-detail" style="display: none;">
+                    <div class="back-link" onclick="hideOrderDetail()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to Orders
+                    </div>
+
+                    <div class="edit-header">
+                        <h2>Order #ORD-001</h2>
+                        <div class="edit-actions">
+                            <button class="btn btn-danger">Cancel Order</button>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="order-detail-grid">
+                        <div class="order-main">
+                            <!-- Order Status Card -->
+                            <div class="card" style="margin-bottom: 1.25rem;">
+                                <div class="card-header">
+                                    <h3>Order Status</h3>
+                                    <span class="status-badge in-progress">In Progress</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="order-timeline">
+                                        <div class="timeline-item completed">
+                                            <div class="timeline-dot"></div>
+                                            <div class="timeline-content">
+                                                <div class="timeline-title">Order Placed</div>
+                                                <div class="timeline-date">Jan 14, 2026 at 10:30 AM</div>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item completed">
+                                            <div class="timeline-dot"></div>
+                                            <div class="timeline-content">
+                                                <div class="timeline-title">Payment Confirmed</div>
+                                                <div class="timeline-date">Jan 14, 2026 at 10:32 AM</div>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item active">
+                                            <div class="timeline-dot"></div>
+                                            <div class="timeline-content">
+                                                <div class="timeline-title">Content Being Written</div>
+                                                <div class="timeline-date">In progress...</div>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <div class="timeline-dot"></div>
+                                            <div class="timeline-content">
+                                                <div class="timeline-title">Published</div>
+                                                <div class="timeline-date">Pending</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="margin-top: 1.5rem; margin-bottom: 0;">
+                                        <label class="form-label">Update Status</label>
+                                        <select class="form-select" style="max-width: 250px;">
+                                            <option value="pending">Pending</option>
+                                            <option value="in-progress" selected>In Progress</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="cancelled">Cancelled</option>
+                                            <option value="refunded">Refunded</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Order Details Card -->
+                            <div class="card" style="margin-bottom: 1.25rem;">
+                                <div class="card-header">
+                                    <h3>Website Details</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="detail-row">
+                                        <div class="detail-item">
+                                            <div class="detail-label">Website</div>
+                                            <div class="detail-value">
+                                                <a href="#" style="color: var(--primary);">globalnews.com</a>
+                                            </div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <div class="detail-label">Topic</div>
+                                            <div class="detail-value">News</div>
+                                        </div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <div class="detail-item">
+                                            <div class="detail-label">DA / DR</div>
+                                            <div class="detail-value">75 / 70</div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <div class="detail-label">Link Type</div>
+                                            <div class="detail-value">
+                                                <span class="status-badge active">Dofollow</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Customer Requirements Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Customer Requirements</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label class="form-label">Article Title</label>
+                                        <input type="text" class="form-input" value="10 Best SEO Strategies for 2026">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Target URL</label>
+                                        <input type="text" class="form-input" value="https://example.com/seo-services">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Anchor Text</label>
+                                        <input type="text" class="form-input" value="best SEO services">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <label class="form-label">Additional Notes</label>
+                                        <textarea class="form-textarea" style="min-height: 100px;">Please include statistics and recent data. Focus on mobile SEO and voice search optimization.</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-sidebar">
+                            <!-- Customer Info -->
+                            <div class="card" style="margin-bottom: 1.25rem;">
+                                <div class="card-header">
+                                    <h3>Customer</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="customer-info">
+                                        <div class="user-cell-avatar" style="background: linear-gradient(135deg, #1a365d, #2d4a7c); width: 48px; height: 48px; font-size: 1rem;">AS</div>
+                                        <div class="customer-details">
+                                            <div class="customer-name">Alice Smith</div>
+                                            <div class="customer-email">alice@example.com</div>
+                                        </div>
+                                    </div>
+                                    <div class="customer-stats">
+                                        <div class="customer-stat">
+                                            <span class="customer-stat-value">8</span>
+                                            <span class="customer-stat-label">Orders</span>
+                                        </div>
+                                        <div class="customer-stat">
+                                            <span class="customer-stat-value">$1,240</span>
+                                            <span class="customer-stat-label">Total Spent</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-secondary" style="width: 100%;" onclick="showUserProfile('alice')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                        View Profile
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Payment Info -->
+                            <div class="card" style="margin-bottom: 1.25rem;">
+                                <div class="card-header">
+                                    <h3>Payment</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="payment-row">
+                                        <span>Subtotal</span>
+                                        <span>$250.00</span>
+                                    </div>
+                                    <div class="payment-row">
+                                        <span>Platform Fee</span>
+                                        <span>$25.00</span>
+                                    </div>
+                                    <div class="payment-row total">
+                                        <span>Total</span>
+                                        <span>$275.00</span>
+                                    </div>
+                                    <div class="payment-status">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                        </svg>
+                                        Paid via Stripe
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Published Link -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Published Link</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                                        <label class="form-label">Live URL</label>
+                                        <input type="text" class="form-input" placeholder="https://globalnews.com/article-url">
+                                    </div>
+                                    <button class="btn btn-success" style="width: 100%;">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                        Mark as Published
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div class="section-content" id="section-users">
+                <div class="tabs">
+                    <div class="tab active">All Users</div>
+                    <div class="tab">Customers</div>
+                    <div class="tab">Publishers</div>
+                    <div class="tab">Admins</div>
+                </div>
+
+                <div id="users-list">
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Role</th>
+                                    <th>Orders</th>
+                                    <th>Spent</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable" onclick="showUserProfile('john')">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">JD</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">John Doe</span>
+                                                <span class="user-cell-email">john@example.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge customer">Customer</span></td>
+                                    <td>12</td>
+                                    <td>$1,580</td>
+                                    <td>Dec 10, 2025</td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view" onclick="event.stopPropagation(); showUserProfile('john')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </button>
+                                            <button class="action-btn edit" onclick="event.stopPropagation(); showUserProfile('john')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="action-btn delete" onclick="event.stopPropagation()">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="clickable" onclick="showUserProfile('alice')">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">AS</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">Alice Smith</span>
+                                                <span class="user-cell-email">alice@example.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge publisher">Publisher</span></td>
+                                    <td>-</td>
+                                    <td>$3,200 earned</td>
+                                    <td>Nov 5, 2025</td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view" onclick="event.stopPropagation(); showUserProfile('alice')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </button>
+                                            <button class="action-btn edit" onclick="event.stopPropagation(); showUserProfile('alice')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="action-btn delete" onclick="event.stopPropagation()">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="clickable" onclick="showUserProfile('admin')">
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-cell-avatar" style="background: linear-gradient(135deg, #ef4444, #f87171);">AD</div>
+                                            <div class="user-cell-info">
+                                                <span class="user-cell-name">Admin User</span>
+                                                <span class="user-cell-email">admin@linkslandiya.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><span class="status-badge admin">Admin</span></td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>Oct 1, 2025</td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view" onclick="event.stopPropagation(); showUserProfile('admin')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </button>
+                                            <button class="action-btn edit" onclick="event.stopPropagation(); showUserProfile('admin')">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- User Profile View -->
+                <div id="user-profile" style="display: none;">
+                    <div class="back-link" onclick="hideUserProfile()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to Users
+                    </div>
+
+                    <div class="card" style="margin-bottom: 1.25rem;">
+                        <div class="card-body">
+                            <div class="profile-header">
+                                <div class="profile-avatar" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">JD</div>
+                                <div class="profile-info">
+                                    <div class="profile-name">John Doe</div>
+                                    <div class="profile-email">john@example.com</div>
+                                    <div class="profile-meta">
+                                        <div class="profile-meta-item">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                            </svg>
+                                            Joined Dec 10, 2025
+                                        </div>
+                                        <div class="profile-meta-item">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                                <circle cx="12" cy="10" r="3"></circle>
+                                            </svg>
+                                            New York, USA
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-actions">
+                                    <button class="btn btn-primary">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                        </svg>
+                                        Message
+                                    </button>
+                                    <button class="btn btn-danger">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                                        </svg>
+                                        Ban User
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="user-stats">
+                                <div class="user-stat">
+                                    <div class="user-stat-value">12</div>
+                                    <div class="user-stat-label">Total Orders</div>
+                                </div>
+                                <div class="user-stat">
+                                    <div class="user-stat-value">$1,580</div>
+                                    <div class="user-stat-label">Total Spent</div>
+                                </div>
+                                <div class="user-stat">
+                                    <div class="user-stat-value">3</div>
+                                    <div class="user-stat-label">Websites</div>
+                                </div>
+                                <div class="user-stat">
+                                    <div class="user-stat-value">4.8</div>
+                                    <div class="user-stat-label">Rating</div>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-input" value="John Doe">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" value="john@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Role</label>
+                                    <select class="form-select">
+                                        <option value="customer" selected>Customer</option>
+                                        <option value="publisher">Publisher</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select">
+                                        <option value="active" selected>Active</option>
+                                        <option value="suspended">Suspended</option>
+                                        <option value="banned">Banned</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="section-tabs">
+                        <div class="section-tab active" onclick="showUserTab('orders')">Orders</div>
+                        <div class="section-tab" onclick="showUserTab('websites')">Websites</div>
+                        <div class="section-tab" onclick="showUserTab('messages')">Messages</div>
+                        <div class="section-tab" onclick="showUserTab('activity')">Activity</div>
+                    </div>
+
+                    <!-- User Orders Tab -->
+                    <div id="user-tab-orders" class="card">
+                        <div class="card-header">
+                            <h3>Order History</h3>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Website</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-001</td>
+                                    <td>techblog.com</td>
+                                    <td>$150</td>
+                                    <td>Jan 15, 2026</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-005</td>
+                                    <td>globalnews.com</td>
+                                    <td>$250</td>
+                                    <td>Jan 10, 2026</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-008</td>
+                                    <td>healthnews.org</td>
+                                    <td>$95</td>
+                                    <td>Jan 5, 2026</td>
+                                    <td><span class="status-badge in-progress">In Progress</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- User Websites Tab -->
+                    <div id="user-tab-websites" class="card" style="display: none;">
+                        <div class="card-header">
+                            <h3>User's Websites</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="website-mini-list">
+                                <div class="website-mini-item">
+                                    <div class="website-mini-left">
+                                        <div class="website-mini-avatar" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">T</div>
+                                        <span class="website-mini-name">techblog.com</span>
+                                    </div>
+                                    <div class="website-mini-stats">
+                                        <span>DA: 65</span>
+                                        <span>$150</span>
+                                        <span class="status-badge active">Active</span>
+                                    </div>
+                                </div>
+                                <div class="website-mini-item">
+                                    <div class="website-mini-left">
+                                        <div class="website-mini-avatar" style="background: linear-gradient(135deg, #1a365d, #2d4a7c);">M</div>
+                                        <span class="website-mini-name">myblog.net</span>
+                                    </div>
+                                    <div class="website-mini-stats">
+                                        <span>DA: 42</span>
+                                        <span>$80</span>
+                                        <span class="status-badge pending">Pending</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Messages Tab -->
+                    <div id="user-tab-messages" class="card" style="display: none;">
+                        <div class="card-header">
+                            <h3>Send Message</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Subject</label>
+                                <input type="text" class="form-input" placeholder="Message subject...">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-textarea" placeholder="Write your message here..."></textarea>
+                            </div>
+                            <button class="btn btn-primary">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                                Send Message
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- User Activity Tab -->
+                    <div id="user-tab-activity" class="card" style="display: none;">
+                        <div class="card-header">
+                            <h3>Activity Log</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: rgba(34, 197, 94, 0.2); color: #22c55e;">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Placed order #ORD-008</div>
+                                        <div class="activity-time">Jan 5, 2026 at 3:45 PM</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: rgba(13, 148, 136, 0.2); color: #0d9488;">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Updated profile information</div>
+                                        <div class="activity-time">Jan 3, 2026 at 10:22 AM</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                            <polyline points="10 17 15 12 10 7"></polyline>
+                                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Logged in from New York, USA</div>
+                                        <div class="activity-time">Jan 3, 2026 at 10:20 AM</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Posts Section -->
+            <div class="section-content" id="section-posts">
+                <div class="tabs">
+                    <div class="tab active">All Posts</div>
+                    <div class="tab">Published</div>
+                    <div class="tab">Drafts</div>
+                </div>
+
+                <div id="posts-list">
+                    <div class="card">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell-info">
+                                            <span class="user-cell-name">How to Build Quality Backlinks</span>
+                                            <span class="user-cell-email">/blog/quality-backlinks</span>
+                                        </div>
+                                    </td>
+                                    <td>Admin</td>
+                                    <td>Jan 10, 2026</td>
+                                    <td><span class="status-badge published">Published</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn edit" onclick="showPostEdit()">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="action-btn delete">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="post-edit" class="edit-page" style="display: none;">
+                    <div class="back-link" onclick="hidePostEdit()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to Posts
+                    </div>
+                    <div class="edit-header">
+                        <h2>Edit Post</h2>
+                        <div class="edit-actions">
+                            <button class="btn btn-secondary" onclick="hidePostEdit()">Cancel</button>
+                            <button class="btn btn-secondary">Save Draft</button>
+                            <button class="btn btn-primary">Publish</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Post Title <span>*</span></label>
+                                <input type="text" class="form-input" placeholder="Enter post title...">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">URL Slug</label>
+                                <input type="text" class="form-input" placeholder="post-url-slug">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Content <span>*</span></label>
+                                <div class="text-editor">
+                                    <div class="editor-toolbar">
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Bold">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                                    <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                                                    <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Italic">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="19" y1="4" x2="10" y2="4"></line>
+                                                    <line x1="14" y1="20" x2="5" y2="20"></line>
+                                                    <line x1="15" y1="4" x2="9" y2="20"></line>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Underline">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path>
+                                                    <line x1="4" y1="21" x2="20" y2="21"></line>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Strikethrough">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M17.3 4.9c-2.3-.6-4.4-1-6.2-.9-2.7 0-5.3.7-5.3 3.6 0 1.5 1.8 3.3 7.6 3.3"></path>
+                                                    <path d="M8.3 15.1c0 2.8 2.8 3.9 5.4 3.9 2.6 0 5.4-.9 5.4-3.4 0-2.1-2.1-3.1-4.6-3.5"></path>
+                                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Align Left">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="17" y1="10" x2="3" y2="10"></line>
+                                                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                                                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                                                    <line x1="17" y1="18" x2="3" y2="18"></line>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Align Center">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="18" y1="10" x2="6" y2="10"></line>
+                                                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                                                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                                                    <line x1="18" y1="18" x2="6" y2="18"></line>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Align Right">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="21" y1="10" x2="7" y2="10"></line>
+                                                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                                                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                                                    <line x1="21" y1="18" x2="7" y2="18"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Heading 1">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M4 12h8"></path>
+                                                    <path d="M4 18V6"></path>
+                                                    <path d="M12 18V6"></path>
+                                                    <path d="M17 10v8"></path>
+                                                    <path d="M17 10l2-2"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Heading 2">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M4 12h8"></path>
+                                                    <path d="M4 18V6"></path>
+                                                    <path d="M12 18V6"></path>
+                                                    <path d="M21 18h-4c0-4 4-3 4-6 0-1.5-2-2.5-4-1"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Bullet List">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                                    <circle cx="4" cy="6" r="1" fill="currentColor"></circle>
+                                                    <circle cx="4" cy="12" r="1" fill="currentColor"></circle>
+                                                    <circle cx="4" cy="18" r="1" fill="currentColor"></circle>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Numbered List">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="10" y1="6" x2="21" y2="6"></line>
+                                                    <line x1="10" y1="12" x2="21" y2="12"></line>
+                                                    <line x1="10" y1="18" x2="21" y2="18"></line>
+                                                    <path d="M4 6h1v4"></path>
+                                                    <path d="M4 10h2"></path>
+                                                    <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Insert Link">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Insert Image">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Quote">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21z"></path>
+                                                    <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v4z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Code Block">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <textarea class="editor-content" placeholder="Write your post content..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select">
+                                        <option value="seo">SEO</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="guides">Guides</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select">
+                                        <option value="published">Published</option>
+                                        <option value="draft">Draft</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="seo-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                    SEO Settings
+                                </h4>
+                                <div class="form-group">
+                                    <label class="form-label">Meta Title</label>
+                                    <input type="text" class="form-input" placeholder="Meta title for search engines...">
+                                    <div class="char-counter">0 / 60 characters</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Meta Description</label>
+                                    <textarea class="form-textarea" style="min-height: 80px;" placeholder="Meta description..."></textarea>
+                                    <div class="char-counter">0 / 160 characters</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pages Section -->
+            <div class="section-content" id="section-pages">
+                <div id="pages-list">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Static Pages</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="page-list">
+                                <div class="page-item" onclick="showPageEdit()">
+                                    <div class="page-item-left">
+                                        <div class="page-item-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="page-item-title">Home Page</div>
+                                            <div class="page-item-url">/</div>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge published">Published</span>
+                                </div>
+                                <div class="page-item" onclick="showPageEdit()">
+                                    <div class="page-item-left">
+                                        <div class="page-item-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="page-item-title">About Us</div>
+                                            <div class="page-item-url">/about</div>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge published">Published</span>
+                                </div>
+                                <div class="page-item" onclick="showPageEdit()">
+                                    <div class="page-item-left">
+                                        <div class="page-item-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="page-item-title">Contact Us</div>
+                                            <div class="page-item-url">/contact</div>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge published">Published</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="page-edit" class="edit-page" style="display: none;">
+                    <div class="back-link" onclick="hidePageEdit()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to Pages
+                    </div>
+                    <div class="edit-header">
+                        <h2>Edit Page</h2>
+                        <div class="edit-actions">
+                            <button class="btn btn-secondary" onclick="hidePageEdit()">Cancel</button>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Page Title <span>*</span></label>
+                                <input type="text" class="form-input" placeholder="Enter page title...">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">URL Slug</label>
+                                <input type="text" class="form-input" placeholder="page-url-slug">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Page Content <span>*</span></label>
+                                <div class="text-editor">
+                                    <div class="editor-toolbar">
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Bold">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                                    <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                                                    <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Italic">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="19" y1="4" x2="10" y2="4"></line>
+                                                    <line x1="14" y1="20" x2="5" y2="20"></line>
+                                                    <line x1="15" y1="4" x2="9" y2="20"></line>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Underline">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path>
+                                                    <line x1="4" y1="21" x2="20" y2="21"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Align Left">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="17" y1="10" x2="3" y2="10"></line>
+                                                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                                                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                                                    <line x1="17" y1="18" x2="3" y2="18"></line>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Align Center">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="18" y1="10" x2="6" y2="10"></line>
+                                                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                                                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                                                    <line x1="18" y1="18" x2="6" y2="18"></line>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Align Right">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="21" y1="10" x2="7" y2="10"></line>
+                                                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                                                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                                                    <line x1="21" y1="18" x2="7" y2="18"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Heading">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M4 12h8"></path>
+                                                    <path d="M4 18V6"></path>
+                                                    <path d="M12 18V6"></path>
+                                                    <path d="M17 10v8"></path>
+                                                    <path d="M17 10l2-2"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Bullet List">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                                    <circle cx="4" cy="6" r="1" fill="currentColor"></circle>
+                                                    <circle cx="4" cy="12" r="1" fill="currentColor"></circle>
+                                                    <circle cx="4" cy="18" r="1" fill="currentColor"></circle>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="toolbar-group">
+                                            <button class="toolbar-btn" title="Insert Link">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="toolbar-btn" title="Insert Image">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <textarea class="editor-content" placeholder="Write page content..."></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" style="max-width: 200px;">
+                                    <option value="published">Published</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                            </div>
+
+                            <div class="seo-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                    SEO Settings
+                                </h4>
+                                <div class="form-group">
+                                    <label class="form-label">Meta Title</label>
+                                    <input type="text" class="form-input" placeholder="Meta title...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Meta Description</label>
+                                    <textarea class="form-textarea" style="min-height: 80px;" placeholder="Meta description..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="section-content" id="section-settings">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>General Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Site Name</label>
+                                <input type="text" class="form-input" value="Linkslandiya">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Site URL</label>
+                                <input type="text" class="form-input" value="https://linkslandiya.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Admin Email</label>
+                                <input type="email" class="form-input" value="admin@linkslandiya.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Currency</label>
+                                <select class="form-select">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="EUR">EUR</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkslandiya - Guest Post Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <div class="logo-icon">L</div>
+                    <span class="logo-text">Linkslandiya</span>
+                </a>
+                <nav class="nav">
+                    <a href="#" class="nav-link active">All Sites</a>
+                    <a href="#" class="nav-link">Packages</a>
+                    <a href="#" class="nav-link">How It Works</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn-icon menu-toggle" id="menuToggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 18h16M4 12h16M4 6h16"></path>
+                        </svg>
+                    </button>
+                    <button class="btn-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                    <button class="btn-icon cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <button class="btn btn-primary">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title">All Websites</h1>
+
+            <!-- Filters -->
+            <div class="filters">
+                <!-- Mobile Filter Toggle -->
+                <button class="filter-toggle" id="filterToggle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                    <span>Filters</span>
+                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                </button>
+
+                <!-- Filter Content (collapsible on mobile) -->
+                <div class="filter-content" id="filterContent">
+                <div class="filter-row">
+                    <div class="filter-group filter-price">
+                        <label class="filter-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            Price ($)
+                        </label>
+                        <div class="price-inputs">
+                            <input type="number" class="filter-input" id="priceMin" placeholder="Min">
+                            <span class="price-separator">-</span>
+                            <input type="number" class="filter-input" id="priceMax" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                            Traffic
+                        </label>
+                        <select class="filter-select" id="trafficFilter">
+                            <option value="">All Traffic</option>
+                            <option value="0-10000">0 - 10K</option>
+                            <option value="10000-50000">10K - 50K</option>
+                            <option value="50000-100000">50K - 100K</option>
+                            <option value="100000-500000">100K - 500K</option>
+                            <option value="500000+">500K+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                            Country
+                        </label>
+                        <select class="filter-select" id="countryFilter">
+                            <option value="">All Countries</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="ES">Spain</option>
+                            <option value="IT">Italy</option>
+                            <option value="TR">Turkey</option>
+                            <option value="IN">India</option>
+                            <option value="BR">Brazil</option>
+                            <option value="Global">Global</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 8l6 6"></path>
+                                <path d="M4 14l6-6 2-3"></path>
+                                <path d="M2 5h12"></path>
+                                <path d="M7 2h1"></path>
+                                <path d="M22 22l-5-10-5 10"></path>
+                                <path d="M14 18h6"></path>
+                            </svg>
+                            Language
+                        </label>
+                        <select class="filter-select" id="languageFilter">
+                            <option value="">All Languages</option>
+                            <option value="English">English</option>
+                            <option value="German">German</option>
+                            <option value="French">French</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Turkish">Turkish</option>
+                            <option value="Portuguese">Portuguese</option>
+                            <option value="Hindi">Hindi</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            Topic
+                        </label>
+                        <select class="filter-select" id="topicFilter">
+                            <option value="">All Topics</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Business">Business</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Health">Health</option>
+                            <option value="Lifestyle">Lifestyle</option>
+                            <option value="Travel">Travel</option>
+                            <option value="News">News</option>
+                            <option value="Education">Education</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Sports">Sports</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 20V10"></path>
+                                <path d="M12 20V4"></path>
+                                <path d="M6 20v-6"></path>
+                            </svg>
+                            DA (Moz)
+                        </label>
+                        <select class="filter-select" id="daFilter">
+                            <option value="">All DA</option>
+                            <option value="0-20">0 - 20</option>
+                            <option value="20-40">20 - 40</option>
+                            <option value="40-60">40 - 60</option>
+                            <option value="60-80">60 - 80</option>
+                            <option value="80-100">80 - 100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <button class="btn btn-secondary" id="resetFilters">Reset Filters</button>
+                </div>
+                </div><!-- end filter-content -->
+
+                <!-- Search always visible -->
+                <div class="filter-row filter-search-row">
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search website...">
+                    </div>
+                </div>
+                <button class="btn btn-accent" id="applyFilters">Show Full List</button>
+            </div>
+
+            <!-- Website List Table -->
+            <div class="table-container">
+                <table class="website-table">
+                    <thead>
+                        <tr>
+                            <th>Website</th>
+                            <th>Dofollow</th>
+                            <th>DA (Moz)</th>
+                            <th>Traffic</th>
+                            <th>Country</th>
+                            <th>Language</th>
+                            <th>Topic</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="websiteTableBody">
+                        <!-- Data will be inserted by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be inserted by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Linkslandiya. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" id="modalClose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div class="modal-content" id="modalContent">
+                <!-- Content inserted by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-content">
+            <button class="btn-icon mobile-nav-close" id="mobileNavClose">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6 6 18M6 6l12 12"></path>
+                </svg>
+            </button>
+            <nav class="mobile-nav">
+                <a href="index.html" class="nav-link">All Sites</a>
+                <a href="#" class="nav-link">Packages</a>
+                <a href="#" class="nav-link">How It Works</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
