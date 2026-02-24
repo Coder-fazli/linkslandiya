@@ -62,7 +62,9 @@ export default function OrderForm({
           try {
              await createOrderAction(formData)
              // success - redirect will happen in the action
-          } catch (error) {
+          } catch (error: any) {
+            if (error?.digest?.startWidth("NEXT_REDIRECT"))
+              return
             alert("Failed to create order")     
             setIsSubmitting(false)
           }
