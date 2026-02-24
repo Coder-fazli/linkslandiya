@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -18,14 +18,14 @@
     --bg-card: #0a0a0b;
     --bg-hover: #18181b;
     --bg-input: #09090b;
-    --text-primary: #fafafa;
+    --text-primary: #d4d4d8;
     --text-secondary: #71717a;
     --border: #27272a;
     --border-light: #3f3f46;
 }
 
 body {
-    font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-dark);
     color: var(--text-primary);
     min-height: 100vh;
