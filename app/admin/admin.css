@@ -14,14 +14,14 @@
     --success: #22c55e;
     --warning: #f59e0b;
     --danger: #ef4444;
-    --bg-dark: #09090b;
-    --bg-card: #0a0a0b;
-    --bg-hover: #18181b;
-    --bg-input: #09090b;
-    --text-primary: #d4d4d8;
-    --text-secondary: #71717a;
-    --border: #27272a;
-    --border-light: #3f3f46;
+    --bg-dark: #282828;
+    --bg-card: #323232;
+    --bg-hover: #3a3a3a;
+    --bg-input: #282828;
+    --text-primary: #f0f0f0;
+    --text-secondary: #c0c0c8;
+    --border: #404040;
+    --border-light: #505050;
 }
 
 body {
@@ -132,6 +132,7 @@ body {
     gap: 0.75rem;
     padding: 0.75rem 1rem;
     border-radius: 10px;
+    border: 1px solid transparent;
     color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s;
@@ -140,11 +141,13 @@ body {
 
 .nav-item:hover {
     background: var(--bg-hover);
+    border-color: var(--border-light);
     color: var(--text-primary);
 }
 
 .nav-item.active {
     background: #ffffff;
+    border-color: #ffffff;
     color: #09090b;
 }
 

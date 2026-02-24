@@ -11,7 +11,8 @@ export default async function WebsitesPage() {
     const rawWebsites = await getAllWebsites();
     const websites = rawWebsites.map(site => ({
         ...site,
-        _id: site._id?.toString()
+        _id: site._id?.toString(),
+        ownerId: site.ownerId?.toString()
     }))  
     return(
         <>     
