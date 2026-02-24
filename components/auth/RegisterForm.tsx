@@ -111,7 +111,7 @@ export function RegisterForm() {
 
           <div className="login-image-section">
             <img
-              src="/placeholder.svg"
+              src="/235722222_11112829 (1).jpg"
               alt="Register illustration"
               className="login-image"
             />

@@ -21,9 +21,6 @@ export function LoginForm() {
                 }
               }}
              >
-               
-                
-
 
             <div className="login-header">
               <h1 className="login-title">Welcome back</h1>
@@ -97,7 +94,7 @@ export function LoginForm() {
 
           <div className="login-image-section">
             <img
-              src="/placeholder.svg"
+              src="/235722222_11112829 (1).jpg"
               alt="Login illustration"
               className="login-image"
             />

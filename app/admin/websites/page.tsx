@@ -202,8 +202,9 @@ export default function WebsitePage() {
         <td>{site.dr || '-'}</td>
         <td>{formatTraffic(site.traffic)}</td>
         <td>${site.price}</td>
-        <td><span className="status-badge
-  active">Active</span></td>
+        <td><span className={`status-badge ${site.status}`}>
+          {site.status.charAt(0).toUpperCase() + site.status.slice(1)}
+          </span></td>
         <td>
           <div className="action-btns">
             <button 

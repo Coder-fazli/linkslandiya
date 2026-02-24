@@ -9,11 +9,11 @@ export default async function WebsitesPage() {
     if (!user) return redirect("/login")
 
     const rawWebsites = await getAllWebsites();
-    const websites = rawWebsites.map(site => ({
-        ...site,
+    const websites = rawWebsites.filter(site => site.status === 'published').map(site => ({
+        ...site, 
         _id: site._id?.toString(),
         ownerId: site.ownerId?.toString()
-    }))  
+    }))
     return(
         <>     
             <main className="page">
