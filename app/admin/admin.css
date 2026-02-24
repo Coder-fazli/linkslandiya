@@ -34,7 +34,72 @@
     --text-secondary: #475569;
     --border: #cbd5e1;
     --border-light: #94a3b8;
-    --primary: #0f172a;
+}
+
+[data-theme="light"] .btn-primary {
+    background: #0f172a;
+    color: #ffffff;
+}
+
+[data-theme="light"] .btn-primary:hover {
+    background: #1e293b;
+}
+
+[data-theme="light"] .nav-item.active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #ffffff;
+}
+
+[data-theme="light"] .tab.active {
+    background: #0f172a;
+    color: #ffffff;
+}
+
+[data-theme="light"] .mode-switcher button.active {
+    background: #0f172a;
+    color: #ffffff;
+}
+
+[data-theme="light"] .chart-period.active,
+[data-theme="light"] .section-tab.active,
+[data-theme="light"] .toolbar-btn.active {
+    background: #0f172a;
+    color: #ffffff;
+}
+
+[data-theme="light"] .logo-text {
+    color: #0f172a;
+}
+
+[data-theme="light"] .action-btn.edit {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+[data-theme="light"] .action-btn.delete {
+    background: rgba(239, 68, 68, 0.15);
+    color: #dc2626;
+}
+
+[data-theme="light"] .action-btn.view {
+    background: rgba(99, 102, 241, 0.15);
+    color: #4f46e5;
+}
+
+[data-theme="light"] .status-badge.in-progress {
+    background: rgba(15, 23, 42, 0.1);
+    color: #334155;
+}
+
+[data-theme="light"] .status-badge.customer {
+    background: rgba(15, 23, 42, 0.1);
+    color: #334155;
+}
+
+[data-theme="light"] .page-item-icon {
+    background: #e2e8f0;
+    color: #334155;
 }
 
 body {
