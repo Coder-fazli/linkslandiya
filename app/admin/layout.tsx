@@ -1,6 +1,7 @@
 import "./admin.css";
 import AdminNav from "../../components/admin/AdminNav";
 import ModeSwitcher from "../../components/admin/ModeSwitcher";
+import ThemeSwitcher from "../../components/admin/ThemeSwitcher";
 import { getCurrentUser } from "../lib/session";
 import { redirect } from "next/navigation"
 
@@ -39,6 +40,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                        <ModeSwitcher activeMode={user.activeMode} 
                         canPublish={user.canPublish} />                            
                 )}     
+                        <ThemeSwitcher />
                         <div className="user-avatar">U</div>
                     </div>
                 </header>
