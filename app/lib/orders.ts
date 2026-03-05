@@ -7,6 +7,7 @@ import { getDb } from "./db";
       _id?: string
       websiteId: string
       websiteName:string
+      websiteUrl: string
       publisherId: string
       title: string
       targetUrl: string
@@ -18,6 +19,7 @@ import { getDb } from "./db";
       buyerId: string 
       amount: number 
       content: string
+      publishedLink?: string
   }
 
 
@@ -44,7 +46,7 @@ import { getDb } from "./db";
      export async function getOrderById(id: string){
       const db = await getDb()
       const order = await db.collection("orders").findOne({ _id: new ObjectId(id) })
-       return order
+       return order as unknown as Order
    }
 
    // Update order status

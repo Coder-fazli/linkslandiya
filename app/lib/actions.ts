@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation"
 import { getCurrentUser } from "./session"
-import { updateOrderStatus } from "./orders"
+import { updateOrderStatus, updateOrder } from "./orders"
 import { revalidatePath } from "next/cache"
 import { getWebsitesByOwner, approveWebsite, rejectWebsite } from "./websites"
 
@@ -42,4 +42,15 @@ export async function rejectWebsiteAction(websiteId: string){
    if(!admin || !admin.isAdmin) return
    await rejectWebsite(websiteId)
    revalidatePath("/admin/all-websites")
+}
+
+// Save published link for order
+
+export async function savePublishedLink(orderId: string, link: string) {
+   const user = await getCurrentUser();
+   if (!user) return redirect("/login")
+      await updateOrder(orderId, {
+   publishedLink: link })
+   revalidatePath(`/admin/publisher-orders/${orderId}`)
+     
 }

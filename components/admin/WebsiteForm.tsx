@@ -16,6 +16,7 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
      
     const [formData, setFormData] = useState<Website>(website || {
           name: "",
+          url: "",
           desc: "",
           dofollow: true,
           da: 0,

@@ -138,6 +138,25 @@ export default async function BuyerOrderDetailPage({ params }: {
                         </div>
                     </div>
 
+                    {/* Published Link card — only shows when publisher has submitted */}
+                    {order.publishedLink && (
+                        <div className="card" style={{ marginBottom: "1.25rem" }}>
+                            <div className="card-header">
+                                <h3>Published Link</h3>
+                            </div>
+                            <div className="card-body">
+                                <a
+                                    href={order.publishedLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ color: "#818cf8", wordBreak: "break-all", fontSize: "0.9rem" }}
+                                >
+                                    {order.publishedLink}
+                                </a>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Order Info card */}
                     <div className="card">
                         <div className="card-header">

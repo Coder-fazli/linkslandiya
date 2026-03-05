@@ -2,6 +2,7 @@ export type Website = {
     _id?: string
     id?: number
     name: string
+    url: string
     desc: string
     dofollow: boolean
     da: number

@@ -130,7 +130,12 @@ export default async function OrderDetailPage({ params }: {
                 <div className="order-sidebar">
 
                     {/* Update Status — publisher can change order status */}
-                    <OrderStatusUpdated orderId={id} currentStatus={order.status} />
+                    <OrderStatusUpdated 
+                    orderId={id} 
+                    currentStatus={order.status} 
+                    currentLink={order.publishedLink}
+                    websiteName={order.websiteName}
+                    />
 
                     {/* Card 3: Payment */}
                     <div className="card" style={{ marginBottom: "1.25rem" }}>
