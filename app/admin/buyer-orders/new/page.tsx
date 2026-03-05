@@ -43,7 +43,8 @@ import { getCurrentUser } from "@/app/lib/session"
                   ...data, buyerId: user._id.toString(),
                   publisherId: website.ownerId.toString(),
                   amount: website.price,
-                  websiteName: website.name
+                  websiteName: website.name,
+                  websiteUrl: website.url
               })
               redirect("/admin/buyer-orders")
       }
