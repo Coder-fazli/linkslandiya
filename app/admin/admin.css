@@ -217,7 +217,13 @@ body {
 }
 
 .nav-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-section:last-child {
+    border-bottom: none;
 }
 
 .nav-section-title {
@@ -379,14 +385,15 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #27272a;
-    border: 1px solid #3f3f46;
+    background: #6366f1;
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;
+    color: #ffffff;
 }
 
 /* Stats */
