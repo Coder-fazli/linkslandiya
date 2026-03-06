@@ -2,7 +2,7 @@
 .services-new {
     position: relative;
     padding: 100px 0;
-    background: linear-gradient(180deg, #f8fafc 0%, #f0fdfa 50%, #f8fafc 100%);
+    background: linear-gradient(180deg, #f8fafc 0%, #EBF5FF 50%, #f8fafc 100%);
     overflow: hidden;
 }
 
@@ -120,7 +120,7 @@
 
 /* Featured Card */
 .service-card-featured {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 253, 250, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(235, 245, 255, 0.9) 100%);
     border: 1px solid rgba(27, 127, 255, 0.2);
 }
 
