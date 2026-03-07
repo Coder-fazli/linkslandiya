@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation" 
+import { useRouter } from "next/navigation"
 import { Editor } from "@/components/blocks/editor-x/editor"
 
 type OrderFormProps = {
@@ -10,8 +10,7 @@ type OrderFormProps = {
   websiteDA: number
   websiteDR: number
   websitePrice: number
-  createOrderAction: (data: OrderFormData)  
-  => Promise<void>  
+  createOrderAction: (data: OrderFormData) => Promise<void>
 }
 
 export type OrderFormData = {
@@ -31,7 +30,7 @@ export default function OrderForm({
   websitePrice,
   createOrderAction }: OrderFormProps) {
 
-     const router = useRouter()
+  const router = useRouter()
 
   const [formData, setFormData] = useState<OrderFormData>({
     websiteId,
@@ -45,37 +44,27 @@ export default function OrderForm({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   function updateField(field: keyof OrderFormData, value: string) {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }))
+    setFormData(prev => ({ ...prev, [field]: value }))
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-
     if (!formData.title || !formData.targetUrl || !formData.anchorText) {
-
-      
       alert("Please fill in all required fields")
       return
     }
-
     setIsSubmitting(true)
-          try {
-             await createOrderAction(formData)
-             // success - redirect will happen in the action
-          } catch (error: any) {
-            if (error?.digest?.startWith("NEXT_REDIRECT"))
-              return
-            alert("Failed to create order")     
-            setIsSubmitting(false)
-          }
+    try {
+      await createOrderAction(formData)
+    } catch (error: any) {
+      if (error?.digest?.startsWith("NEXT_REDIRECT")) return
+      alert("Failed to create order")
+      setIsSubmitting(false)
+    }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* Website Info Card */}
       <div className="card" style={{ marginBottom: "1.5rem" }}>
         <div className="card-body">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -94,7 +83,6 @@ export default function OrderForm({
         </div>
       </div>
 
-      {/* Form Fields */}
       <div className="card">
         <div className="card-header">
           <h3>Order Details</h3>
@@ -141,11 +129,9 @@ export default function OrderForm({
 
           <div className="form-group">
             <label className="form-label">Article Content</label>
-         <Editor
-          onChange={(state) => 
-            updateField("content",
-            JSON.stringify(state))}
-           />
+            <Editor
+              onSerializedChange={(state) => updateField("content", JSON.stringify(state))}
+            />
             <div className="form-hint">You can provide your own content or leave empty for our writers</div>
           </div>
 
@@ -160,18 +146,10 @@ export default function OrderForm({
           </div>
 
           <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={()=>router.back()}
-            >
+            <button type="button" className="btn btn-secondary" onClick={() => router.back()}>
               Cancel
             </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Submit Order"}
             </button>
           </div>
