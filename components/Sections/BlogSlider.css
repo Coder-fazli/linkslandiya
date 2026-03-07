@@ -1,0 +1,187 @@
+.blog-slider-section {
+    padding: 5rem 0;
+    background: #ffffff;
+}
+
+.blog-slider-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.blog-slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+    gap: 2rem;
+}
+
+.blog-slider-header-left {
+    max-width: 680px;
+}
+
+.blog-slider-tag {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.blog-slider-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+}
+
+.blog-slider-desc {
+    font-size: 0.95rem;
+    color: #6b7280;
+    line-height: 1.7;
+}
+
+.blog-slider-arrows {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.blog-arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #0f172a;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    transition: all 0.2s;
+}
+
+.blog-arrow:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.blog-arrow svg {
+    width: 18px;
+    height: 18px;
+}
+
+.blog-slider-track-wrapper {
+    overflow: hidden;
+    padding-top: 16px;
+    margin-top: -16px;
+    padding-bottom: 60px;
+    margin-bottom: -60px;
+}
+
+.blog-slider-track {
+    display: flex;
+    gap: 1.25rem;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.blog-card {
+    flex: 0 0 calc((100% - 2.5rem) / 3);
+    cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-8px);
+}
+
+.blog-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 16px;
+    overflow: visible;
+    margin-bottom: 2.5rem;
+}
+
+.blog-card-image-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Large white circle — covers the card corner */
+.blog-card-arrow {
+    position: absolute;
+    bottom: -22px;
+    right: -8px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 0;
+}
+
+/* Small dark inner circle with arrow */
+.blog-card-arrow-inner {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #b0b8c1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.blog-card-arrow-inner svg {
+    width: 16px;
+    height: 16px;
+}
+
+.blog-card:hover .blog-card-arrow-inner {
+    background: #0f172a;
+    transform: scale(1.08);
+}
+
+.blog-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+    line-height: 1.35;
+}
+
+.blog-card-excerpt {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .blog-slider-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .blog-card {
+        flex: 0 0 80%;
+    }
+
+    .blog-slider-title {
+        font-size: 1.5rem;
+    }
+}

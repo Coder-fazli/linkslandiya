@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation" 
+import { Editor } from "@/components/blocks/editor-x/editor"
 
 type OrderFormProps = {
   websiteId: string
@@ -54,6 +55,8 @@ export default function OrderForm({
     e.preventDefault()
 
     if (!formData.title || !formData.targetUrl || !formData.anchorText) {
+
+      
       alert("Please fill in all required fields")
       return
     }
@@ -63,7 +66,7 @@ export default function OrderForm({
              await createOrderAction(formData)
              // success - redirect will happen in the action
           } catch (error: any) {
-            if (error?.digest?.startWidth("NEXT_REDIRECT"))
+            if (error?.digest?.startWith("NEXT_REDIRECT"))
               return
             alert("Failed to create order")     
             setIsSubmitting(false)
@@ -138,12 +141,11 @@ export default function OrderForm({
 
           <div className="form-group">
             <label className="form-label">Article Content</label>
-            <textarea
-              className="form-textarea editor"
-              value={formData.content}
-              onChange={(e) => updateField("content", e.target.value)}
-              placeholder="Write your article content here... (Leave empty if you want us to write it)"
-            />
+         <Editor
+          onChange={(state) => 
+            updateField("content",
+            JSON.stringify(state))}
+           />
             <div className="form-hint">You can provide your own content or leave empty for our writers</div>
           </div>
 

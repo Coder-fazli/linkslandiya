@@ -6,6 +6,7 @@ import Features from "@/components/Sections/Features";
 import ProcessTimeline from "@/components/Sections/ProcessTimeline";
 import GlobalReach from "@/components/Sections/GlobalReach";
 import Faq from "@/components/Sections/Faq";
+import BlogSlider from "@/components/Sections/BlogSlider";
 import { getAllWebsites } from "../lib/websites";
 
 export default async function Home() {
@@ -25,6 +26,7 @@ export default async function Home() {
         <MarqueeDemo />
       </div>
       <Faq />
+      <BlogSlider />
     </main>
   );
 }
