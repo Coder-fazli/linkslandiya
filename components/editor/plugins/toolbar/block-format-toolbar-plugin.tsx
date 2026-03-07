@@ -157,6 +157,7 @@ export function BlockFormatDropDown({
     <Select
       value={blockType}
       onValueChange={handleValueChange}
+      modal={false}
     >
       <SelectTrigger className="!h-8 w-min gap-1" onPointerDown={handleTriggerPointerDown}>
         {blockTypeToBlockName[blockType].icon}

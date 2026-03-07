@@ -82,6 +82,7 @@ export function FontFamilyToolbarPlugin() {
         handleClick(value)
       }}
       aria-label="Formatting options for font family"
+      modal={false}
     >
       <SelectTrigger
         className="!h-8 w-min gap-1"
