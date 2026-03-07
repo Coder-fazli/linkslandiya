@@ -1,11 +1,17 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import {
   $getSelectionStyleValueForProperty,
   $patchStyleText,
 } from "@lexical/selection"
-import { $getSelection, $isRangeSelection, BaseSelection } from "lexical"
+import {
+  $getSelection,
+  $isRangeSelection,
+  $setSelection,
+  BaseSelection,
+  EditorState,
+} from "lexical"
 import { TypeIcon } from "lucide-react"
 
 import { useToolbarContext } from "@/components/editor/context/toolbar-context"
@@ -29,6 +35,7 @@ const FONT_FAMILY_OPTIONS = [
 export function FontFamilyToolbarPlugin() {
   const style = "font-family"
   const [fontFamily, setFontFamily] = useState("Arial")
+  const savedStateRef = useRef<EditorState | null>(null)
 
   const { activeEditor } = useToolbarContext()
 
@@ -44,19 +51,28 @@ export function FontFamilyToolbarPlugin() {
 
   const handleClick = useCallback(
     (option: string) => {
+      const savedState = savedStateRef.current
       activeEditor.update(() => {
+        let restoredSelection = null
+        if (savedState) {
+          savedState.read(() => {
+            const sel = $getSelection()
+            if ($isRangeSelection(sel)) {
+              restoredSelection = sel.clone()
+            }
+          })
+        }
+        if (restoredSelection) {
+          $setSelection(restoredSelection)
+        }
         const selection = $getSelection()
         if (selection !== null) {
-          $patchStyleText(selection, {
-            [style]: option,
-          })
+          $patchStyleText(selection, { [style]: option })
         }
       })
     },
     [activeEditor, style]
   )
-
-  const buttonAriaLabel = "Formatting options for font family"
 
   return (
     <Select
@@ -65,19 +81,20 @@ export function FontFamilyToolbarPlugin() {
         setFontFamily(value)
         handleClick(value)
       }}
-      aria-label={buttonAriaLabel}
+      aria-label="Formatting options for font family"
     >
-      <SelectTrigger className="!h-8 w-min gap-1">
+      <SelectTrigger
+        className="!h-8 w-min gap-1"
+        onPointerDown={() => {
+          savedStateRef.current = activeEditor.getEditorState()
+        }}
+      >
         <TypeIcon className="size-4" />
         <span style={{ fontFamily }}>{fontFamily}</span>
       </SelectTrigger>
       <SelectContent>
         {FONT_FAMILY_OPTIONS.map((option) => (
-          <SelectItem
-            key={option}
-            value={option}
-            style={{ fontFamily: option }}
-          >
+          <SelectItem key={option} value={option} style={{ fontFamily: option }}>
             {option}
           </SelectItem>
         ))}

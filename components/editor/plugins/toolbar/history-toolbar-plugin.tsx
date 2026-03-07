@@ -56,7 +56,8 @@ export function HistoryToolbarPlugin() {
     <ButtonGroup>
       <Button
         disabled={!canUndo || !isEditable}
-        onClick={() => {
+        onMouseDown={(e) => {
+          e.preventDefault()
           activeEditor.dispatchCommand(UNDO_COMMAND, undefined)
         }}
         title={IS_APPLE ? "Undo (⌘Z)" : "Undo (Ctrl+Z)"}
@@ -70,7 +71,8 @@ export function HistoryToolbarPlugin() {
       </Button>
       <Button
         disabled={!canRedo || !isEditable}
-        onClick={() => {
+        onMouseDown={(e) => {
+          e.preventDefault()
           activeEditor.dispatchCommand(REDO_COMMAND, undefined)
         }}
         title={IS_APPLE ? "Redo (⇧⌘Z)" : "Redo (Ctrl+Y)"}

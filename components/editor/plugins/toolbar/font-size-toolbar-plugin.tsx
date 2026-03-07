@@ -59,7 +59,7 @@ export function FontSizeToolbarPlugin() {
         variant="outline"
         size="icon-sm"
         className="!size-8"
-        onClick={() => updateFontSize(fontSize - 1)}
+        onMouseDown={(e) => { e.preventDefault(); updateFontSize(fontSize - 1) }}
         disabled={fontSize <= MIN_FONT_SIZE}
       >
         <Minus className="size-3" />
@@ -77,7 +77,7 @@ export function FontSizeToolbarPlugin() {
         variant="outline"
         size="icon-sm"
         className="!size-8"
-        onClick={() => updateFontSize(fontSize + 1)}
+        onMouseDown={(e) => { e.preventDefault(); updateFontSize(fontSize + 1) }}
         disabled={fontSize >= MAX_FONT_SIZE}
       >
         <Plus className="size-3" />
