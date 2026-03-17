@@ -5,9 +5,10 @@ import Link from 'next/link'
 
 type HeaderProps = {
  cartCount?: number;
+ isLoggedIn?: boolean;
 }
 
-export default function Header ({ cartCount = 0 }: HeaderProps) {
+export default function Header ({ cartCount = 0, isLoggedIn = false}: HeaderProps) {
  const[mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -17,7 +18,7 @@ export default function Header ({ cartCount = 0 }: HeaderProps) {
             <div className="header-content">
                <Link href="/" className='logo'>
                 <div className='logo-icon'>L</div>
-                <span className='logo-text'>Linkslandiya</span>   
+                <span className='logo-text'>Linkslandia</span>   
                </Link>
                 <nav className="nav">
                     <Link href="/websites" className="nav-link">Websites</Link>
@@ -27,7 +28,16 @@ export default function Header ({ cartCount = 0 }: HeaderProps) {
                 </nav>
                    
                    <div className="header-actions">
-                     </div>
+                     {isLoggedIn ? (
+                       <Link href="/admin" className="btn btn-primary">
+                         Dashboard
+                       </Link>
+                     ) : (
+                       <>                                             
+               <Link href="/login"                          className="nav-link">Login</Link>                    
+                    <Link href="/register" 
+                    className="btn btn-primary">Sign Up</Link>  </>              
+                     )} </div>
             </div>
         </div>
        

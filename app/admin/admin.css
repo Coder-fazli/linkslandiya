@@ -1506,6 +1506,231 @@ body {
     font-size: 0.8rem;
 }
 
+/* Article Editor */
+.article-editor-wrapper {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-input);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.article-editor-wrapper:focus-within {
+    border-color: #52525b;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+}
+
+.article-editor-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+    flex-wrap: wrap;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.editor-sep {
+    display: inline-block;
+    width: 1px;
+    height: 22px;
+    background: var(--border-light);
+    margin: 0 2px;
+    flex-shrink: 0;
+}
+
+.editor-btn {
+    padding: 4px 9px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.editor-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-light);
+}
+
+.editor-btn-active {
+    background: var(--bg-hover);
+    border-color: var(--border-light);
+}
+
+.article-editor-content {
+    min-height: 240px;
+    padding: 14px 16px;
+    outline: none;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--text-primary);
+    cursor: text;
+}
+
+/* Editor content styles */
+.article-editor-content .pte-p {
+    margin: 0 0 0.2em;
+}
+
+.article-editor-content .pte-h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0.3em 0 0.1em;
+}
+
+.article-editor-content .pte-h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0.3em 0 0.1em;
+}
+
+.article-editor-content .pte-h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0.3em 0 0.1em;
+}
+
+.article-editor-content .pte-blockquote {
+    border-left: 3px solid #6366f1;
+    padding-left: 12px;
+    color: var(--text-secondary);
+    margin: 0.3em 0;
+    font-style: italic;
+}
+
+.article-editor-content .pte-inline-code {
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: monospace;
+    font-size: 0.88em;
+}
+
+/* List items — contenteditable can't use ul/li, style with CSS */
+.article-editor-content .pte-list-item {
+    display: block;
+    padding-left: 1.4rem;
+    position: relative;
+}
+
+.article-editor-content .pte-list-bullet::before {
+    content: "•";
+    position: absolute;
+    left: 0.4rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+.article-editor-content .pte-list-number {
+    counter-increment: pte-ol;
+}
+
+.article-editor-content .pte-list-number::before {
+    content: counter(pte-ol) ".";
+    position: absolute;
+    left: 0;
+    width: 1.2rem;
+    text-align: right;
+    color: var(--text-secondary);
+}
+
+/* Link annotation */
+.article-editor-content .pte-link {
+    color: #6366f1;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Image block */
+.pte-image-block {
+    margin: 0.5rem 0;
+    user-select: none;
+}
+
+.pte-image {
+    max-width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: block;
+}
+
+.pte-image-placeholder {
+    background: var(--bg-dark);
+    border: 1px dashed var(--border-light);
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* Link/Image input panels */
+.editor-input-panel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+    flex-wrap: wrap;
+}
+
+.editor-panel-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.editor-panel-input {
+    flex: 1;
+    min-width: 180px;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.editor-panel-input:focus {
+    border-color: var(--border-light);
+}
+
+.editor-panel-btn {
+    padding: 5px 14px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+
+.editor-panel-btn:hover {
+    background: var(--bg-hover);
+}
+
+.editor-panel-btn-cancel {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
     .stats-grid, .user-stats {

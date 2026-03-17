@@ -24,7 +24,7 @@ export function LoginForm() {
 
             <div className="login-header">
               <h1 className="login-title">Welcome back</h1>
-              <p className="login-subtitle">Login to your Linkslandiya account</p>
+              <p className="login-subtitle">Login to your Linkslandia account</p>
             </div>
 
             <div className="form-group">

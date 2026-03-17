@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Editor } from "@/components/blocks/editor-x/editor"
+import { ArticleEditor } from "./ArticleEditor"
+import type { PortableTextBlock } from "@portabletext/editor"
 
 type OrderFormProps = {
   websiteId: string
@@ -42,6 +43,7 @@ export default function OrderForm({
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [editorContent, setEditorContent] = useState<PortableTextBlock[] | undefined>(undefined)
 
   function updateField(field: keyof OrderFormData, value: string) {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -55,7 +57,10 @@ export default function OrderForm({
     }
     setIsSubmitting(true)
     try {
-      await createOrderAction(formData)
+      await createOrderAction({
+        ...formData,
+        content: editorContent ? JSON.stringify(editorContent) : "",
+      })
     } catch (error: any) {
       if (error?.digest?.startsWith("NEXT_REDIRECT")) return
       alert("Failed to create order")
@@ -67,6 +72,7 @@ export default function OrderForm({
     <form onSubmit={handleSubmit}>
       <div className="card" style={{ marginBottom: "1.5rem" }}>
         <div className="card-body">
+
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
               <h3 style={{ marginBottom: "0.5rem" }}>{websiteName}</h3>
@@ -129,9 +135,7 @@ export default function OrderForm({
 
           <div className="form-group">
             <label className="form-label">Article Content</label>
-            <Editor
-              onSerializedChange={(state) => updateField("content", JSON.stringify(state))}
-            />
+            <ArticleEditor value={editorContent} onChange={setEditorContent} />
             <div className="form-hint">You can provide your own content or leave empty for our writers</div>
           </div>
 

@@ -93,7 +93,7 @@ export default function Footer() {
                                     <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
                                 </svg>
                             </div>
-                            <span style={{ color: "#ffffff", fontWeight: 700, fontSize: "1.1rem" }}>Linkslandiya</span>
+                            <span style={{ color: "#ffffff", fontWeight: 700, fontSize: "1.1rem" }}>Linkslandia</span>
                         </div>
                         <p style={{ fontSize: "0.875rem", lineHeight: "1.7", color: "#6b7280" }}>
                             Empowering SEO growth through premium guest posts and high-quality backlinks from vetted publishers.
@@ -136,7 +136,7 @@ export default function Footer() {
                         ))}
                     </div>
                     <div style={{ textAlign: "right", fontSize: "0.875rem", color: "#4b5563" }}>
-                        <p>© {new Date().getFullYear()} Linkslandiya. All rights reserved.</p>
+                        <p>© {new Date().getFullYear()} Linkslandia. All rights reserved.</p>
                         <div style={{ display: "flex", gap: "1rem", marginTop: "0.25rem", justifyContent: "flex-end" }}>
                             <Link href="/privacy" style={{ color: "#4b5563", textDecoration: "none" }}>Privacy Policy</Link>
                             <Link href="/terms" style={{ color: "#4b5563", textDecoration: "none" }}>Terms of Service</Link>

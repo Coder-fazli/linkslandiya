@@ -1,4 +1,4 @@
-import clientPromise from "@/lib/mongodb"
+import clientPromise from "@/mongodb"
 
 // Get database instance
 export async function getDb() {

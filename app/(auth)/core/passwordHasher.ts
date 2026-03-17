@@ -13,4 +13,4 @@ const scrypAsync = promisify(scrypt);
 export async function hashPassword(password: string, salt: string): Promise<string> {
    const hash = await scrypAsync(password.normalize(), salt, 64);
    return (hash as Buffer).toString("hex").normalize(); 
-}
+}  
