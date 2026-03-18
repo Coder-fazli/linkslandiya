@@ -1720,3 +1720,36 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* TipTap Editor Styles */
+.admin .article-editor-content .tiptap {
+    outline: none;
+    min-height: 240px;
+    padding: 14px 16px;
+    cursor: text;
+    line-height: 1.75;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.admin .article-editor-content .tiptap h2 { font-size: 1.4rem; font-weight: 700; margin: 0.5rem 0; }
+.admin .article-editor-content .tiptap h3 { font-size: 1.15rem; font-weight: 600; margin: 0.4rem 0; }
+.admin .article-editor-content .tiptap p { margin: 0.3rem 0; }
+.admin .article-editor-content .tiptap strong { font-weight: 700; }
+.admin .article-editor-content .tiptap em { font-style: italic; }
+.admin .article-editor-content .tiptap u { text-decoration: underline; }
+.admin .article-editor-content .tiptap ul { padding-left: 1.4rem; list-style: disc; }
+.admin .article-editor-content .tiptap ol { padding-left: 1.4rem; list-style: decimal; }
+.admin .article-editor-content .tiptap li { margin: 0.2rem 0; }
+.admin .article-editor-content .tiptap a { color: #6366f1; text-decoration: underline; }
+.admin .article-editor-content .tiptap blockquote { border-left: 3px solid #6366f1; padding-left: 12px; color: var(--text-secondary); font-style: italic; margin: 0.4rem 0; }
+.admin .article-editor-content .tiptap code { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 0.88em; }
+.admin .article-editor-content .tiptap img { max-width: 100%; border-radius: 6px; display: block; margin: 0.5rem 0; }
+
+.admin .article-editor-content .tiptap p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    color: var(--text-secondary);
+    pointer-events: none;
+    float: left;
+    height: 0;
+}
