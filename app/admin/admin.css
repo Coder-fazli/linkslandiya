@@ -1502,192 +1502,219 @@
     font-size: 0.8rem;
 }
 
-/* Article Editor */
-.admin .article-editor-wrapper {
+/* ── Rich Text Editor ── */
+.admin .pte-wrapper {
     border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 12px;
+    overflow: visible;
     background: var(--bg-input);
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.admin .article-editor-wrapper:focus-within {
-    border-color: #52525b;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+.admin .pte-wrapper:focus-within {
+    border-color: var(--border-light);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
 }
 
-.admin .article-editor-toolbar {
+/* Toolbar */
+.admin .pte-toolbar {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
+    gap: 2px;
+    padding: 6px 10px;
     border-bottom: 1px solid var(--border);
     background: var(--bg-card);
+    border-radius: 12px 12px 0 0;
     flex-wrap: wrap;
 }
 
-.admin .editor-sep {
-    display: inline-block;
-    width: 1px;
-    height: 22px;
-    background: var(--border-light);
-    margin: 0 2px;
-    flex-shrink: 0;
-}
-
-.admin .editor-btn {
-    padding: 4px 9px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--bg-input);
-    color: var(--text-primary);
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.12s, border-color 0.12s;
-    white-space: nowrap;
-    line-height: 1.4;
-}
-
-.admin .editor-btn:hover {
-    background: var(--bg-hover);
-    border-color: var(--border-light);
-}
-
-.admin .editor-btn-active {
-    background: var(--bg-hover);
-    border-color: var(--border-light);
-}
-
-.admin .article-editor-content {
-    min-height: 240px;
-    padding: 14px 16px;
-    outline: none;
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--text-primary);
-    cursor: text;
-}
-
-.admin .article-editor-content .pte-p { margin: 0 0 0.2em; }
-.admin .article-editor-content .pte-h2 { font-size: 1.4rem; font-weight: 700; margin: 0.3em 0 0.1em; }
-.admin .article-editor-content .pte-h3 { font-size: 1.15rem; font-weight: 600; margin: 0.3em 0 0.1em; }
-.admin .article-editor-content .pte-h4 { font-size: 1rem; font-weight: 600; margin: 0.3em 0 0.1em; }
-
-.admin .article-editor-content .pte-blockquote {
-    border-left: 3px solid #6366f1;
-    padding-left: 12px;
-    color: var(--text-secondary);
-    margin: 0.3em 0;
-    font-style: italic;
-}
-
-.admin .article-editor-content .pte-inline-code {
-    background: var(--bg-dark);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 1px 5px;
-    font-family: monospace;
-    font-size: 0.88em;
-}
-
-.admin .article-editor-content .pte-list-item {
-    display: block;
-    padding-left: 1.4rem;
+.admin .pte-group {
+    display: flex;
+    align-items: center;
+    gap: 1px;
     position: relative;
 }
 
-.admin .article-editor-content .pte-list-bullet::before {
-    content: "•";
-    position: absolute;
-    left: 0.4rem;
-    color: var(--text-secondary);
-    font-weight: 700;
+.admin .pte-sep {
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 6px;
+    flex-shrink: 0;
 }
 
-.admin .article-editor-content .pte-list-number { counter-increment: pte-ol; }
-
-.admin .article-editor-content .pte-list-number::before {
-    content: counter(pte-ol) ".";
-    position: absolute;
-    left: 0;
-    width: 1.2rem;
-    text-align: right;
+.admin .pte-btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
     color: var(--text-secondary);
-}
-
-.admin .article-editor-content .pte-link {
-    color: #6366f1;
-    text-decoration: underline;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
 }
 
-.admin .pte-image-block { margin: 0.5rem 0; user-select: none; }
-
-.admin .pte-image {
-    max-width: 100%;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    display: block;
+.admin .pte-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
 }
 
-.admin .pte-image-placeholder {
-    background: var(--bg-dark);
-    border: 1px dashed var(--border-light);
-    border-radius: 6px;
-    padding: 20px;
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 0.85rem;
+.admin .pte-btn--active {
+    background: rgba(99, 102, 241, 0.15);
+    color: #818cf8;
 }
 
-.admin .editor-input-panel {
+.admin .pte-btn--active:hover {
+    background: rgba(99, 102, 241, 0.22);
+    color: #818cf8;
+}
+
+/* Link popover */
+.admin .pte-link-popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 100;
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
     background: var(--bg-card);
-    flex-wrap: wrap;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 6px 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    min-width: 280px;
 }
 
-.admin .editor-panel-label {
+.admin .pte-link-input {
+    flex: 1;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.admin .pte-link-input:focus {
+    border-color: #6366f1;
+}
+
+.admin .pte-link-apply {
+    padding: 6px 12px;
+    background: #6366f1;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
     font-size: 0.8rem;
-    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
     white-space: nowrap;
 }
 
-.admin .editor-panel-input {
-    flex: 1;
-    min-width: 180px;
-    padding: 5px 10px;
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    background: var(--bg-input);
-    color: var(--text-primary);
-    font-size: 0.85rem;
+.admin .pte-link-apply:hover {
+    background: #4f46e5;
+}
+
+/* Editable area */
+.admin .pte-editable {
+    cursor: text;
+}
+
+.admin .pte-editable .tiptap {
     outline: none;
-}
-
-.admin .editor-panel-input:focus { border-color: var(--border-light); }
-
-.admin .editor-panel-btn {
-    padding: 5px 14px;
-    border-radius: 5px;
-    border: 1px solid var(--border);
-    background: var(--bg-dark);
+    min-height: 260px;
+    padding: 16px 18px;
+    font-size: 0.95rem;
+    line-height: 1.8;
     color: var(--text-primary);
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.12s;
+    resize: vertical;
+    overflow-y: auto;
 }
 
-.admin .editor-panel-btn:hover { background: var(--bg-hover); }
+.admin .pte-editable .tiptap > * + * { margin-top: 0.6em; }
 
-.admin .editor-panel-btn-cancel {
-    background: transparent;
+.admin .pte-editable .tiptap h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 1rem 0 0.3rem;
+}
+
+.admin .pte-editable .tiptap h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0.8rem 0 0.25rem;
+}
+
+.admin .pte-editable .tiptap p { margin: 0; }
+
+.admin .pte-editable .tiptap strong { font-weight: 700; }
+.admin .pte-editable .tiptap em { font-style: italic; }
+.admin .pte-editable .tiptap u { text-decoration: underline; }
+.admin .pte-editable .tiptap s { text-decoration: line-through; color: var(--text-secondary); }
+
+.admin .pte-editable .tiptap ul {
+    padding-left: 1.5rem;
+    list-style: disc;
+}
+
+.admin .pte-editable .tiptap ol {
+    padding-left: 1.5rem;
+    list-style: decimal;
+}
+
+.admin .pte-editable .tiptap li { margin: 0.2rem 0; }
+
+.admin .pte-editable .tiptap a {
+    color: #818cf8;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.admin .pte-editable .tiptap blockquote {
+    border-left: 3px solid #6366f1;
+    padding: 4px 0 4px 14px;
     color: var(--text-secondary);
+    font-style: italic;
+    margin: 0.5rem 0;
+}
+
+.admin .pte-editable .tiptap code {
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: monospace;
+    font-size: 0.87em;
+}
+
+.admin .pte-editable .tiptap img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: block;
+    margin: 0.5rem 0;
+}
+
+/* Placeholder */
+.admin .pte-editable .tiptap p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    color: var(--text-secondary);
+    opacity: 0.6;
+    pointer-events: none;
+    float: left;
+    height: 0;
 }
 
 /* Responsive */
@@ -1721,35 +1748,3 @@
     }
 }
 
-/* TipTap Editor Styles */
-.admin .article-editor-content .tiptap {
-    outline: none;
-    min-height: 240px;
-    padding: 14px 16px;
-    cursor: text;
-    line-height: 1.75;
-    font-size: 0.95rem;
-    color: var(--text-primary);
-}
-
-.admin .article-editor-content .tiptap h2 { font-size: 1.4rem; font-weight: 700; margin: 0.5rem 0; }
-.admin .article-editor-content .tiptap h3 { font-size: 1.15rem; font-weight: 600; margin: 0.4rem 0; }
-.admin .article-editor-content .tiptap p { margin: 0.3rem 0; }
-.admin .article-editor-content .tiptap strong { font-weight: 700; }
-.admin .article-editor-content .tiptap em { font-style: italic; }
-.admin .article-editor-content .tiptap u { text-decoration: underline; }
-.admin .article-editor-content .tiptap ul { padding-left: 1.4rem; list-style: disc; }
-.admin .article-editor-content .tiptap ol { padding-left: 1.4rem; list-style: decimal; }
-.admin .article-editor-content .tiptap li { margin: 0.2rem 0; }
-.admin .article-editor-content .tiptap a { color: #6366f1; text-decoration: underline; }
-.admin .article-editor-content .tiptap blockquote { border-left: 3px solid #6366f1; padding-left: 12px; color: var(--text-secondary); font-style: italic; margin: 0.4rem 0; }
-.admin .article-editor-content .tiptap code { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 0.88em; }
-.admin .article-editor-content .tiptap img { max-width: 100%; border-radius: 6px; display: block; margin: 0.5rem 0; }
-
-.admin .article-editor-content .tiptap p.is-editor-empty:first-child::before {
-    content: attr(data-placeholder);
-    color: var(--text-secondary);
-    pointer-events: none;
-    float: left;
-    height: 0;
-}
