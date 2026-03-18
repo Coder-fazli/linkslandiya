@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { ArticleEditor } from "./ArticleEditor"
-import type { PortableTextBlock } from "@portabletext/editor"
 
 type OrderFormProps = {
   websiteId: string
@@ -43,7 +42,7 @@ export default function OrderForm({
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [editorContent, setEditorContent] = useState<PortableTextBlock[] | undefined>(undefined)
+
 
   function updateField(field: keyof OrderFormData, value: string) {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -59,7 +58,7 @@ export default function OrderForm({
     try {
       await createOrderAction({
         ...formData,
-        content: editorContent ? JSON.stringify(editorContent) : "",
+        content: content: editorContent : "",
       })
     } catch (error: any) {
       if (error?.digest?.startsWith("NEXT_REDIRECT")) return
