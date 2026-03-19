@@ -5,7 +5,7 @@ import { useCurrentEditor, useEditorState } from "@tiptap/react"
 import { useEffect, useState } from "react"
 
 function getActivePageEditor(editor: Editor): Editor | null {
-  const storage = editor.storage.pages
+  const storage = (editor.storage as Record<string, any>).pages
   if (!storage || !("activeEditor" in storage)) return null
   return storage.activeEditor ?? null
 }
