@@ -51,7 +51,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             </aside>
 
             <main className="main-content">
-                <header className="header" style={{ backgroundColor: "unset" }}>
+                <header className="header">
                     <div>
                         <h1 id="page-title">Dashboard</h1>
                         <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "2px" }}>

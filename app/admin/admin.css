@@ -296,13 +296,28 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
-    padding-bottom: 1.25rem;
+    padding: 1rem 2rem;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    margin-top: -1.5rem;
+    background: var(--bg-card);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    margin-bottom: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 .admin .header h1 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 3px;
+}
+.admin .header p {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
 }
 .admin .header-actions {
     display: flex;
@@ -380,6 +395,8 @@
 .admin .stat-card {
     position: relative;
     overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
     border-radius: 18px;
     padding: 1.25rem;
     box-shadow: 0 4px 24px -2px rgba(0,0,0,0.07);
@@ -398,6 +415,11 @@
     background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
     border-radius: 50%;
 }
+.admin .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px -4px rgba(0,0,0,0.14);
+}
+
 .admin .stat-card-blue   { background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 50%, #60a5fa 100%); }
 .admin .stat-card-yellow { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fbbf24 100%); }
 .admin .stat-card-green  { background: linear-gradient(135deg, #bbf7d0 0%, #86efac 50%, #4ade80 100%); }
@@ -1039,10 +1061,14 @@
     align-items: center;
     margin-bottom: 0.5rem;
     box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-    transition: border-color 0.15s;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s;
 }
 .admin .order-row-card:last-child { margin-bottom: 0; }
-.admin .order-row-card:hover { border-color: var(--border-light); }
+.admin .order-row-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    border-color: var(--border-light);
+}
 
 .admin .order-row-site {
     display: flex;
@@ -1134,9 +1160,14 @@
 .admin .quick-actions-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
+    transition: box-shadow 0.2s ease;
     border-radius: 14px;
     padding: 1.25rem;
     box-shadow: 0 1px 6px rgba(0,0,0,0.03);
+}
+.admin .quick-actions-card:hover,
+.admin .breakdown-card:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 .admin .quick-actions-card h2 {
     font-size: 0.95rem;
@@ -1192,6 +1223,7 @@
     border-radius: 14px;
     padding: 1.25rem;
     box-shadow: 0 1px 6px rgba(0,0,0,0.03);
+    transition: box-shadow 0.2s ease;
 }
 .admin .breakdown-card h2 {
     font-size: 0.95rem;

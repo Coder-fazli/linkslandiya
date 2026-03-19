@@ -5,10 +5,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import {
     Website,
-    getFaviconColor,
     formatTraffic,
     countryFlags,
 } from '@/app/lib/types'
+import WebsiteFavicon from './WebsiteFavicon'
 
 type WebsiteTableProps = {
     initialWebsites: Website[]
@@ -161,9 +161,7 @@ export default function WebsiteTable({ initialWebsites }: WebsiteTableProps) {
               </button>
               <div className="modal-content">
                 <div className="modal-header">
-                  <div className="modal-favicon" style={{ background: `linear-gradient(135deg, ${getFaviconColor(selectedSite.name)} 0%, ${getFaviconColor(selectedSite.name)}dd 100%)` }}>
-                    {selectedSite.name.charAt(0).toUpperCase()}
-                  </div>
+                  <WebsiteFavicon url={selectedSite.url} name={selectedSite.name} className="modal-favicon" size={40} />
                   <div>
                     <div className="modal-title">{selectedSite.name}</div>
                     <div className="modal-subtitle">Guest Post Opportunity</div>

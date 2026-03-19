@@ -2,10 +2,10 @@ import './WebsitesPreview.css'
 import Link from 'next/link'
 import {
     Website,
-    getFaviconColor,
     formatTraffic,
     countryFlags,
 } from '@/app/lib/types'
+import WebsiteFavicon from './WebsiteFavicon'
 
 type WebsiteTablePreviewProps = {
   websites: Website[];
@@ -39,9 +39,7 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
 
             {/* Website */}
             <div className="site-name-cell">
-              <div className="site-favicon" style={{ background: `linear-gradient(135deg, ${getFaviconColor(site.name)} 0%, ${getFaviconColor(site.name)}dd 100%)` }}>
-                {site.name.charAt(0).toUpperCase()}
-              </div>
+              <WebsiteFavicon url={site.url} name={site.name} />
               <span className="site-name">{site.name}</span>
             </div>
 
