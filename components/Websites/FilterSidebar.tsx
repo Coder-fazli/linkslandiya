@@ -238,8 +238,7 @@ export default function FilterSidebar({
                 Reset All
               </button>
               <div className="results-count">
-                <span className="count-number">{resultsCount}</span>
-                <span className="count-label">sites found</span>
+                {resultsCount} sites found
               </div>
             </div>
           </aside>

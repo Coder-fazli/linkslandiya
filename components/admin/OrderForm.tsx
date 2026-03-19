@@ -1,8 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ArticleEditor } from "./ArticleEditor"
+import { SimpleEditor } from "../tiptap-templates/simple/simple-editor"
+
+
 
 type OrderFormProps = {
   websiteId: string
@@ -30,7 +33,20 @@ export default function OrderForm({
   websitePrice,
   createOrderAction }: OrderFormProps) {
 
+  const [isDirty, setIsDirty] = useState(false);
   const router = useRouter()
+  
+  useEffect(() => {
+    function handleBeforeUnload(e: BeforeUnloadEvent){
+      if(isDirty) {
+        e.preventDefault()
+        e.returnValue = ""
+      }
+    }
+      window.addEventListener("beforeunload", handleBeforeUnload)
+      return () => window.removeEventListener("beforeunload", handleBeforeUnload)
+    }, [isDirty]
+  ) 
 
   const [formData, setFormData] = useState<OrderFormData>({
     websiteId,
@@ -44,8 +60,11 @@ export default function OrderForm({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
 
-  function updateField(field: keyof OrderFormData, value: string) {
+  function updateField(field: keyof OrderFormData, value: string)
+   
+  {
     setFormData(prev => ({ ...prev, [field]: value }))
+    setIsDirty(true);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -58,13 +77,21 @@ export default function OrderForm({
     try {
       await createOrderAction({
         ...formData,
-        content: content: editorContent : "",
       })
+      setIsDirty(false);
     } catch (error: any) {
       if (error?.digest?.startsWith("NEXT_REDIRECT")) return
       alert("Failed to create order")
       setIsSubmitting(false)
     }
+  }
+
+  function handleCancel(){
+    if (isDirty){
+      const confirmed = window.confirm("You have unsaved changes. Are you sure you want to leave?")
+     if(!confirmed) return
+    }
+    router.back()
   }
 
   return (
@@ -134,7 +161,7 @@ export default function OrderForm({
 
           <div className="form-group">
             <label className="form-label">Article Content</label>
-            <ArticleEditor value={editorContent} onChange={setEditorContent} />
+            <SimpleEditor />
             <div className="form-hint">You can provide your own content or leave empty for our writers</div>
           </div>
 
@@ -149,7 +176,7 @@ export default function OrderForm({
           </div>
 
           <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
-            <button type="button" className="btn btn-secondary" onClick={() => router.back()}>
+            <button type="button" className="btn btn-secondary" onClick={handleCancel}>
               Cancel
             </button>
             <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
