@@ -33,6 +33,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                         activeMode={user.activeMode}
                         canPublish={user.canPublish}
                         isAdmin={user.isAdmin}
+                        canBuy={user.canBuy}
                     />
                 </div>
 
