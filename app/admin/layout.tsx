@@ -52,7 +52,12 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
             <main className="main-content">
                 <header className="header" style={{ backgroundColor: "unset" }}>
-                    <h1 id="page-title">Dashboard</h1>
+                    <div>
+                        <h1 id="page-title">Dashboard</h1>
+                        <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "2px" }}>
+                            Welcome back, {user.name} 👋
+                        </p>
+                    </div>
                     <div className="header-actions">
                         {!user.isAdmin && (
                             <ModeSwitcher activeMode={user.activeMode} canPublish={user.canPublish} />

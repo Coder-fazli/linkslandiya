@@ -25,13 +25,14 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
           <Link href="/admin" className={`nav-item ${pathName === '/admin' ? 'active' : ''}`}>
             <span className="nav-item-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="14" y="14" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
               </svg>
             </span>
             Dashboard
+            {pathName === '/admin' && <span className="nav-dot"></span>}
           </Link>
         </div>
 
@@ -72,9 +73,9 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
             <Link href="/admin/websites" className={`nav-item ${isActive(pathName, '/admin/websites') ? 'active' : ''}`}>
               <span className="nav-item-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="2" y1="12" x2="22" y2="12"></line>
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                  <path d="M3 9h18"></path>
+                  <path d="M9 21V9"></path>
                 </svg>
               </span>
               My Websites
@@ -83,9 +84,7 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
             <Link href="/admin/publisher-orders" className={`nav-item ${isActive(pathName, '/admin/publisher-orders') ? 'active' : ''}`}>
               <span className="nav-item-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                 </svg>
               </span>
               Orders Received
