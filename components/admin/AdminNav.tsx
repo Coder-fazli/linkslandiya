@@ -37,7 +37,7 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
         </div>
 
         {/* BUYER */}
-        {canBuy && (
+        {activeMode === "buyer" && (
           <div className="nav-section">
             <div className="nav-section-title">Buyer</div>
 
@@ -66,7 +66,7 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
         )}
 
         {/* PUBLISHER */}
-        {canPublish && (
+        {activeMode === "publisher" && canPublish && (
           <div className="nav-section">
             <div className="nav-section-title">Publisher</div>
 
