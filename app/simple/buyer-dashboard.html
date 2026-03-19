@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buyer Dashboard — Linkslandia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:           #0f0f1a;
+      --surface:      #1a1a2e;
+      --surface-alt:  #16213e;
+      --border:       rgba(255,255,255,0.07);
+      --border-glow:  rgba(78,154,241,0.18);
+      --text:         #f0f0ff;
+      --muted:        #8888aa;
+      --blue:         #4e9af1;
+      --blue-dim:     rgba(78,154,241,0.15);
+      --green:        #22c55e;
+      --green-dim:    rgba(34,197,94,0.13);
+      --yellow:       #f59e0b;
+      --yellow-dim:   rgba(245,158,11,0.13);
+      --red:          #ef4444;
+      --red-dim:      rgba(239,68,68,0.13);
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Layout ─────────────────────────────────────────────── */
+    .shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ─── Sidebar ─────────────────────────────────────────────── */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    .sidebar-logo {
+      padding: 28px 24px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo .wordmark {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #4e9af1 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sidebar-logo .tagline {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+      letter-spacing: 0.3px;
+    }
+
+    .sidebar-nav {
+      padding: 16px 12px;
+      flex: 1;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 13.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: var(--blue-dim);
+      color: var(--blue);
+    }
+
+    .nav-item svg {
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4e9af1, #a78bfa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .user-info .name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .user-info .role {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ─── Main content ────────────────────────────────────────── */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* ─── Top bar ─────────────────────────────────────────────── */
+    .topbar {
+      height: 64px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(15,15,26,0.7);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .topbar-title span {
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--muted);
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .notif-dot {
+      position: relative;
+    }
+
+    .notif-dot::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--yellow);
+      border: 1.5px solid var(--bg);
+    }
+
+    /* ─── Page body ───────────────────────────────────────────── */
+    .page-body {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      max-width: 1200px;
+    }
+
+    /* ─── Section title ───────────────────────────────────────── */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .section-link {
+      font-size: 12.5px;
+      color: var(--blue);
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity 0.15s;
+    }
+
+    .section-link:hover { opacity: 1; }
+
+    /* ─── Stat cards ──────────────────────────────────────────── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--border-glow);
+      box-shadow: 0 0 32px rgba(78,154,241,0.08), 0 4px 24px rgba(0,0,0,0.3);
+    }
+
+    .stat-card:hover::before { opacity: 1; }
+
+    .stat-left {}
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      margin-top: 6px;
+      line-height: 1;
+    }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .stat-sub .up {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-icon.blue   { background: var(--blue-dim);   color: var(--blue);   }
+    .stat-icon.green  { background: var(--green-dim);  color: var(--green);  }
+    .stat-icon.yellow { background: var(--yellow-dim); color: var(--yellow); }
+    .stat-icon.red    { background: var(--red-dim);    color: var(--red);    }
+
+    /* ─── Quick actions ───────────────────────────────────────── */
+    .actions-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 13px 26px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #4e9af1 0%, #6366f1 100%);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(78,154,241,0.35);
+      transition: box-shadow 0.2s, transform 0.15s, opacity 0.15s;
+      letter-spacing: -0.1px;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 28px rgba(78,154,241,0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active { transform: translateY(0); opacity: 0.9; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 13px 22px;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* ─── Table card ──────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 24px 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      padding: 10px 24px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 14px 24px;
+      font-size: 13.5px;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      transition: background 0.12s;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover td {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .site-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .site-favicon {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+
+    .site-name {
+      font-weight: 500;
+    }
+
+    .da-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: var(--blue-dim);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .price {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .date-cell {
+      color: var(--muted);
+    }
+
+    /* ─── Status badges ───────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1px;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .badge.completed {
+      background: var(--green-dim);
+      color: var(--green);
+    }
+
+    .badge.completed::before { background: var(--green); }
+
+    .badge.pending {
+      background: var(--yellow-dim);
+      color: var(--yellow);
+    }
+
+    .badge.pending::before { background: var(--yellow); }
+
+    .badge.rejected {
+      background: var(--red-dim);
+      color: var(--red);
+    }
+
+    .badge.rejected::before { background: var(--red); }
+
+    /* ─── Bottom info grid ────────────────────────────────────── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .info-card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 18px;
+    }
+
+    /* Last ordered card */
+    .last-order-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .last-order-site {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .big-favicon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .last-order-name {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .last-order-meta {
+      display: flex;
+      gap: 8px;
+      margin-top: 5px;
+      align-items: center;
+    }
+
+    .meta-chip {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .meta-sep { color: var(--border); }
+
+    .last-order-price {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--text);
+    }
+
+    .last-order-price-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    /* Status breakdown card */
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .breakdown-item {}
+
+    .breakdown-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 7px;
+    }
+
+    .breakdown-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .breakdown-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .progress-track {
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.6s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ─── Glow accents ────────────────────────────────────────── */
+    .glow-blue  { box-shadow: 0 0 0 1px rgba(78,154,241,0.2), 0 4px 20px rgba(78,154,241,0.1); }
+    .glow-green { box-shadow: 0 0 0 1px rgba(34,197,94,0.2),  0 4px 20px rgba(34,197,94,0.1);  }
+
+    /* ─── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      .sidebar { display: none; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+      .page-body { padding: 20px; }
+      .topbar { padding: 0 20px; }
+    }
+
+    /* ─── Scrollbar ───────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+  </style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="wordmark">Linkslandia</div>
+      <div class="tagline">Link Building Marketplace</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-label">Buyer</div>
+
+      <a class="nav-item active" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Dashboard
+      </a>
+
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        Browse Websites
+      </a>
+
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        My Orders
+      </a>
+
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+        </svg>
+        Billing
+      </a>
+
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+        Support
+      </a>
+
+      <div class="nav-label" style="margin-top: 12px;">Account</div>
+
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+        Profile
+      </a>
+
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 5.34L3.93 6.75M19.07 19.07l-1.41-1.41M5.34 18.66l-1.41 1.41M22 12h-2M4 12H2M12 22v-2M12 4V2"/>
+        </svg>
+        Settings
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="avatar">JD</div>
+        <div class="user-info">
+          <div class="name">James Doe</div>
+          <div class="role">Buyer Account</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-title">Dashboard <span>/ Overview</span></div>
+      <div class="topbar-right">
+        <div class="icon-btn notif-dot" title="Notifications">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>
+          </svg>
+        </div>
+        <div class="icon-btn" title="Settings">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 5.34L3.93 6.75M22 12h-2M4 12H2M19.07 19.07l-1.41-1.41M5.34 18.66l-1.41 1.41M12 22v-2M12 4V2"/>
+          </svg>
+        </div>
+        <div style="width:1px; height:24px; background:var(--border); margin:0 4px;"></div>
+        <div class="avatar" style="width:34px;height:34px;font-size:12px;">JD</div>
+      </div>
+    </header>
+
+    <!-- Page body -->
+    <div class="page-body">
+
+      <!-- ─ 1. Stat cards ─ -->
+      <section>
+        <div class="section-head">
+          <span class="section-title">Overview</span>
+          <span class="section-link">Mar 2025 &rarr;</span>
+        </div>
+
+        <div class="stat-grid">
+
+          <!-- Total Orders -->
+          <div class="stat-card">
+            <div class="stat-left">
+              <div class="stat-label">Total Orders</div>
+              <div class="stat-value">12</div>
+              <div class="stat-sub"><span class="up">+2</span> this month</div>
+            </div>
+            <div class="stat-icon blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Pending -->
+          <div class="stat-card">
+            <div class="stat-left">
+              <div class="stat-label">Pending</div>
+              <div class="stat-value" style="color: var(--yellow);">3</div>
+              <div class="stat-sub">Awaiting placement</div>
+            </div>
+            <div class="stat-icon yellow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Completed -->
+          <div class="stat-card">
+            <div class="stat-left">
+              <div class="stat-label">Completed</div>
+              <div class="stat-value" style="color: var(--green);">8</div>
+              <div class="stat-sub"><span class="up">100%</span> delivery rate</div>
+            </div>
+            <div class="stat-icon green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Total Spent -->
+          <div class="stat-card">
+            <div class="stat-left">
+              <div class="stat-label">Total Spent</div>
+              <div class="stat-value" style="color: var(--blue);">$1,240</div>
+              <div class="stat-sub"><span class="up">+$570</span> this month</div>
+            </div>
+            <div class="stat-icon blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ─ 2. Quick Actions ─ -->
+      <section>
+        <div class="section-head">
+          <span class="section-title">Quick Actions</span>
+        </div>
+        <div class="actions-row">
+          <button class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Browse Websites
+          </button>
+          <button class="btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            New Order
+          </button>
+          <button class="btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Download Report
+          </button>
+        </div>
+      </section>
+
+      <!-- ─ 3. Recent Orders table ─ -->
+      <section>
+        <div class="card">
+          <div class="card-header">
+            <div class="section-head" style="margin-bottom: 0;">
+              <span class="section-title">Recent Orders</span>
+              <a class="section-link" href="#">View all orders &rarr;</a>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Website</th>
+                  <th>DA</th>
+                  <th>Price</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <!-- Row 1 -->
+                <tr>
+                  <td>
+                    <div class="site-cell">
+                      <div class="site-favicon">T</div>
+                      <span class="site-name">techcrunch.com</span>
+                    </div>
+                  </td>
+                  <td><span class="da-badge">DA 92</span></td>
+                  <td><span class="price">$250</span></td>
+                  <td class="date-cell">Mar 18, 2025</td>
+                  <td><span class="badge completed">Completed</span></td>
+                  <td style="text-align:right; color: var(--muted);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                      <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+                    </svg>
+                  </td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr>
+                  <td>
+                    <div class="site-cell">
+                      <div class="site-favicon" style="color: #22c55e;">F</div>
+                      <span class="site-name">forbes.com</span>
+                    </div>
+                  </td>
+                  <td><span class="da-badge">DA 88</span></td>
+                  <td><span class="price">$320</span></td>
+                  <td class="date-cell">Mar 17, 2025</td>
+                  <td><span class="badge completed">Completed</span></td>
+                  <td style="text-align:right; color: var(--muted);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                      <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+                    </svg>
+                  </td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr>
+                  <td>
+                    <div class="site-cell">
+                      <div class="site-favicon" style="color: #a78bfa;">W</div>
+                      <span class="site-name">wired.com</span>
+                    </div>
+                  </td>
+                  <td><span class="da-badge">DA 85</span></td>
+                  <td><span class="price">$180</span></td>
+                  <td class="date-cell">Mar 15, 2025</td>
+                  <td><span class="badge pending">Pending</span></td>
+                  <td style="text-align:right; color: var(--muted);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                      <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+                    </svg>
+                  </td>
+                </tr>
+
+                <!-- Row 4 -->
+                <tr>
+                  <td>
+                    <div class="site-cell">
+                      <div class="site-favicon" style="color: #f59e0b;">M</div>
+                      <span class="site-name">medium.com</span>
+                    </div>
+                  </td>
+                  <td><span class="da-badge">DA 76</span></td>
+                  <td><span class="price">$90</span></td>
+                  <td class="date-cell">Mar 12, 2025</td>
+                  <td><span class="badge pending">Pending</span></td>
+                  <td style="text-align:right; color: var(--muted);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                      <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+                    </svg>
+                  </td>
+                </tr>
+
+                <!-- Row 5 -->
+                <tr>
+                  <td>
+                    <div class="site-cell">
+                      <div class="site-favicon" style="color: #ef4444;">E</div>
+                      <span class="site-name">entrepreneur.com</span>
+                    </div>
+                  </td>
+                  <td><span class="da-badge">DA 81</span></td>
+                  <td><span class="price">$400</span></td>
+                  <td class="date-cell">Mar 10, 2025</td>
+                  <td><span class="badge rejected">Rejected</span></td>
+                  <td style="text-align:right; color: var(--muted);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                      <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+                    </svg>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─ 4. Info grid ─ -->
+      <section>
+        <div class="section-head">
+          <span class="section-title">Insights</span>
+        </div>
+
+        <div class="info-grid">
+
+          <!-- Last Ordered -->
+          <div class="info-card glow-blue">
+            <div class="info-card-title">Last Ordered</div>
+
+            <div class="last-order-row">
+              <div class="last-order-site">
+                <div class="big-favicon">T</div>
+                <div>
+                  <div class="last-order-name">techcrunch.com</div>
+                  <div class="last-order-meta">
+                    <span class="da-badge" style="font-size: 11px; padding: 2px 7px;">DA 92</span>
+                    <span class="meta-sep">·</span>
+                    <span class="meta-chip">Mar 18, 2025</span>
+                    <span class="meta-sep">·</span>
+                    <span class="badge completed" style="padding:2px 8px; font-size:11px;">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style="text-align: right;">
+                <div class="last-order-price">$250</div>
+                <div class="last-order-price-label">Order value</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:12.5px; color:var(--muted);">Article placed &amp; live on site</span>
+              <a href="#" style="font-size:12.5px; color:var(--blue); font-weight:600; text-decoration:none;">View order &rarr;</a>
+            </div>
+          </div>
+
+          <!-- Order Status Breakdown -->
+          <div class="info-card">
+            <div class="info-card-title">Order Status Breakdown</div>
+
+            <div class="breakdown-list">
+
+              <!-- Completed -->
+              <div class="breakdown-item">
+                <div class="breakdown-top">
+                  <div class="breakdown-label">
+                    <div class="dot" style="background:var(--green);"></div>
+                    Completed
+                  </div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:12px; color:var(--muted);">67%</span>
+                    <span class="breakdown-count">8</span>
+                  </div>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:67%; background: linear-gradient(90deg, #22c55e, #16a34a);"></div>
+                </div>
+              </div>
+
+              <!-- Pending -->
+              <div class="breakdown-item">
+                <div class="breakdown-top">
+                  <div class="breakdown-label">
+                    <div class="dot" style="background:var(--yellow);"></div>
+                    Pending
+                  </div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:12px; color:var(--muted);">25%</span>
+                    <span class="breakdown-count">3</span>
+                  </div>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:25%; background: linear-gradient(90deg, #f59e0b, #d97706);"></div>
+                </div>
+              </div>
+
+              <!-- Rejected -->
+              <div class="breakdown-item">
+                <div class="breakdown-top">
+                  <div class="breakdown-label">
+                    <div class="dot" style="background:var(--red);"></div>
+                    Rejected
+                  </div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:12px; color:var(--muted);">8%</span>
+                    <span class="breakdown-count">1</span>
+                  </div>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:8%; background: linear-gradient(90deg, #ef4444, #dc2626);"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <div style="margin-top:22px; padding-top:18px; border-top:1px solid var(--border); display:flex; justify-content:space-between;">
+              <span style="font-size:12.5px; color:var(--muted);">12 orders total</span>
+              <span style="font-size:12.5px; color:var(--green); font-weight:600;">Great delivery rate</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div><!-- /page-body -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+</body>
+</html>

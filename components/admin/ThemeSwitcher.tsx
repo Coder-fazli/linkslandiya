@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react"
 
 export default function ThemeSwitcher() {
-    const [dark, setDark] = useState(true)
+    const [dark, setDark] = useState(false)
 
     useEffect(() => {
         const saved = localStorage.getItem("admin-theme")
-        if (saved === "light") {
-            setDark(false)
-            document.documentElement.setAttribute("data-theme", "light")
+        if (saved === "dark") {
+            setDark(true)
+            document.documentElement.setAttribute("data-theme", "dark")
         }
     }, [])
 
@@ -17,10 +17,10 @@ export default function ThemeSwitcher() {
         const next = !dark
         setDark(next)
         if (next) {
-            document.documentElement.removeAttribute("data-theme")
+            document.documentElement.setAttribute("data-theme", "dark")
             localStorage.setItem("admin-theme", "dark")
         } else {
-            document.documentElement.setAttribute("data-theme", "light")
+            document.documentElement.removeAttribute("data-theme")
             localStorage.setItem("admin-theme", "light")
         }
     }
