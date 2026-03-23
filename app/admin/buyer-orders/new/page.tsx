@@ -36,9 +36,8 @@ import { getCurrentUser } from "@/app/lib/session"
               "use server"
               const user = await getCurrentUser()
 
-              if (!user){
-              redirect("/login")
-    }
+              if (!user) return redirect("/login")
+              if (!website) return
               await createOrder({
                   ...data, buyerId: user._id.toString(),
                   publisherId: website.ownerId.toString(),
