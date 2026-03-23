@@ -32,10 +32,10 @@ export default function FilterShowcase() {
         {/* LEFT: Image slides in from left */}
         <div className="fs-image-wrap fs-slide-left" ref={imageRef}>
           <Image
-            src="/linkslandia-preview.jpg"
+            src="/filter-preview.png"
             alt="Linkslandia advanced filters"
-            width={900}
-            height={600}
+            width={1001}
+            height={537}
             style={{ width: '100%', height: 'auto' }}
           />
         </div>
