@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dailykz.com – Linkslandia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* NAV */
+        .nav {
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding: 0 48px;
+            justify-content: space-between;
+            position: sticky; top: 0; z-index: 50;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-mark {
+            width: 34px; height: 34px; border-radius: 9px;
+            background: linear-gradient(135deg, #1a365d, #2d4a7c);
+            color: #fff; font-weight: 800; font-size: 15px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-name { font-size: 17px; font-weight: 700; color: #1a365d; }
+        .nav-links { display: flex; gap: 28px; }
+        .nav-links a { font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; }
+        .nav-links a:hover { color: #1a365d; }
+        .nav-cta {
+            background: #1a365d; color: #fff;
+            padding: 8px 20px; border-radius: 8px;
+            font-size: 14px; font-weight: 600; border: none; cursor: pointer;
+        }
+
+        /* PAGE */
+        .page {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 32px 40px 80px;
+        }
+
+        /* BREADCRUMB */
+        .bc {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 13px; color: #94a3b8; margin-bottom: 24px;
+        }
+        .bc a { color: #64748b; text-decoration: none; }
+        .bc a:hover { color: #1a365d; }
+        .bc svg { width: 13px; height: 13px; }
+
+        /* LAYOUT */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 304px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* MAIN COLUMN */
+        .main { display: flex; flex-direction: column; gap: 16px; }
+
+        /* SITE HEADER CARD */
+        .site-header-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .site-header-left { display: flex; align-items: center; gap: 16px; }
+        .site-icon {
+            width: 56px; height: 56px; border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background: #f8fafc; flex-shrink: 0;
+        }
+        .site-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .site-title { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 5px; }
+        .site-meta { display: flex; align-items: center; gap: 8px; }
+        .site-meta-tag {
+            font-size: 12px; font-weight: 500; color: #64748b;
+            background: #f1f5f9; padding: 3px 10px; border-radius: 6px;
+        }
+        .site-url-link {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 12px; font-weight: 500; color: #2563eb;
+            text-decoration: none;
+        }
+        .site-url-link:hover { text-decoration: underline; }
+        .site-url-link svg { width: 11px; height: 11px; }
+
+        /* STATS STRIP */
+        .stats-strip {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            overflow: hidden;
+        }
+        .stat-cell {
+            padding: 16px 20px;
+            border-right: 1px solid #f1f5f9;
+            display: flex; flex-direction: column; gap: 3px;
+        }
+        .stat-cell:last-child { border-right: none; }
+        .stat-label { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-value { font-size: 16px; font-weight: 700; color: #0f172a; }
+        .stat-value.green { color: #16a34a; }
+        .stat-value.red { color: #dc2626; }
+
+        /* DETAIL CARD */
+        .detail-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .detail-section {
+            padding: 22px 28px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .detail-section:last-child { border-bottom: none; }
+        .detail-section-title {
+            font-size: 11px; font-weight: 700; color: #94a3b8;
+            text-transform: uppercase; letter-spacing: 0.7px;
+            margin-bottom: 14px;
+        }
+        .desc-p { font-size: 14px; line-height: 1.8; color: #475569; }
+        .desc-p strong { color: #0f172a; font-weight: 600; }
+
+        /* INFO GRID */
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .info-row { display: flex; flex-direction: column; gap: 5px; }
+        .info-lbl { font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-val { font-size: 14px; font-weight: 600; color: #0f172a; }
+        .info-link {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 14px; font-weight: 600; color: #2563eb; text-decoration: none;
+        }
+        .info-link:hover { text-decoration: underline; }
+        .info-link svg { width: 13px; height: 13px; }
+        .pill-yes {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0;
+            font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 99px;
+        }
+        .pill-no {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;
+            font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 99px;
+        }
+
+        /* METRICS */
+        .metric-item + .metric-item { margin-top: 16px; }
+        .metric-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+        .metric-lbl { font-size: 13px; font-weight: 500; color: #64748b; }
+        .metric-num { font-size: 13px; font-weight: 700; color: #0f172a; }
+        .bar-track { height: 5px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 99px; }
+        .bar-fill.da { background: #3b82f6; }
+        .bar-fill.tr { background: #8b5cf6; }
+
+        /* RIGHT SIDEBAR */
+        .sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 80px; }
+
+        /* ORDER CARD */
+        .order-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .order-top {
+            padding: 24px;
+            border-bottom: 1px solid #f1f5f9;
+            text-align: center;
+        }
+        .price-tag { font-size: 38px; font-weight: 800; color: #0f172a; line-height: 1; }
+        .price-sub { font-size: 12px; color: #94a3b8; margin-top: 6px; }
+        .order-body { padding: 20px; }
+        .order-perks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .perk { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #475569; }
+        .perk-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #3b82f6; flex-shrink: 0;
+        }
+        .btn-order {
+            width: 100%; padding: 13px;
+            background: #1a365d;
+            color: #fff; font-size: 14px; font-weight: 700;
+            border: none; border-radius: 10px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: opacity .2s;
+        }
+        .btn-order:hover { opacity: 0.9; }
+        .btn-order svg { width: 15px; height: 15px; }
+        .btn-fav {
+            width: 100%; padding: 11px; margin-top: 8px;
+            background: #f8fafc; color: #64748b;
+            font-size: 13px; font-weight: 600;
+            border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+            transition: all .2s;
+        }
+        .btn-fav:hover { color: #ef4444; border-color: #fca5a5; background: #fff; }
+        .btn-fav svg { width: 14px; height: 14px; }
+        .back-link {
+            display: flex; align-items: center; gap: 5px;
+            font-size: 13px; color: #94a3b8; text-decoration: none;
+            padding: 14px 20px; border-top: 1px solid #f1f5f9;
+            justify-content: center; transition: color .2s;
+        }
+        .back-link:hover { color: #1a365d; }
+        .back-link svg { width: 14px; height: 14px; }
+
+        /* BEST SELLERS */
+        .sellers-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .sellers-hd { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
+        .seller-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 0; text-decoration: none; color: inherit;
+            border-bottom: 1px solid #f8fafc;
+        }
+        .seller-row:last-child { border-bottom: none; }
+        .seller-n {
+            width: 20px; height: 20px; font-size: 10px; font-weight: 700;
+            color: #94a3b8; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .seller-n.hi { color: #1a365d; font-weight: 800; }
+        .seller-site { flex: 1; font-size: 13px; color: #334155; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .seller-p { font-size: 13px; font-weight: 700; color: #1a365d; }
+    </style>
+</head>
+<body>
+
+<header class="nav">
+    <a class="logo" href="#">
+        <div class="logo-mark">L</div>
+        <span class="logo-name">Linkslandia</span>
+    </a>
+    <div class="nav-links">
+        <a href="#">Websites</a>
+        <a href="#">Packages</a>
+        <a href="#">How It Works</a>
+        <a href="#">Contact</a>
+    </div>
+    <button class="nav-cta">Dashboard</button>
+</header>
+
+<div class="page">
+
+    <div class="bc">
+        <a href="#">All Sites</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        <span style="color:#0f172a;font-weight:500;">Dailykz.com</span>
+    </div>
+
+    <div class="layout">
+
+        <!-- LEFT -->
+        <div class="main">
+
+            <!-- Site header -->
+            <div class="site-header-card">
+                <div class="site-header-left">
+                    <div class="site-icon">
+                        <img src="websites icons.png" alt="icon" />
+                    </div>
+                    <div>
+                        <div class="site-title">Dailykz.com</div>
+                        <div class="site-meta">
+                            <span class="site-meta-tag">News</span>
+                            <span class="site-meta-tag">🇰🇿 Kazakhstan</span>
+                            <a href="https://dailykz.com" target="_blank" class="site-url-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                Visit site
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align:right">
+                    <div style="font-size:11px;color:#94a3b8;font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Price</div>
+                    <div style="font-size:30px;font-weight:800;color:#0f172a;">$166</div>
+                    <div style="font-size:11px;color:#94a3b8;margin-top:2px;">per guest post</div>
+                </div>
+            </div>
+
+            <!-- Stats strip -->
+            <div class="stats-strip">
+                <div class="stat-cell">
+                    <span class="stat-label">DA (Moz)</span>
+                    <span class="stat-value">10</span>
+                </div>
+                <div class="stat-cell">
+                    <span class="stat-label">Traffic</span>
+                    <span class="stat-value">33K</span>
+                </div>
+                <div class="stat-cell">
+                    <span class="stat-label">Dofollow</span>
+                    <span class="stat-value green">Yes</span>
+                </div>
+                <div class="stat-cell">
+                    <span class="stat-label">Language</span>
+                    <span class="stat-value">Kazakh</span>
+                </div>
+                <div class="stat-cell">
+                    <span class="stat-label">Site ID</span>
+                    <span class="stat-value" style="font-size:13px;color:#64748b;">LNK-001</span>
+                </div>
+            </div>
+
+            <!-- Details -->
+            <div class="detail-card">
+
+                <div class="detail-section">
+                    <div class="detail-section-title">About</div>
+                    <p class="desc-p">Publish your guest post on <strong>Dailykz.com</strong> and reach their engaged audience. After placing your order you can submit your own article or request our writing service. Orders are processed within one business day.</p>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Details</div>
+                    <div class="info-grid">
+                        <div class="info-row">
+                            <span class="info-lbl">Website</span>
+                            <a href="https://dailykz.com" target="_blank" class="info-link">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                Dailykz.com
+                            </a>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-lbl">Country</span>
+                            <span class="info-val">🇰🇿 Kazakhstan</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-lbl">Language</span>
+                            <span class="info-val">Kazakh</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-lbl">Topic</span>
+                            <span class="info-val">News</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-lbl">Dofollow</span>
+                            <span class="pill-yes">✓ Yes</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-lbl">Site ID</span>
+                            <span class="info-val" style="color:#64748b;">LNK-001</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Performance</div>
+                    <div class="metric-item">
+                        <div class="metric-top">
+                            <span class="metric-lbl">DA (Moz)</span>
+                            <span class="metric-num">10 / 100</span>
+                        </div>
+                        <div class="bar-track"><div class="bar-fill da" style="width:10%"></div></div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-top">
+                            <span class="metric-lbl">Monthly Traffic</span>
+                            <span class="metric-num">33K</span>
+                        </div>
+                        <div class="bar-track"><div class="bar-fill tr" style="width:7%"></div></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="sidebar">
+
+            <div class="order-card">
+                <div class="order-top">
+                    <div class="price-tag">$166</div>
+                    <div class="price-sub">Guest post · one-time</div>
+                </div>
+                <div class="order-body">
+                    <div class="order-perks">
+                        <div class="perk"><div class="perk-dot"></div>Dofollow backlink</div>
+                        <div class="perk"><div class="perk-dot"></div>Delivered in 1 business day</div>
+                        <div class="perk"><div class="perk-dot"></div>Submit article or we write it</div>
+                    </div>
+                    <button class="btn-order">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        Order Guest Post
+                    </button>
+                    <button class="btn-fav">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        Save to Favorites
+                    </button>
+                </div>
+                <a href="#" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                    Back to all sites
+                </a>
+            </div>
+
+            <div class="sellers-card">
+                <div class="sellers-hd">Best Sellers</div>
+                <a href="#" class="seller-row">
+                    <span class="seller-n hi">1</span>
+                    <span class="seller-site">Dailykz.com</span>
+                    <span class="seller-p">$166</span>
+                </a>
+                <a href="#" class="seller-row">
+                    <span class="seller-n hi">2</span>
+                    <span class="seller-site">yuxuyozmalari.az</span>
+                    <span class="seller-p">$100</span>
+                </a>
+                <a href="#" class="seller-row">
+                    <span class="seller-n">3</span>
+                    <span class="seller-site">Admenalari.com</span>
+                    <span class="seller-p">$40</span>
+                </a>
+                <a href="#" class="seller-row">
+                    <span class="seller-n">4</span>
+                    <span class="seller-site">tusigno.com</span>
+                    <span class="seller-p">$12</span>
+                </a>
+                <a href="#" class="seller-row">
+                    <span class="seller-n">5</span>
+                    <span class="seller-site">Test.com</span>
+                    <span class="seller-p">$3</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
