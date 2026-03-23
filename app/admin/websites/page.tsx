@@ -1,7 +1,8 @@
 "use client"
  import { useState, useEffect } from "react"
  import { useSearchParams } from "next/navigation"
- import { Website, getFaviconColor, formatTraffic } from "@/app/lib/types";
+ import { Website, formatTraffic } from "@/app/lib/types";
+ import WebsiteFavicon from "@/components/Websites/WebsiteFavicon";
  import WebsiteForm from "@/components/admin/WebsiteForm";
 import { getPublisherWebsites } from "@/app/lib/actions";
 
@@ -182,14 +183,7 @@ export default function WebsitePage() {
                                 <tr key={site._id}>
                                   <td>
           <div className="user-cell">
-            <div
-              className="user-cell-avatar"
-              style={{background: `linear-gradient(135deg,
-   ${getFaviconColor(site.name)},
-  ${getFaviconColor(site.name)}dd)`}}
-            >
-              {site.name.charAt(0).toUpperCase()}
-            </div>
+            <WebsiteFavicon url={site.url} name={site.name} className="user-cell-avatar" size={32} />
             <div className="user-cell-info">
               <span
   className="user-cell-name">{site.name}</span>

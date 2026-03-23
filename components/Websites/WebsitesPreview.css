@@ -65,6 +65,12 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.site-name-cell:hover .site-name {
+  color: #2563eb;
+  text-decoration: underline;
 }
 
 .site-favicon {

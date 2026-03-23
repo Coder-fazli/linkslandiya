@@ -38,10 +38,10 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           <div key={site._id} className={`site-card ${showActions ? 'with-actions' : ''}`}>
 
             {/* Website */}
-            <div className="site-name-cell">
+            <Link href={`/site/${site._id}`} className="site-name-cell">
               <WebsiteFavicon url={site.url} name={site.name} />
               <span className="site-name">{site.name}</span>
-            </div>
+            </Link>
 
             {/* Dofollow */}
             <div className="col-center">

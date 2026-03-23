@@ -50,12 +50,19 @@ return (
           <div className="site-header-left">
             <WebsiteFavicon url={site.url} name={site.name} className="site-favicon" size={40} />
             <div>
-              <h1 className="site-title">{site.name}</h1>   
+              <h1 className="site-title">{site.name}</h1>
               <p className="site-subtitle">Guest Post Opportunity</p>
             </div>
           </div>
-          <div className="site-price">${site.price}</div>   
+          <div className="site-price">${site.price}</div>
         </div>
+
+        {/* Site Description */}
+        {site.desc && (
+          <div className="site-description">
+            <p>Publish your guest post on <strong>{site.name}</strong> and reach their engaged audience. {site.desc}</p>
+          </div>
+        )}
 
                {/* Site Stats Grid */}
   <div className="site-stats-grid">
@@ -66,7 +73,7 @@ return (
     <div className="site-stat-item">
       <div className="site-stat-label">Website</div>
       <div className="site-stat-value">
-        <a href="#" className="site-link">
+        <a href={site.url} target="_blank" rel="noopener noreferrer" className="site-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
             <polyline points="15 3 21 3 21 9"></polyline>
@@ -156,7 +163,7 @@ return (
                   .sort((a, b) => b.price - a.price)
                   .slice(0, 5)
                   .map((item, index) => (
-                    <Link href={`/site/${item.id}`} key={item.id} className="sidebar-item">
+                    <Link href={`/site/${item._id}`} key={item._id} className="sidebar-item">
                       <div className="sidebar-rank">{index + 1}</div>
                       <div className="sidebar-info">
                         <div className="sidebar-name">{item.name}</div>
