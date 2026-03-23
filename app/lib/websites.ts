@@ -6,7 +6,7 @@ import { Website } from "./types";
 export async function getAllWebsites() {
   const db = await getDb();
   const websites = await db.collection("websites").find({}).toArray();
-  return websites as unknown as Website[];
+  return websites.map(w => ({ ...w, _id: w._id.toString() })) as unknown as Website[];
 }
 
 export async function createWebsites(data: any) {
@@ -41,7 +41,8 @@ export async function deleteWebsiteById(id: string) {
 export async function getWebsiteById(id: string){
    const db = await getDb();
    const website = await db.collection("websites").findOne({ _id: new ObjectId(id) });
-   return website as unknown as Website;
+   if (!website) return null;
+   return { ...website, _id: website._id.toString() } as unknown as Website;
 }
 
 // UpdatedWebsite function
@@ -74,9 +75,8 @@ export async function UpdatedWebsite(id: string, data: any) {
 // Get websites owned by THIS user ("My Websites"for publisher)
 export async function getWebsitesByOwner(ownerId: string) {
   const db = await getDb()
-  const websites = await db.collection("websites").
-  find({ ownerId: ownerId }).toArray()
-  return websites as unknown as Website[]
+  const websites = await db.collection("websites").find({ ownerId: ownerId }).toArray()
+  return websites.map(w => ({ ...w, _id: w._id.toString() })) as unknown as Website[]
 }
 
 // Approving website

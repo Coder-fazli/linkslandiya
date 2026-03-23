@@ -1560,7 +1560,7 @@ body {
 }
 
 .site-metric-fill.da {
-    background: linear-gradient(90deg, #0d9488 0%, #14b8a6 100%);
+    background: linear-gradient(90deg, #1a365d 0%, #2d4a7c 100%);
 }
 
 .site-metric-fill.traffic {
@@ -1594,14 +1594,14 @@ body {
 
 .site-btn-primary {
     flex: 1;
-    background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+    background: linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%);
     color: #fff;
-    box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+    box-shadow: 0 4px 15px rgba(26, 54, 93, 0.3);
 }
 
 .site-btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
+    box-shadow: 0 6px 20px rgba(26, 54, 93, 0.4);
 }
 
 .site-btn-secondary {

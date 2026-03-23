@@ -38,10 +38,10 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           <div key={site._id} className={`site-card ${showActions ? 'with-actions' : ''}`}>
 
             {/* Website */}
-            <Link href={`/site/${site._id}`} className="site-name-cell">
+            <a href={`/site/${site._id}`} target="_blank" rel="noopener noreferrer" className="site-name-cell">
               <WebsiteFavicon url={site.url} name={site.name} />
               <span className="site-name">{site.name}</span>
-            </Link>
+            </a>
 
             {/* Dofollow */}
             <div className="col-center">
@@ -94,7 +94,13 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
 
             {/* Action */}
             {showActions && (
-              <div className="col-center">
+              <div className="col-center" style={{ display: 'flex', gap: '8px' }}>
+                <a href={`/site/${site._id}`} target="_blank" rel="noopener noreferrer" className="btn-eye" title="View website">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </a>
                 <Link href={`/admin/buyer-orders/new?websiteId=${site._id}`} className="btn-post">
                   Post
                 </Link>
