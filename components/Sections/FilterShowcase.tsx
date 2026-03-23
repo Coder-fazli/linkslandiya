@@ -29,19 +29,36 @@ export default function FilterShowcase() {
     <section className="filter-showcase">
       <div className="filter-showcase-inner">
 
-        {/* LEFT: Image slides in from left */}
-        <div className="fs-image-wrap fs-slide-left" ref={imageRef}>
-          <Image
-            src="/filter-preview.png"
-            alt="Linkslandia advanced filters"
-            width={1001}
-            height={537}
-            style={{ width: '100%', height: 'auto' }}
-          />
+        {/* LEFT: Image with accent blocks + floating badge */}
+        <div className="fs-image-outer fs-slide-left" ref={imageRef}>
+          <div className="fs-image-wrap">
+            <Image
+              src="/filter-preview.png"
+              alt="Linkslandia advanced filters"
+              width={1001}
+              height={537}
+              style={{ width: '100%', height: 'auto' }}
+            />
+          </div>
+
+          {/* Floating badge */}
+          <div className="fs-float-badge">
+            <div className="fs-float-badge-icon">
+              <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <line x1="4" y1="6" x2="20" y2="6"/>
+                <line x1="8" y1="12" x2="20" y2="12"/>
+                <line x1="12" y1="18" x2="20" y2="18"/>
+              </svg>
+            </div>
+            <div>
+              <div className="fs-float-badge-text">Advanced Filters</div>
+              <div className="fs-float-badge-sub">DA · Traffic · Niche · Country · Price</div>
+            </div>
+          </div>
         </div>
 
         {/* RIGHT: Content slides in from right */}
-        <div className="fs-content fs-slide-right" ref={contentRef}>
+        <div className="fs-slide-right" ref={contentRef}>
 
           <div className="fs-eyebrow">
             <div className="fs-eyebrow-dot"></div>

@@ -1,25 +1,63 @@
 .filter-showcase {
-  padding: 100px 0 100px 60px;
+  padding: 100px 60px;
   background: #fff;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .filter-showcase-inner {
-  max-width: 1300px;
+  max-width: 1160px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 480px;
-  gap: 60px;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 80px;
   align-items: center;
+}
+
+/* ── LEFT: outer wrapper with accent blocks ── */
+.fs-image-outer {
+  position: relative;
+  padding: 20px;
+}
+
+/* top-left blue accent block — matches home page hero style */
+.fs-image-outer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 140px; height: 140px;
+  background: linear-gradient(135deg, #1B7FFF 0%, #60AEFF 100%);
+  border-radius: 24px;
+  z-index: 0;
+  opacity: 0;
+  transform: scale(0.5) rotate(-10deg);
+  animation: fsAccentPop 0.6s ease-out 0.4s forwards;
+}
+
+/* bottom-right lighter blue accent block */
+.fs-image-outer::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 110px; height: 110px;
+  background: linear-gradient(135deg, #60AEFF 0%, #93C5FD 100%);
+  border-radius: 20px;
+  z-index: 0;
+  opacity: 0;
+  transform: scale(0.5) rotate(10deg);
+  animation: fsAccentPop 0.6s ease-out 0.6s forwards;
+}
+
+@keyframes fsAccentPop {
+  to { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
 /* ── LEFT: Image ── */
 .fs-image-wrap {
   position: relative;
-  border-radius: 24px 0 0 24px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 32px 100px rgba(0,0,0,.13);
-  margin-left: -60px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.14);
+  z-index: 1;
 }
 
 .fs-image-wrap img {
@@ -28,23 +66,43 @@
   display: block;
 }
 
-.fs-image-wrap::before {
-  content: '';
+/* ── Floating badge ── */
+.fs-float-badge {
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at top left,    rgba(255,255,255,.75) 0%, transparent 45%),
-    radial-gradient(ellipse at bottom left, rgba(255,255,255,.75) 0%, transparent 45%),
-    radial-gradient(ellipse at top right,   rgba(255,255,255,.6)  0%, transparent 40%),
-    radial-gradient(ellipse at bottom right,rgba(255,255,255,.6)  0%, transparent 40%),
-    linear-gradient(to right, transparent 55%, rgba(255,255,255,.95) 100%);
-  z-index: 1;
-  pointer-events: none;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 99px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 12px 36px rgba(37,99,235,.18);
+  white-space: nowrap;
+  animation: fsBadgeFloat 3s ease-in-out infinite;
+}
+
+.fs-float-badge-icon {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.fs-float-badge-icon svg { width: 16px; height: 16px; color: #fff; }
+.fs-float-badge-text { font-size: 13px; font-weight: 700; color: #0f172a; }
+.fs-float-badge-sub  { font-size: 11px; font-weight: 500; color: #94a3b8; margin-top: 1px; }
+
+@keyframes fsBadgeFloat {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%     { transform: translateX(-50%) translateY(-8px); }
 }
 
 /* ── RIGHT: Content ── */
-.fs-content {}
-
 .fs-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -62,8 +120,7 @@
 }
 
 .fs-eyebrow-dot {
-  width: 6px;
-  height: 6px;
+  width: 6px; height: 6px;
   background: #2563eb;
   border-radius: 50%;
   animation: fsDotBlink 2s infinite;
@@ -106,32 +163,20 @@
 }
 
 .fs-feature-icon {
-  width: 44px;
-  height: 44px;
+  width: 44px; height: 44px;
   border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 
-.fs-feature-icon svg {
-  width: 20px;
-  height: 20px;
-}
+.fs-feature-icon svg { width: 20px; height: 20px; }
 
 .fs-feature-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 3px;
+  font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 3px;
 }
 
 .fs-feature-sub {
-  font-size: 13px;
-  color: #94a3b8;
-  font-weight: 500;
-  line-height: 1.5;
+  font-size: 13px; color: #94a3b8; font-weight: 500; line-height: 1.5;
 }
 
 .fs-cta {
@@ -145,19 +190,16 @@
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: 0 8px 28px rgba(37, 99, 235, .35);
+  box-shadow: 0 8px 28px rgba(37,99,235,.35);
   transition: all .25s;
 }
 
 .fs-cta:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 40px rgba(37, 99, 235, .45);
+  box-shadow: 0 16px 40px rgba(37,99,235,.45);
 }
 
-.fs-cta svg {
-  width: 18px;
-  height: 18px;
-}
+.fs-cta svg { width: 18px; height: 18px; }
 
 /* ── Slide animations ── */
 .fs-slide-left {
