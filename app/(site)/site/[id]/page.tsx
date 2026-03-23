@@ -1,6 +1,7 @@
  import Link from 'next/link'
  import { getWebsiteById, getAllWebsites } from '@/app/lib/websites'
- import { getFaviconColor, formatTraffic, countryFlags } from '@/app/lib/types'
+ import { formatTraffic, countryFlags } from '@/app/lib/types'
+ import WebsiteFavicon from '@/components/Websites/WebsiteFavicon'
  import Hero from '@/components/ui/hero'
  import { Marquee } from '@/components/ui/marquee'
  
@@ -47,15 +48,7 @@ return (
         {/* Site Header */}
         <div className="site-header">
           <div className="site-header-left">
-            <div
-              className="site-favicon"
-              style={{
-                background: `linear-gradient(135deg, ${getFaviconColor(site.name)} 0%, ${getFaviconColor(site.name)}dd 100%)`,
-                color: 'white'
-              }}
-            >
-              {site.name.charAt(0).toUpperCase()}
-            </div>
+            <WebsiteFavicon url={site.url} name={site.name} className="site-favicon" size={40} />
             <div>
               <h1 className="site-title">{site.name}</h1>   
               <p className="site-subtitle">Guest Post Opportunity</p>
