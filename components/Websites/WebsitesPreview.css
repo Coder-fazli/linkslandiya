@@ -130,14 +130,14 @@
 }
 
 .metric-value {
-  font-size: 13px;
-  font-weight: 500;
-  color: #1e293b;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .metric-bar {
-  width: 40px;
-  height: 4px;
+  width: 56px;
+  height: 5px;
   background: #e2e8f0;
   border-radius: 9999px;
   overflow: hidden;
@@ -149,24 +149,25 @@
 }
 
 .da-fill {
-  background: #3b82f6;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
 }
 
 .traffic-fill {
-  background: #22c55e;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
 }
 
 /* ── Badges ───────────────────────────────────────────── */
 .badge-country {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   background: #eff6ff;
   color: #1d4ed8;
+  border: 1px solid #bfdbfe;
   padding: 4px 10px;
   border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -174,18 +175,19 @@
   display: inline-block;
   background: #f0fdf4;
   color: #15803d;
+  border: 1px solid #bbf7d0;
   padding: 4px 10px;
   border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 /* ── Language ─────────────────────────────────────────── */
 .site-language {
   font-size: 13px;
-  font-weight: 500;
-  color: #475569;
+  font-weight: 600;
+  color: #334155;
 }
 
 /* ── Price badge ──────────────────────────────────────── */

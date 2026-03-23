@@ -1,6 +1,7 @@
 import WebsiteTablePreview from "@/components/Websites/WebsiteTablePreview";
 import { MarqueeDemo } from "@/components/ui/marquee";
 import Hero from "@/components/ui/hero";
+import FilterShowcase from "@/components/Sections/FilterShowcase";
 import Services from "@/components/Sections/Services";
 import Features from "@/components/Sections/Features";
 import ProcessTimeline from "@/components/Sections/ProcessTimeline";
@@ -15,6 +16,7 @@ export default async function Home() {
   return (
     <main className="main">
       <Hero />
+      <FilterShowcase />
       <Services />
       <Features />
       <ProcessTimeline />

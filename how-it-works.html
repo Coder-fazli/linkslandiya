@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How It Works – Linkslandia</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+  min-height: 100vh;
+}
+
+/* NAV */
+.nav {
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #e2e8f0;
+  height: 68px;
+  display: flex; align-items: center;
+  padding: 0 48px;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo-mark {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, #4eb1fa, #2563eb);
+  color: #fff; font-weight: 900; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-name { font-size: 17px; font-weight: 700; color: #0f172a; }
+.nav-links { display: flex; gap: 32px; }
+.nav-links a { font-size: 14px; font-weight: 500; color: #64748b; text-decoration: none; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: #0f172a; }
+.nav-cta {
+  background: #2563eb; color: #fff;
+  padding: 10px 22px; border-radius: 25px;
+  font-size: 14px; font-weight: 700; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(37,99,235,.3); transition: all .2s;
+  text-decoration: none;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,.4); }
+
+/* ══════════════════════════════════════
+   HERO SECTION — full-width gradient bg
+══════════════════════════════════════ */
+.hero-section {
+  background: linear-gradient(180deg, #EBF5FF 0%, #ffffff 100%);
+  padding: 80px 40px 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* background blobs — give the glass card something to blur through */
+.hero-section::before {
+  content: '';
+  position: absolute; border-radius: 50%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(37,99,235,.18) 0%, transparent 65%);
+  top: -60px; left: 5%;
+  pointer-events: none;
+}
+.hero-section::after {
+  content: '';
+  position: absolute; border-radius: 50%;
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(99,102,241,.15) 0%, transparent 65%);
+  bottom: -80px; left: 30%;
+  pointer-events: none;
+}
+.hero-blob3 {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(56,189,248,.2) 0%, transparent 65%);
+  top: 40%; left: 20%;
+}
+.hero-blob4 {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(16,185,129,.13) 0%, transparent 65%);
+  bottom: 10%; left: 5%;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 32px;
+  align-items: stretch;
+  position: relative;
+  z-index: 2;
+}
+
+/* LEFT: What is Linkslandia — glass card */
+.what-card {
+  background: rgba(255,255,255,.25);
+  border: 1px solid rgba(255,255,255,.55);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border-radius: 32px;
+  padding: 48px;
+  color: #0f172a;
+  position: relative;
+  overflow: hidden;
+  transition: transform .38s cubic-bezier(.2,.8,.2,1), box-shadow .38s;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.9),
+    inset 0 -1px 0 rgba(255,255,255,.3);
+}
+.what-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.9),
+    inset 0 -1px 0 rgba(255,255,255,.3);
+}
+
+.what-card-orb1 { display: none; }
+.what-card-orb2 { display: none; }
+
+.what-label {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(0,0,0,.05); border: 1px solid rgba(0,0,0,.08);
+  color: #475569; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 5px 14px; border-radius: 99px; margin-bottom: 22px;
+}
+.what-dot { width: 7px; height: 7px; background: #64748b; border-radius: 50%; animation: blink 2s infinite; }
+
+.what-card h2 {
+  font-size: 52px; font-weight: 900; line-height: 1.05; letter-spacing: -2px;
+  margin-bottom: 14px; color: #0f172a;
+}
+.what-card h2 span { color: #0f172a; }
+.what-card > p {
+  font-size: 15px; color: #64748b; line-height: 1.8; margin-bottom: 36px;
+  max-width: 440px;
+}
+
+/* marketplace visual inside what-card */
+.marketplace-visual {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+.mv-actor {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  flex: 0 0 auto;
+}
+.mv-avatar {
+  width: 72px; height: 72px; border-radius: 22px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+}
+.mv-avatar-buyer { background: linear-gradient(135deg,#1e40af,#60a5fa); box-shadow: 0 8px 28px rgba(37,99,235,.4); animation: floatUp 3s ease-in-out infinite; }
+.mv-avatar-pub   { background: linear-gradient(135deg,#14532d,#4ade80); box-shadow: 0 8px 28px rgba(22,163,74,.4); animation: floatUp 3s ease-in-out infinite; animation-delay: 1.5s; }
+.mv-name { font-size: 12px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: .6px; }
+.mv-sub  { font-size: 11px; color: #94a3b8; font-weight: 500; text-align: center; }
+
+.mv-beam {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.mv-line {
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, rgba(96,165,250,.2), rgba(96,165,250,.9), rgba(96,165,250,.2));
+  border-radius: 2px; position: relative; overflow: visible;
+}
+.mv-packet {
+  width: 11px; height: 11px; border-radius: 50%; background: #60a5fa;
+  position: absolute; top: -4.5px; left: 0;
+  box-shadow: 0 0 14px rgba(96,165,250,.9);
+  animation: travel 2.6s ease-in-out infinite;
+}
+.mv-packet.back {
+  background: #4ade80;
+  box-shadow: 0 0 14px rgba(74,222,128,.9);
+  animation: travelBack 2.6s ease-in-out infinite;
+  animation-delay: 1.3s;
+}
+.mv-tags { display: flex; flex-direction: column; gap: 6px; align-items: center; width: 100%; }
+.mv-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,.9); border: 1px solid #e2e8f0;
+  color: #475569; font-size: 10px; font-weight: 700;
+  padding: 4px 12px; border-radius: 99px; white-space: nowrap;
+}
+.mv-tag-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+/* mini stats */
+.what-stats {
+  display: flex; gap: 12px;
+}
+.what-stat {
+  flex: 1; background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.7);
+  border-radius: 16px; padding: 14px 16px; text-align: center;
+}
+.what-stat-num { font-size: 22px; font-weight: 900; color: #0f172a; }
+.what-stat-lbl { font-size: 10px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .5px; margin-top: 3px; }
+
+/* RIGHT: Two stacked cards column */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hero-mini-card {
+  background: rgba(255,255,255,.25);
+  border: 1px solid rgba(255,255,255,.55);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.07), inset 0 1px 0 rgba(255,255,255,.9);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+}
+.hero-mini-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,.11), inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.hero-mini-icon {
+  width: 44px; height: 44px; border-radius: 14px;
+  background: #eff6ff;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.hero-mini-icon svg { width: 22px; height: 22px; color: #2563eb; }
+
+.hero-mini-title {
+  font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 10px;
+}
+.hero-mini-desc {
+  font-size: 14px; color: #475569; line-height: 1.75;
+}
+
+/* Features list inside card 2 */
+.hero-feature-list { display: flex; flex-direction: column; }
+.hero-feature {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 0;
+}
+.hero-feature-divider { height: 1px; background: rgba(0,0,0,.06); }
+.hero-feature-icon {
+  width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-feature-icon svg { width: 18px; height: 18px; }
+.hero-feature-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
+.hero-feature-sub { font-size: 12px; color: #94a3b8; font-weight: 500; line-height: 1.5; }
+
+.pulse-dot { width: 7px; height: 7px; background: #2563eb; border-radius: 50%; animation: blink 2s infinite; }
+
+/* ══════════════════════════════════════
+   PAGE REST
+══════════════════════════════════════ */
+.page {
+  padding: 64px 40px 100px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* SECTION SEPARATOR */
+.section-sep {
+  grid-column: span 12;
+  display: flex; align-items: center; gap: 16px;
+  padding: 8px 0 4px;
+}
+.section-sep-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #94a3b8; white-space: nowrap; }
+.section-sep-line { flex: 1; height: 1px; background: #e2e8f0; }
+
+/* BENTO */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 20px;
+  row-gap: 20px;
+  width: 100%;
+}
+
+/* CARD BASE */
+.card {
+  border-radius: 28px;
+  padding: 36px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .38s cubic-bezier(.2,.8,.2,1), box-shadow .38s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card:hover { transform: translateY(-10px); }
+
+/* STEP CARDS */
+.c-step1 { grid-column: span 3; min-height: 260px; background: #fff; border: 1.5px solid #bfdbfe; box-shadow: 0 8px 32px rgba(37,99,235,.1); }
+.c-step1:hover { box-shadow: 0 24px 60px rgba(37,99,235,.2); }
+.c-step2 { grid-column: span 3; min-height: 260px; background: #fff; border: 1.5px solid #bbf7d0; box-shadow: 0 8px 32px rgba(22,163,74,.1); }
+.c-step2:hover { box-shadow: 0 24px 60px rgba(22,163,74,.2); }
+.c-step3 { grid-column: span 3; min-height: 260px; background: #fff; border: 1.5px solid #ddd6fe; box-shadow: 0 8px 32px rgba(124,58,237,.1); }
+.c-step3:hover { box-shadow: 0 24px 60px rgba(124,58,237,.2); }
+.c-step4 { grid-column: span 3; min-height: 260px; background: #fff; border: 1.5px solid #fed7aa; box-shadow: 0 8px 32px rgba(234,88,12,.1); }
+.c-step4:hover { box-shadow: 0 24px 60px rgba(234,88,12,.2); }
+
+.c-buyer { grid-column: span 4; min-height: 300px; background: linear-gradient(140deg,#1e40af,#3b82f6); box-shadow: 0 16px 48px rgba(37,99,235,.25); color: #fff; }
+.c-buyer:hover { box-shadow: 0 28px 72px rgba(37,99,235,.38); }
+.c-pub   { grid-column: span 4; min-height: 300px; background: linear-gradient(140deg,#14532d,#22c55e); box-shadow: 0 16px 48px rgba(22,163,74,.25); color: #fff; }
+.c-pub:hover   { box-shadow: 0 28px 72px rgba(22,163,74,.38); }
+.c-timeline { grid-column: span 4; min-height: 300px; background: #fff; border: 1.5px solid #e2e8f0; box-shadow: 0 8px 32px rgba(0,0,0,.07); }
+.c-timeline:hover { box-shadow: 0 24px 60px rgba(0,0,0,.12); }
+
+.c-stat1 { grid-column: span 3; min-height: 180px; background: linear-gradient(135deg,#1d4ed8,#3b82f6); box-shadow: 0 12px 40px rgba(37,99,235,.3); color:#fff; }
+.c-stat1:hover { box-shadow: 0 22px 60px rgba(37,99,235,.45); }
+.c-stat2 { grid-column: span 3; min-height: 180px; background: linear-gradient(135deg,#15803d,#22c55e); box-shadow: 0 12px 40px rgba(22,163,74,.3); color:#fff; }
+.c-stat2:hover { box-shadow: 0 22px 60px rgba(22,163,74,.45); }
+.c-stat3 { grid-column: span 3; min-height: 180px; background: linear-gradient(135deg,#c2410c,#fb923c); box-shadow: 0 12px 40px rgba(234,88,12,.3); color:#fff; }
+.c-stat3:hover { box-shadow: 0 22px 60px rgba(234,88,12,.45); }
+.c-stat4 { grid-column: span 3; min-height: 180px; background: linear-gradient(135deg,#6d28d9,#a78bfa); box-shadow: 0 12px 40px rgba(124,58,237,.3); color:#fff; }
+.c-stat4:hover { box-shadow: 0 22px 60px rgba(124,58,237,.45); }
+
+.c-cta { grid-column: span 12; min-height: 220px; background: linear-gradient(135deg,#0f172a 0%,#1e3a8a 50%,#2563eb 100%); box-shadow: 0 20px 64px rgba(15,23,42,.25); text-align: center; justify-content: center; align-items: center; gap: 10px; color: #fff; }
+.c-cta:hover { box-shadow: 0 32px 90px rgba(15,23,42,.35); }
+
+/* glow overlay */
+.glow { position: absolute; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(255,255,255,.1) 0%, transparent 65%); }
+
+/* STEP CARDS internals */
+.step-num-big { font-size: 80px; font-weight: 900; opacity: .07; position: absolute; top: 10px; right: 20px; line-height: 1; color: #0f172a; }
+.step-icon {
+  width: 56px; height: 56px; border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  transition: transform .3s ease;
+}
+.card:hover .step-icon { transform: scale(1.1) rotate(-4deg); }
+.c-step1 .step-icon { background: linear-gradient(135deg,#2563eb,#60a5fa); box-shadow: 0 8px 20px rgba(37,99,235,.3); }
+.c-step2 .step-icon { background: linear-gradient(135deg,#16a34a,#4ade80); box-shadow: 0 8px 20px rgba(22,163,74,.3); }
+.c-step3 .step-icon { background: linear-gradient(135deg,#7c3aed,#a78bfa); box-shadow: 0 8px 20px rgba(124,58,237,.3); }
+.c-step4 .step-icon { background: linear-gradient(135deg,#ea580c,#fb923c); box-shadow: 0 8px 20px rgba(234,88,12,.3); }
+.step-icon svg { width: 26px; height: 26px; color: #fff; }
+.step-label { display: inline-block; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; padding: 3px 10px; border-radius: 99px; margin-bottom: 12px; }
+.c-step1 .step-label { background: #eff6ff; color: #2563eb; }
+.c-step2 .step-label { background: #f0fdf4; color: #16a34a; }
+.c-step3 .step-label { background: #f5f3ff; color: #7c3aed; }
+.c-step4 .step-label { background: #fff7ed; color: #ea580c; }
+.card h3.step-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; color: #0f172a; }
+.card p.step-desc { font-size: 13px; color: #64748b; line-height: 1.75; font-weight: 500; }
+
+/* BUYER / PUB */
+.role-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 99px; font-size: 12px; font-weight: 700; margin-bottom: 16px; width: fit-content; background: rgba(255,255,255,.15); color: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.2); }
+.c-buyer h3, .c-pub h3 { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.role-sub { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 22px; line-height: 1.65; }
+.role-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.role-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(255,255,255,.8); line-height: 1.5; font-weight: 500; }
+.role-check { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.25); display: flex; align-items: center; justify-content: center; font-size: 10px; margin-top: 1px; }
+
+/* TIMELINE */
+.c-timeline h3 { font-size: 17px; font-weight: 800; color: #0f172a; margin-bottom: 24px; }
+.tl-item { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; position: relative; }
+.tl-item:not(:last-child)::after { content: ''; position: absolute; left: 9px; top: 30px; width: 2px; height: calc(100% - 8px); background: linear-gradient(to bottom,#bfdbfe,transparent); }
+.tl-dot { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; background: #eff6ff; border: 2px solid #2563eb; display: flex; align-items: center; justify-content: center; }
+.tl-dot-inner { width: 7px; height: 7px; border-radius: 50%; background: #2563eb; animation: ping 2.2s ease-in-out infinite; }
+.tl-text { font-size: 13px; font-weight: 700; color: #0f172a; }
+.tl-sub { font-size: 11px; color: #94a3b8; margin-top: 3px; font-weight: 500; }
+
+/* STAT cards */
+.stat-num { font-size: 54px; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.6); }
+.stat-icon-wrap { width: 48px; height: 48px; border-radius: 15px; background: rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; transition: transform .3s ease; }
+.card:hover .stat-icon-wrap { transform: scale(1.1) rotate(-6deg); }
+.stat-icon-wrap svg { width: 24px; height: 24px; color: #fff; }
+
+/* CTA */
+.c-cta h2 { font-size: 36px; font-weight: 900; color: #fff; margin-bottom: 12px; }
+.c-cta p  { font-size: 17px; color: rgba(255,255,255,.7); margin-bottom: 30px; }
+.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-white { background: #fff; color: #0f172a; padding: 14px 34px; border-radius: 25px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 8px 28px rgba(0,0,0,.2); transition: all .25s; text-decoration: none; display: inline-block; }
+.btn-white:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,.28); }
+.btn-ghost { background: rgba(255,255,255,.12); color: #fff; padding: 14px 34px; border-radius: 25px; font-size: 15px; font-weight: 600; border: 1.5px solid rgba(255,255,255,.28); cursor: pointer; transition: all .25s; text-decoration: none; display: inline-block; }
+.btn-ghost:hover { background: rgba(255,255,255,.22); transform: translateY(-3px); }
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes blink    { 0%,100%{opacity:1} 50%{opacity:.2} }
+@keyframes ping     { 0%{box-shadow:0 0 0 0 rgba(37,99,235,.5)} 70%{box-shadow:0 0 0 8px rgba(37,99,235,0)} 100%{box-shadow:0 0 0 0 rgba(37,99,235,0)} }
+@keyframes floatUp  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(8px,-10px) scale(1.06)} }
+@keyframes travel      { 0%{left:0;opacity:0} 5%{opacity:1} 90%{opacity:1} 100%{left:calc(100% - 11px);opacity:0} }
+@keyframes travelBack  { 0%{left:calc(100% - 11px);opacity:0} 5%{opacity:1} 90%{opacity:1} 100%{left:0;opacity:0} }
+
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.visible { opacity:1; transform:none; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="#"><div class="logo-mark">L</div><span class="logo-name">Linkslandia</span></a>
+  <div class="nav-links">
+    <a href="#">Websites</a>
+    <a href="#">Packages</a>
+    <a href="#" class="active">How It Works</a>
+    <a href="#">Contact</a>
+  </div>
+  <a href="#" class="nav-cta">Dashboard</a>
+</header>
+
+<!-- ══════════════════════════════════════
+     HERO SECTION — gradient background
+══════════════════════════════════════ -->
+<section class="hero-section">
+  <div class="hero-blob3"></div>
+  <div class="hero-blob4"></div>
+  <div class="hero-inner">
+
+    <!-- LEFT: What is Linkslandia (big featured card) -->
+    <div class="what-card reveal">
+      <div class="what-card-orb1"></div>
+      <div class="what-card-orb2"></div>
+
+      <div class="what-label"><div class="what-dot"></div> What is Linkslandia?</div>
+
+      <h2>A marketplace where<br><span>buyers meet publishers</span></h2>
+      <p>Publishers list their websites with real metrics. Buyers browse, filter, and order a guest post in minutes. We handle everything in between.</p>
+
+      <!-- animated marketplace visual -->
+      <div class="marketplace-visual">
+        <div class="mv-actor">
+          <div class="mv-avatar mv-avatar-buyer">🧑‍💻</div>
+          <div class="mv-name">Buyer</div>
+          <div class="mv-sub">Needs backlinks</div>
+        </div>
+
+        <div class="mv-beam">
+          <div class="mv-line">
+            <div class="mv-packet"></div>
+            <div class="mv-packet back"></div>
+          </div>
+          <div class="mv-tags">
+            <div class="mv-tag"><div class="mv-tag-dot" style="background:#60a5fa"></div> Order placed</div>
+            <div class="mv-tag"><div class="mv-tag-dot" style="background:#4ade80"></div> Link published</div>
+          </div>
+        </div>
+
+        <div class="mv-actor">
+          <div class="mv-avatar mv-avatar-pub">🌐</div>
+          <div class="mv-name">Publisher</div>
+          <div class="mv-sub">Owns website</div>
+        </div>
+      </div>
+
+      <!-- mini stats -->
+      <div class="what-stats">
+        <div class="what-stat"><div class="what-stat-num">500+</div><div class="what-stat-lbl">Websites</div></div>
+        <div class="what-stat"><div class="what-stat-num">24h</div><div class="what-stat-lbl">Delivery</div></div>
+        <div class="what-stat"><div class="what-stat-num">100%</div><div class="what-stat-lbl">Dofollow</div></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Two stacked glass cards -->
+    <div class="hero-right reveal">
+
+      <!-- Card 1: About -->
+      <div class="hero-mini-card">
+        <div class="hero-mini-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3 class="hero-mini-title">What we do</h3>
+        <p class="hero-mini-desc">Linkslandia connects marketers who need quality backlinks with publishers who own real, high-traffic websites. No agencies, no cold emails.</p>
+      </div>
+
+      <!-- Card 2: Features -->
+      <div class="hero-mini-card">
+        <div class="hero-feature-list">
+          <div class="hero-feature">
+            <div class="hero-feature-icon" style="background:#eff6ff;">
+              <svg fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <div class="hero-feature-title">Verified websites only</div>
+              <div class="hero-feature-sub">Every site manually reviewed before listing</div>
+            </div>
+          </div>
+          <div class="hero-feature-divider"></div>
+          <div class="hero-feature">
+            <div class="hero-feature-icon" style="background:#f0fdf4;">
+              <svg fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="hero-feature-title">24-hour delivery</div>
+              <div class="hero-feature-sub">Most orders published within the same day</div>
+            </div>
+          </div>
+          <div class="hero-feature-divider"></div>
+          <div class="hero-feature">
+            <div class="hero-feature-icon" style="background:#fdf4ff;">
+              <svg fill="none" stroke="#9333ea" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="hero-feature-title">Permanent dofollow links</div>
+              <div class="hero-feature-sub">Real SEO value that lasts forever</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     REST OF PAGE
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="bento">
+
+    <!-- STEPS -->
+    <div class="section-sep reveal">
+      <span class="section-sep-label">How it works — 4 steps</span>
+      <div class="section-sep-line"></div>
+    </div>
+
+    <div class="card c-step1 reveal">
+      <div class="step-num-big">1</div>
+      <div class="step-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div>
+        <div class="step-label">Step 1</div>
+        <h3 class="step-title">Browse &amp; Filter</h3>
+        <p class="step-desc">Search websites by niche, DA, traffic, country and price. Find your perfect match in seconds.</p>
+      </div>
+    </div>
+
+    <div class="card c-step2 reveal">
+      <div class="step-num-big">2</div>
+      <div class="step-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div>
+        <div class="step-label">Step 2</div>
+        <h3 class="step-title">Place Order</h3>
+        <p class="step-desc">Click "Order Guest Post". Submit your article or request our writing service.</p>
+      </div>
+    </div>
+
+    <div class="card c-step3 reveal">
+      <div class="step-num-big">3</div>
+      <div class="step-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="step-label">Step 3</div>
+        <h3 class="step-title">Publisher Reviews</h3>
+        <p class="step-desc">The website owner reviews and publishes your content — usually the same day.</p>
+      </div>
+    </div>
+
+    <div class="card c-step4 reveal">
+      <div class="step-num-big">4</div>
+      <div class="step-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </div>
+      <div>
+        <div class="step-label">Step 4</div>
+        <h3 class="step-title">Link Goes Live ✓</h3>
+        <p class="step-desc">You receive a live link report. Your backlink is active and boosting your SEO rankings.</p>
+      </div>
+    </div>
+
+    <!-- WHO IS IT FOR -->
+    <div class="section-sep reveal" style="margin-top:16px;">
+      <span class="section-sep-label">Who is it for</span>
+      <div class="section-sep-line"></div>
+    </div>
+
+    <div class="card c-buyer reveal">
+      <div class="glow" style="width:280px;height:280px;top:-80px;right:-60px;"></div>
+      <div>
+        <div class="role-badge">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0 1 13 0"/></svg>
+          For Buyers
+        </div>
+        <h3>You need backlinks.</h3>
+        <p class="role-sub">Grow your domain authority and organic traffic with quality placements on real sites.</p>
+        <ul class="role-list">
+          <li><div class="role-check">✓</div>Filter 500+ websites by niche &amp; DA</li>
+          <li><div class="role-check">✓</div>Order a guest post in under 2 minutes</li>
+          <li><div class="role-check">✓</div>Track every order in your dashboard</li>
+          <li><div class="role-check">✓</div>Get live link confirmation when done</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card c-pub reveal">
+      <div class="glow" style="width:280px;height:280px;top:-80px;right:-60px;"></div>
+      <div>
+        <div class="role-badge">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          For Publishers
+        </div>
+        <h3>You own a website.</h3>
+        <p class="role-sub">Monetise your traffic by accepting paid guest posts from vetted buyers worldwide.</p>
+        <ul class="role-list">
+          <li><div class="role-check">✓</div>List your site in minutes</li>
+          <li><div class="role-check">✓</div>Set your own price per guest post</li>
+          <li><div class="role-check">✓</div>Receive &amp; manage orders in dashboard</li>
+          <li><div class="role-check">✓</div>Get paid on every published article</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card c-timeline reveal">
+      <h3>Order Timeline</h3>
+      <div>
+        <div class="tl-item">
+          <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+          <div><div class="tl-text">Order placed</div><div class="tl-sub">Immediately</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"><div class="tl-dot-inner" style="animation-delay:.5s"></div></div>
+          <div><div class="tl-text">Publisher notified</div><div class="tl-sub">Within minutes</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"><div class="tl-dot-inner" style="animation-delay:1s"></div></div>
+          <div><div class="tl-text">Content reviewed</div><div class="tl-sub">Same day</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="border-color:#16a34a;background:#f0fdf4">
+            <div class="tl-dot-inner" style="background:#16a34a;animation-delay:1.5s"></div>
+          </div>
+          <div>
+            <div class="tl-text" style="color:#16a34a;">Link goes live ✓</div>
+            <div class="tl-sub">Within 1 business day</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="section-sep reveal" style="margin-top:16px;">
+      <span class="section-sep-label">Platform numbers</span>
+      <div class="section-sep-line"></div>
+    </div>
+
+    <div class="card c-stat1 reveal">
+      <div class="stat-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div><div class="stat-num">500+</div><div class="stat-label">Websites listed</div></div>
+    </div>
+    <div class="card c-stat2 reveal">
+      <div class="stat-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div><div class="stat-num">1K+</div><div class="stat-label">Orders completed</div></div>
+    </div>
+    <div class="card c-stat3 reveal">
+      <div class="stat-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div><div class="stat-num">24h</div><div class="stat-label">Avg. delivery time</div></div>
+    </div>
+    <div class="card c-stat4 reveal">
+      <div class="stat-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div><div class="stat-num">50+</div><div class="stat-label">Active publishers</div></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="section-sep reveal" style="margin-top:16px;">
+      <span class="section-sep-label">Get started</span>
+      <div class="section-sep-line"></div>
+    </div>
+
+    <div class="card c-cta reveal">
+      <div class="glow" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+      <h2>Ready to get started?</h2>
+      <p>Join hundreds of marketers already building better backlinks with Linkslandia.</p>
+      <div class="cta-row">
+        <a href="#" class="btn-white">Browse Websites</a>
+        <a href="#" class="btn-ghost">List Your Site</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80)
+      obs.unobserve(e.target)
+    }
+  })
+}, { threshold: 0.06 })
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el))
+</script>
+</body>
+</html>

@@ -1465,8 +1465,8 @@ body {
 }
 
 .site-stat-value {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 700;
     color: #0f172a;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -1533,19 +1533,21 @@ body {
 }
 
 .site-metric-label {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    color: #64748b;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
 .site-metric-value {
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 800;
     color: #0f172a;
 }
 
 .site-metric-bar {
-    height: 8px;
+    height: 6px;
     background: #e2e8f0;
     border-radius: 10px;
     overflow: hidden;
@@ -1592,14 +1594,16 @@ body {
 
 .site-btn-primary {
     flex: 1;
-    background: linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%);
+    background: #4eb1fa;
     color: #fff;
-    box-shadow: 0 4px 15px rgba(26, 54, 93, 0.3);
+    box-shadow: 0 4px 15px rgba(78, 177, 250, 0.35);
+    text-decoration: none;
 }
 
 .site-btn-primary:hover {
+    background: #38a0f0;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(26, 54, 93, 0.4);
+    box-shadow: 0 6px 20px rgba(78, 177, 250, 0.4);
 }
 
 .site-btn-secondary {
