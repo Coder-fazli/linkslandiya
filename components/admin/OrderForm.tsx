@@ -161,7 +161,7 @@ export default function OrderForm({
 
           <div className="form-group">
             <label className="form-label">Article Content</label>
-            <SimpleEditor />
+            <SimpleEditor onChange={(html) => updateField("content", html)} />
             <div className="form-hint">You can provide your own content or leave empty for our writers</div>
           </div>
 
