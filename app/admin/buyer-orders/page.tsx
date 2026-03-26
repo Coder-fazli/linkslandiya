@@ -11,35 +11,69 @@ export default async function BuyerOrdersPage(){
 
     // Get only orders where THIS user is the buyer (orders I placed)
     const orders = await getOrdersByBuyer(user._id.toString())
+    const totalOrders = orders.length
+    const pendign = orders.filter(o => o.status === "pending").length
+    const inProgress = orders.filter(o => o.status === "in_progress").length
+    const completed  = orders.filter(o => o.status === "completed").length                          
+    const totalSpent = orders.reduce((sum, o) => sum + o.amount, 0) 
 
     return (
         <div className="section-content active" id="section-orders">
 
-            <div id="orders-list">
-                <div className="card">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Website</th>
-                                <th>Title</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            {/* Stats */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
+                <div className="card" style={{ padding: '20px' }}>
+                    <div style={{ fontSize: 13, color: '#64748b', marginBottom: 6 }}>Total Orders</div>
+                    <div style={{ fontSize: 32, fontWeight: 700, color: '#0f172a' }}>{totalOrders}</div>
+                    <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4 }}>📦 All time</div>
+                </div>
+                <div className="card" style={{ padding: '20px' }}>
+                    <div style={{ fontSize: 13, color: '#64748b', marginBottom: 6 }}>Pending</div>
+                    <div style={{ fontSize: 32, fontWeight: 700, color: '#f59e0b' }}>{pendign}</div>
+                    <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4 }}>⏳ Awaiting publisher</div>
+                </div>
+                <div className="card" style={{ padding: '20px' }}>
+                    <div style={{ fontSize: 13, color: '#64748b', marginBottom: 6 }}>Completed</div>
+                    <div style={{ fontSize: 32, fontWeight: 700, color: '#22c55e' }}>{completed}</div>
+                    <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4 }}>✅ Done</div>
+                </div>
+                <div className="card" style={{ padding: '20px' }}>
+                    <div style={{ fontSize: 13, color: '#64748b', marginBottom: 6 }}>Total Spent</div>
+                    <div style={{ fontSize: 32, fontWeight: 700, color: '#2563eb' }}>${totalSpent}</div>
+                    <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4 }}>💳 Lifetime</div>
+                </div>
+            </div>
 
-                        {/* If no orders, show a message with a link to browse websites */}
-                        {orders.length === 0 ? (
-                            <tr>
-                                <td colSpan={7} style={{ textAlign: "center", padding: "2rem" }}>
-                                    No orders yet. <a href="/websites">Browse websites</a> to place your first order.
-                                </td>
-                            </tr>
-                        ) : (
-                            orders.map(order => (
+            {/* Orders */}
+            {orders.length === 0 ? (
+                <div className="card" style={{ padding: '48px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 40, marginBottom: 12 }}>📭</div>
+                    <div style={{ fontSize: 18, fontWeight: 600, color: '#0f172a', marginBottom: 8 }}>No orders yet</div>
+                    <div style={{ fontSize: 14, color: '#64748b', marginBottom: 20 }}>Browse websites to place your first order.</div>
+                    <Link href="/websites" style={{
+                        display: 'inline-block', background: '#2563eb', color: '#fff',
+                        padding: '10px 24px', borderRadius: 9999, fontWeight: 600, fontSize: 14, textDecoration: 'none'
+                    }}>
+                        Browse Websites
+                    </Link>
+                </div>
+            ) : (
+                <div id="orders-list">
+                    <div className="card">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Website</th>
+                                    <th>Title</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {orders.map(order => (
                                 <tr key={order._id}>
                                     <td>#{order._id?.toString().slice(-6).toUpperCase()}</td>
                                     <td>{order.websiteName}</td>
@@ -64,13 +98,12 @@ export default async function BuyerOrdersPage(){
                                         </div>
                                     </td>
                                 </tr>
-                            ))
-                        )}
-
-                        </tbody>
-                    </table>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     )
 }

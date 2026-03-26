@@ -5,6 +5,12 @@
   overflow-y: visible;
 }
 
+/* Sticky header scroller — keeps header in sync with card rows */
+.table-scroll-inner {
+  min-width: max-content;
+  width: 100%;
+}
+
 .blur-bottom {
   position: absolute;
   bottom: 0;
@@ -17,21 +23,21 @@
 }
 
 /* ── Grid columns ─────────────────────────────────────── */
-/* without actions: 8 cols */
+/* without actions: 10 cols (Website | DF | DA | DR | Traffic | Country | Lang | Topic | Price) */
 .sites-grid-header,
 .site-card {
   display: grid;
-  grid-template-columns: 3fr 1fr 1fr 1.5fr 1fr 1.5fr 1fr 1fr;
+  grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1.5fr 1fr 1.5fr 1fr;
   gap: 16px;
   align-items: center;
-  min-width: 860px;
+  min-width: 1040px;
 }
 
-/* with actions: 9 cols */
+/* with actions: 11 cols */
 .sites-grid-header.with-actions,
 .site-card.with-actions {
-  grid-template-columns: 3fr 1fr 1fr 1.5fr 1fr 1.5fr 1fr 1fr 1fr;
-  min-width: 960px;
+  grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1.5fr 1fr 1.5fr 1fr 1fr;
+  min-width: 1140px;
 }
 
 /* ── Header row ───────────────────────────────────────── */
@@ -46,9 +52,6 @@
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   margin-bottom: 8px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 /* Brand badge in column header */
@@ -66,7 +69,12 @@
 }
 
 .moz-badge {
-  background: #1a5276;
+  background: #1b7fff;
+  color: #fff;
+}
+
+.ahrefs-badge {
+  background: #ff6b35;
   color: #fff;
 }
 
@@ -80,7 +88,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow-x: auto;
   padding-bottom: 4px;
 }
 
@@ -182,6 +189,10 @@
 
 .da-fill {
   background: linear-gradient(90deg, #2563eb, #60a5fa);
+}
+
+.dr-fill {
+  background: linear-gradient(90deg, #ea580c, #fb923c);
 }
 
 .traffic-fill {
