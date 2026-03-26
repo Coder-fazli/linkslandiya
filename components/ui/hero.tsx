@@ -135,17 +135,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Partners */}
-      <div className="hero-partners-bar">
-        <span>As Featured on</span>
-        <div className="partners-logos">
-          <span>smallbusiness.co.uk</span>
-          <span>AllBusiness</span>
-          <span>business.com</span>
-          <span>TGDaily</span>
-          <span>Marketme</span>
-        </div>
-      </div>
     </section>
   )
 }

@@ -14,7 +14,7 @@ export const PulsatingButton = React.forwardRef<
     {
       className,
       children,
-      pulseColor = "rgba(96,165,250,0.5)",
+      pulseColor = "rgba(96,165,250,0.6)",
       duration = "2s",
       style,
       ...props
@@ -25,32 +25,41 @@ export const PulsatingButton = React.forwardRef<
       <button
         ref={ref}
         className={cn(
-          "relative flex cursor-pointer items-center justify-center gap-2.5 overflow-visible rounded-full px-8 py-4 text-base font-bold text-white",
+          "relative flex cursor-pointer items-center justify-center gap-2.5 rounded-full px-8 py-4 text-base font-bold text-white",
           className
         )}
         style={{
           background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%)",
           boxShadow: "0 8px 32px rgba(37,99,235,0.35)",
+          overflow: "visible",
           "--pulse-color": pulseColor,
           "--duration": duration,
           ...style,
         } as React.CSSProperties}
         {...props}
       >
-        {/* Expanding ring 1 */}
+        {/* Ring 1 — starts immediately */}
         <span
-          className="pointer-events-none absolute inset-0 rounded-full"
           style={{
-            background: "var(--pulse-color)",
+            position: "absolute",
+            inset: 0,
+            borderRadius: "inherit",
+            border: "2px solid var(--pulse-color)",
+            background: "transparent",
             animation: `pulsating-ring var(--duration) ease-out infinite`,
+            pointerEvents: "none",
           }}
         />
-        {/* Expanding ring 2 — offset by half duration */}
+        {/* Ring 2 — offset by half duration for continuous effect */}
         <span
-          className="pointer-events-none absolute inset-0 rounded-full"
           style={{
-            background: "var(--pulse-color)",
+            position: "absolute",
+            inset: 0,
+            borderRadius: "inherit",
+            border: "2px solid var(--pulse-color)",
+            background: "transparent",
             animation: `pulsating-ring var(--duration) ease-out calc(var(--duration) / 2) infinite`,
+            pointerEvents: "none",
           }}
         />
         <span className="relative z-10 flex items-center gap-2.5">{children}</span>

@@ -34,11 +34,6 @@ export default function FilterShowcase() {
 
         {/* TOP: Centered heading */}
         <div className="fs-header fs-slide-up" ref={headerRef}>
-          <div className="fs-eyebrow">
-            <div className="fs-eyebrow-dot"></div>
-            Advanced Filters
-          </div>
-
           <h2 className="fs-title">
             Find your perfect<br />
             <span>guest post</span><br />
@@ -118,7 +113,7 @@ export default function FilterShowcase() {
           </div>
 
           <div className="fs-cta-wrap">
-            <Link href="/">
+            <Link href="/websites">
               <PulsatingButton duration="2.2s">
                 Browse Websites
                 <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" style={{ width: 18, height: 18 }}>

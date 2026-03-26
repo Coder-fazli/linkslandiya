@@ -1,7 +1,8 @@
 .filter-showcase {
   padding: 100px 60px;
   background: #fff;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 
 .filter-showcase-inner {
