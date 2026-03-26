@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import "./BlogSlider.css"
+import { colors } from "@/app/lib/colors"
 
 const posts = [
     {
         title: "How to Build High-Quality Backlinks in 2025",
         excerpt: "Learn the proven strategies for acquiring backlinks that actually move the needle for your SEO rankings.",
-        gradient: "linear-gradient(135deg, #1B7FFF 0%, #60AEFF 100%)",
+        gradient: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.primaryLight} 100%)`,
     },
     {
         title: "Guest Posting Guide: What Works Today",
@@ -17,7 +18,7 @@ const posts = [
     {
         title: "DA vs DR: Which Metric Actually Matters?",
         excerpt: "Domain Authority and Domain Rating explained — and which one you should focus on when buying backlinks.",
-        gradient: "linear-gradient(135deg, #1565C0 0%, #1B7FFF 100%)",
+        gradient: `linear-gradient(135deg, ${colors.primaryDark} 0%, ${colors.primary} 100%)`,
     },
     {
         title: "How to Choose the Right Website for Your Niche",
@@ -27,7 +28,7 @@ const posts = [
     {
         title: "The Truth About Link Velocity",
         excerpt: "Building links too fast can hurt you. Discover the safe pace for growing your backlink profile naturally.",
-        gradient: "linear-gradient(135deg, #1e3a5f 0%, #60AEFF 100%)",
+        gradient: `linear-gradient(135deg, #1e3a5f 0%, ${colors.primaryLight} 100%)`,
     },
 ]
 

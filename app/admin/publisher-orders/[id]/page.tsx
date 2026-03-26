@@ -100,30 +100,13 @@ export default async function OrderDetailPage({ params }: {
                             <h3>Customer Requirements</h3>
                         </div>
                         <div className="card-body">
-                            <div className="form-group">
-                                <label className="form-label">Article Title</label>
-                                <input type="text" className="form-input" value={order.title} readOnly />
-                            </div>
-                            <div className="form-grid">
-                                <div className="form-group">
-                                    <label className="form-label">Target URL</label>
-                                    <input type="text" className="form-input" value={order.targetUrl} readOnly />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">Anchor Text</label>
-                                    <input type="text" className="form-input" value={order.anchorText} readOnly />
-                                </div>
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Article Content</label>
-                                <ContentCopyPanel
-                                    title={order.title}
-                                    content={order.content || ''}
-                                    targetUrl={order.targetUrl}
-                                    anchorText={order.anchorText}
-                                />
-                            </div>
-                            <div className="form-group" style={{ marginBottom: 0 }}>
+                            <ContentCopyPanel
+                                title={order.title}
+                                content={order.content || ''}
+                                targetUrl={order.targetUrl}
+                                anchorText={order.anchorText}
+                            />
+                            <div className="form-group" style={{ marginBottom: 0, marginTop: '1rem' }}>
                                 <label className="form-label">Special Instructions</label>
                                 <textarea className="form-textarea" readOnly style={{ minHeight: "100px" }} defaultValue={order.instructions || "No instructions provided"} />
                             </div>

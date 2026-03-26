@@ -1,4 +1,5 @@
 import React from "react"
+import { colors } from "@/app/lib/colors"
 
 interface PulsatingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   pulseColor?: string
@@ -13,7 +14,7 @@ export const PulsatingButton = React.forwardRef<
     {
       className,
       children,
-      pulseColor = "rgba(96,165,250,0.55)",
+      pulseColor = `rgba(0,180,216,0.55)`,
       duration = "2s",
       style,
       ...props
@@ -32,7 +33,7 @@ export const PulsatingButton = React.forwardRef<
           gap: "10px",
           padding: "14px 32px",
           borderRadius: "999px",
-          background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%)",
+          background: `linear-gradient(135deg, ${colors.primaryLight} 0%, ${colors.primary} 50%, ${colors.primaryDark} 100%)`,
           color: "#ffffff",
           fontWeight: 700,
           fontSize: "15px",
@@ -40,7 +41,7 @@ export const PulsatingButton = React.forwardRef<
           cursor: "pointer",
           border: "none",
           overflow: "visible",
-          boxShadow: "0 8px 28px rgba(37,99,235,0.35)",
+          boxShadow: `0 8px 28px ${colors.primaryShadow}`,
           whiteSpace: "nowrap",
           ...style,
         }}

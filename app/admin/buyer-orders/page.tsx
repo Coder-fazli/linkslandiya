@@ -2,6 +2,7 @@ import { getOrdersByBuyer } from "@/app/lib/orders"
 import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 import Link from "next/link"
+import { colors } from "@/app/lib/colors"
 
 export default async function BuyerOrdersPage(){
 
@@ -39,7 +40,7 @@ export default async function BuyerOrdersPage(){
                 </div>
                 <div className="card" style={{ padding: '20px' }}>
                     <div style={{ fontSize: 13, color: '#64748b', marginBottom: 6 }}>Total Spent</div>
-                    <div style={{ fontSize: 32, fontWeight: 700, color: '#2563eb' }}>${totalSpent}</div>
+                    <div style={{ fontSize: 32, fontWeight: 700, color: colors.primary }}>${totalSpent}</div>
                     <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4 }}>💳 Lifetime</div>
                 </div>
             </div>
@@ -51,7 +52,7 @@ export default async function BuyerOrdersPage(){
                     <div style={{ fontSize: 18, fontWeight: 600, color: '#0f172a', marginBottom: 8 }}>No orders yet</div>
                     <div style={{ fontSize: 14, color: '#64748b', marginBottom: 20 }}>Browse websites to place your first order.</div>
                     <Link href="/websites" style={{
-                        display: 'inline-block', background: '#2563eb', color: '#fff',
+                        display: 'inline-block', background: colors.primary, color: '#fff',
                         padding: '10px 24px', borderRadius: 9999, fontWeight: 600, fontSize: 14, textDecoration: 'none'
                     }}>
                         Browse Websites

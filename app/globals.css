@@ -447,7 +447,7 @@ body {
 .filter-select:focus,
 .filter-input:focus {
     outline: none;
-    border-color: #3b82f6;
+    border-color: var(--brand-primary);
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
@@ -512,7 +512,7 @@ body {
     min-width: 20px;
     height: 20px;
     padding: 0 6px;
-    background: #3b82f6;
+    background: var(--brand-primary);
     color: #fff;
     font-size: 11px;
     font-weight: 600;
@@ -614,12 +614,12 @@ body {
     gap: 8px;
     width: 100%;
     padding: 10px 16px;
-    background: #eff6ff;
+    background: #f0f9fb;
     border: none;
     border-radius: 12px;
     font-size: 13px;
     font-weight: 600;
-    color: #2563eb;
+    color: var(--brand-primary);
     cursor: pointer;
     transition: all 0.2s ease;
     margin-bottom: 10px;
@@ -631,7 +631,7 @@ body {
 }
 
 .btn-reset:hover {
-    background: #dbeafe;
+    background: #caf0f8;
 }
 
 .results-count {
@@ -689,7 +689,7 @@ body {
     height: 20px;
     padding: 0 6px;
     background: #fff;
-    color: #2563eb;
+    color: var(--brand-primary);
     font-size: 11px;
     font-weight: 700;
     border-radius: 10px;
@@ -967,7 +967,7 @@ body {
 }
 
 .badge-country {
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    background: linear-gradient(135deg, #f0f9fb 0%, #caf0f8 100%);
     color: #1e40af;
 }
 
@@ -1248,7 +1248,7 @@ body {
 }
 
 .modal-tag.country {
-    background: #eff6ff;
+    background: #f0f9fb;
     color: #1e40af;
 }
 
@@ -1484,7 +1484,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: #2563eb;
+    color: var(--brand-primary);
     text-decoration: none;
     transition: all 0.2s;
     max-width: 100%;
@@ -1498,7 +1498,7 @@ body {
 }
 
 .site-link:hover {
-    color: #1d4ed8;
+    color: var(--brand-primary-dark);
 }
 
 .site-link svg {
@@ -1602,14 +1602,14 @@ body {
 
 .site-btn-primary {
     flex: 1;
-    background: #4eb1fa;
+    background: var(--brand-primary-mid);
     color: #fff;
     box-shadow: 0 4px 15px rgba(78, 177, 250, 0.35);
     text-decoration: none;
 }
 
 .site-btn-primary:hover {
-    background: #38a0f0;
+    background: var(--brand-primary-dark);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(78, 177, 250, 0.4);
 }

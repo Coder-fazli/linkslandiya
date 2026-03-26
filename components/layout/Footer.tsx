@@ -1,5 +1,6 @@
 "use client"
 import Link from "next/link"
+import { colors } from "@/app/lib/colors"
 
 const quickLinks = [
     {
@@ -87,7 +88,7 @@ export default function Footer() {
                     {/* Brand */}
                     <div>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "1rem" }}>
-                            <div style={{ width: "32px", height: "32px", background: "#1B7FFF", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: "32px", height: "32px", background: colors.primary, borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" width="18" height="18">
                                     <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
                                     <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />

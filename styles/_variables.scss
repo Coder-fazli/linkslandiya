@@ -113,6 +113,16 @@
   --tt-color-red-dec-4: hsla(3, 100%, 16%, 1);
   --tt-color-red-dec-5: hsla(1, 100%, 9%, 1);
 
+  /* ── Primary brand colors (edit here to retheme the whole site) ── */
+  --brand-primary:        #00b4d8;   /* bold accent — buttons, links, active states */
+  --brand-primary-light:  #90e0ef;   /* soft accent — hover fills, light badges */
+  --brand-primary-dark:   #0096b7;   /* hover/pressed state */
+  --brand-primary-mid:    #48cae4;   /* mid tone — some buttons */
+  --brand-primary-bg:     #f0f9fb;   /* very light tint backgrounds */
+  --brand-primary-border: #caf0f8;   /* light borders */
+  --brand-primary-rgb:    0, 180, 216;              /* RGB channels — use as rgba(var(--brand-primary-rgb), 0.35) */
+  --brand-primary-shadow: rgba(0, 180, 216, 0.35); /* box-shadow glow */
+
   /* Basic colors */
   --white: rgba(255, 255, 255, 1);
   --black: rgba(14, 14, 17, 1);

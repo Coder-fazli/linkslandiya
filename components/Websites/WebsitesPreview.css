@@ -68,7 +68,7 @@
 }
 
 .moz-badge {
-  background: #1b7fff;
+  background: var(--brand-primary);
   color: #fff;
 }
 
@@ -107,7 +107,7 @@
   color: inherit;
 }
 .site-name-cell:hover .site-name {
-  color: #2563eb;
+  color: var(--brand-primary);
   text-decoration: underline;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .da-fill {
-  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-primary-light));
 }
 
 .dr-fill {
@@ -203,9 +203,9 @@
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  background: #eff6ff;
-  color: #1d4ed8;
-  border: 1px solid #bfdbfe;
+  background: var(--brand-primary-bg);
+  color: var(--brand-primary-dark);
+  border: 1px solid var(--brand-primary-light);
   padding: 2px 7px;
   border-radius: 9999px;
   font-size: 11px;
@@ -235,8 +235,8 @@
 /* ── Price badge ──────────────────────────────────────── */
 .price-badge {
   display: inline-block;
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: var(--brand-primary-bg);
+  color: var(--brand-primary-dark);
   padding: 2px 8px;
   border-radius: 9999px;
   font-weight: 700;
@@ -249,7 +249,7 @@
   align-items: center;
   justify-content: center;
   padding: 4px 12px;
-  background: #4eb1fa;
+  background: var(--brand-primary-mid);
   color: #fff;
   font-size: 11px;
   font-weight: 600;
@@ -260,7 +260,7 @@
 }
 
 .btn-post:hover {
-  background: #38a0f0;
+  background: var(--brand-primary-dark);
 }
 
 /* ── Eye (view) button ────────────────────────────────── */
@@ -280,5 +280,5 @@
 
 .btn-eye:hover {
   background: #e0e7ff;
-  color: #2563eb;
+  color: var(--brand-primary);
 }

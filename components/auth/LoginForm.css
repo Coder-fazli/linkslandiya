@@ -81,7 +81,7 @@
 }
 
 .form-input:focus {
-  border-color: var(--primary, #2563eb);
+  border-color: var(--primary, var(--brand-primary));
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
@@ -103,7 +103,7 @@
 
 .forgot-link:hover {
   text-decoration: underline;
-  color: var(--primary, #2563eb);
+  color: var(--primary, var(--brand-primary));
 }
 
 .login-btn {
@@ -112,7 +112,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: #fff;
-  background: var(--primary, #2563eb);
+  background: var(--primary, var(--brand-primary));
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -120,7 +120,7 @@
 }
 
 .login-btn:hover {
-  background: var(--primary-hover, #1d4ed8);
+  background: var(--primary-hover, var(--brand-primary-dark));
 }
 
 .login-btn:disabled {
@@ -191,7 +191,7 @@
 }
 
 .signup-text a {
-  color: var(--primary, #2563eb);
+  color: var(--primary, var(--brand-primary));
   text-decoration: none;
 }
 
@@ -233,5 +233,5 @@
 }
 
 .terms-text a:hover {
-  color: var(--primary, #2563eb);
+  color: var(--primary, var(--brand-primary));
 }

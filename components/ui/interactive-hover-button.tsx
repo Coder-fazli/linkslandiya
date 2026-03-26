@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import { ArrowRight } from "lucide-react"
+import { colors } from "@/app/lib/colors"
 
 type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   as?: "a"
@@ -26,13 +27,13 @@ export function InteractiveHoverButton({ children, style, ...props }: Props) {
     justifyContent: "center",
     overflow: "hidden",
     borderRadius: "9999px",
-    border: "2px solid #2563eb",
+    border: `2px solid ${colors.primary}`,
     padding: "9px 24px 9px 36px",
     cursor: "pointer",
     fontWeight: 600,
     fontSize: "14px",
     background: "#fff",
-    color: "#2563eb",
+    color: colors.primary,
     textDecoration: "none",
     boxSizing: "border-box",
     ...(style as React.CSSProperties),
@@ -42,20 +43,20 @@ export function InteractiveHoverButton({ children, style, ...props }: Props) {
     <>
       <span style={{
         position: "absolute", left: "16px", width: "9px", height: "9px",
-        borderRadius: "9999px", background: "#2563eb", flexShrink: 0,
+        borderRadius: "9999px", background: colors.primary, flexShrink: 0,
         opacity: hovered ? 0 : 1, transition: "opacity 0.2s ease", zIndex: 2,
       }} />
       <span style={{
         position: "absolute", left: 0, top: 0, bottom: 0,
         width: hovered ? "100%" : "0%",
-        background: "linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)",
+        background: `linear-gradient(135deg, ${colors.primaryLight} 0%, ${colors.primary} 100%)`,
         transition: "width 0.35s ease", zIndex: 0, borderRadius: "9999px",
       }} />
       <span style={{
         position: "relative", zIndex: 1, display: "flex", alignItems: "center",
         transform: hovered ? "translateX(40px)" : "translateX(0)",
         opacity: hovered ? 0 : 1, transition: "transform 0.3s ease, opacity 0.2s ease",
-        color: "#2563eb", whiteSpace: "nowrap",
+        color: colors.primary, whiteSpace: "nowrap",
       }}>
         {children}
       </span>

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { colors } from "@/app/lib/colors"
 import { PulsatingButton } from '@/components/ui/pulsating-button'
 import './FilterShowcase.css'
 
@@ -78,7 +79,7 @@ export default function FilterShowcase() {
         <div className="fs-features-row fs-slide-up" ref={featuresRef}>
           <div className="fs-feature">
             <div className="fs-feature-icon" style={{ background: '#eff6ff' }}>
-              <svg fill="none" stroke="#2563eb" strokeWidth="2" viewBox="0 0 24 24">
+              <svg fill="none" stroke={colors.primary} strokeWidth="2" viewBox="0 0 24 24">
                 <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/>
               </svg>
             </div>

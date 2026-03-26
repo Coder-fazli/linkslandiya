@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { getOrdersByBuyer, getOrdersByPublisher } from "../lib/orders"
 import Link from "next/link"
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button"
+import { colors } from "../lib/colors"
 
 export default async function AdminHome() {
   const user = await getCurrentUser()
@@ -36,7 +37,7 @@ export default async function AdminHome() {
           <>
             <div className="stat-card stat-card-blue">
               <div className="stat-card-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" strokeWidth="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke={colors.primaryDark} strokeWidth="2">
                   <rect x="3" y="3" width="18" height="18" rx="2"/>
                   <path d="M3 9h18"/><path d="M9 21V9"/>
                 </svg>
@@ -85,7 +86,7 @@ export default async function AdminHome() {
           <>
             <div className="stat-card stat-card-blue">
               <div className="stat-card-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" strokeWidth="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke={colors.primaryDark} strokeWidth="2">
                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
                   <line x1="3" y1="6" x2="21" y2="6"/>
                   <path d="M16 10a4 4 0 0 1-8 0"/>
@@ -170,7 +171,7 @@ export default async function AdminHome() {
             recentOrders.map(order => (
               <Link key={order._id} href={isPublisher ? `/admin/publisher-orders/${order._id}` : `/admin/buyer-orders/${order._id}`} className="order-row-card" style={{ textDecoration: 'none', color: 'inherit', display: 'grid' }}>
                 <div className="order-row-site">
-                  <div className="order-row-avatar" style={{ background: '#2563eb' }}>
+                  <div className="order-row-avatar" style={{ background: colors.primary }}>
                     {order.websiteName.charAt(0).toUpperCase()}
                   </div>
                   <span className="order-row-name">{order.websiteName}</span>
