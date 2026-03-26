@@ -2,6 +2,7 @@ import { getCurrentUser } from "../lib/session"
 import { redirect } from "next/navigation"
 import { getOrdersByBuyer, getOrdersByPublisher } from "../lib/orders"
 import Link from "next/link"
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button"
 
 export default async function AdminHome() {
   const user = await getCurrentUser()
@@ -68,7 +69,7 @@ export default async function AdminHome() {
               <span className="stat-card-badge">✅ Done</span>
             </div>
 
-            <div className="stat-card stat-card-purple">
+            <div className="stat-card stat-card-green">
               <div className="stat-card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#7e22ce" strokeWidth="2">
                   <line x1="12" y1="1" x2="12" y2="23"/>
@@ -118,7 +119,7 @@ export default async function AdminHome() {
               <span className="stat-card-badge">✅ Done</span>
             </div>
 
-            <div className="stat-card stat-card-purple">
+            <div className="stat-card stat-card-green">
               <div className="stat-card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#7e22ce" strokeWidth="2">
                   <line x1="12" y1="1" x2="12" y2="23"/>
@@ -167,11 +168,22 @@ export default async function AdminHome() {
             </div>
           ) : (
             recentOrders.map(order => (
-              <Link key={order._id} href={isPublisher ? `/admin/publisher-orders/${order._id}` : `/admin/buyer-orders/${order._id}`} className="order-row">
-                <div>{order.websiteName}</div>
-                <div style={{ textAlign: "center" }}>—</div>
-                <div style={{ textAlign: "right" }}>${order.amount}</div>
-                <div>{new Date(order.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
+              <Link key={order._id} href={isPublisher ? `/admin/publisher-orders/${order._id}` : `/admin/buyer-orders/${order._id}`} className="order-row-card" style={{ textDecoration: 'none', color: 'inherit', display: 'grid' }}>
+                <div className="order-row-site">
+                  <div className="order-row-avatar" style={{ background: '#2563eb' }}>
+                    {order.websiteName.charAt(0).toUpperCase()}
+                  </div>
+                  <span className="order-row-name">{order.websiteName}</span>
+                </div>
+                <div className="order-row-da">
+                  <span className="order-row-da-value">—</span>
+                </div>
+                <div className="order-row-price">
+                  <span className="price-pill">${order.amount}</span>
+                </div>
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+                  {new Date(order.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                </div>
                 <div>
                   <span className={`status-badge ${order.status.replace("_", "-")}`}>
                     {order.status.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase())}
@@ -190,14 +202,7 @@ export default async function AdminHome() {
             <h2>Quick Actions</h2>
             {isPublisher ? (
               <>
-                <a href="/admin/websites/new" className="btn-browse">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="12" y1="8" x2="12" y2="16"/>
-                    <line x1="8" y1="12" x2="16" y2="12"/>
-                  </svg>
-                  Add New Website
-                </a>
+                <InteractiveHoverButton href="/admin/websites/new">Add New Website</InteractiveHoverButton>
                 <a href="/admin/publisher-orders" className="btn-view-orders">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
@@ -207,14 +212,7 @@ export default async function AdminHome() {
               </>
             ) : (
               <>
-                <a href="/websites" className="btn-browse" target="_blank" rel="noopener noreferrer">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="2" y1="12" x2="22" y2="12"/>
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                  </svg>
-                  Browse Websites
-                </a>
+                <InteractiveHoverButton href="/websites">Browse Websites</InteractiveHoverButton>
                 <a href="/admin/buyer-orders" className="btn-view-orders">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
