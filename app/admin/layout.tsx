@@ -2,9 +2,9 @@ import "./admin.css";
 import AdminNav from "../../components/admin/AdminNav";
 import ModeSwitcher from "../../components/admin/ModeSwitcher";
 import ThemeSwitcher from "../../components/admin/ThemeSwitcher";
+import UserDropdown from "../../components/admin/UserDropdown";
 import { getCurrentUser } from "../lib/session";
 import { redirect } from "next/navigation"
-
 
 import { ReactNode } from "react";
 
@@ -54,7 +54,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                 <header className="header">
                     <div>
                         <h1 id="page-title">Dashboard</h1>
-                        <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginTop: "2px" }}>
+                        <p className="header-subtitle">
                             Welcome back, {user.name} 👋
                         </p>
                     </div>
@@ -63,10 +63,12 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                             <ModeSwitcher activeMode={user.activeMode} canPublish={user.canPublish} />
                         )}
                         <ThemeSwitcher />
-                        <div className="user-avatar">{user.name?.charAt(0).toUpperCase() || "U"}</div>
+                        <UserDropdown name={user.name} email={user.email} />
                     </div>
                 </header>
-                {children}
+                <div className="main-inner">
+                    {children}
+                </div>
             </main>
     </div>
 
