@@ -202,27 +202,7 @@
   margin-top: 8px;
 }
 
-.fs-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #2563eb;
-  color: #fff;
-  padding: 15px 32px;
-  border-radius: 99px;
-  font-size: 15px;
-  font-weight: 700;
-  text-decoration: none;
-  box-shadow: 0 8px 28px rgba(37,99,235,.35);
-  transition: all .25s;
-}
-
-.fs-cta:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 40px rgba(37,99,235,.45);
-}
-
-.fs-cta svg { width: 18px; height: 18px; }
+/* PulsatingButton handles its own styles */
 
 /* ── Slide-up animation ── */
 .fs-slide-up {

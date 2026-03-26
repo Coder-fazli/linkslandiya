@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { PulsatingButton } from '@/components/ui/pulsating-button'
 import './FilterShowcase.css'
 
 export default function FilterShowcase() {
@@ -117,11 +118,13 @@ export default function FilterShowcase() {
           </div>
 
           <div className="fs-cta-wrap">
-            <Link href="/" className="fs-cta">
-              Browse Websites
-              <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
+            <Link href="/">
+              <PulsatingButton duration="2.2s">
+                Browse Websites
+                <svg fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" style={{ width: 18, height: 18 }}>
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </PulsatingButton>
             </Link>
           </div>
         </div>

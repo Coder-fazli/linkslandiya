@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import './Features.css'
 import Link from 'next/link'
+import { PulsatingButton } from '@/components/ui/pulsating-button'
 
 const features = [
   {
@@ -150,18 +151,14 @@ export default function Features() {
           </div>
         </div>
 
-    <Link
-     href = '/login'
-    className="features-cta"
-    target="_blank"
-    rel="noopener noreferrer"
-    >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="5" y1="12" x2="19" y2="12"/>
-            <polyline points="12 5 19 12 12 19"/>
-          </svg>
-      Get Started Free
-    
+    <Link href='/login' style={{ display: 'inline-block' }}>
+      <PulsatingButton duration="2.2s">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: 18, height: 18 }}>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+        Get Started Free
+      </PulsatingButton>
     </Link>
       </div>
     </section>
