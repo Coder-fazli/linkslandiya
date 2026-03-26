@@ -5,6 +5,7 @@
  import WebsiteFavicon from "@/components/Websites/WebsiteFavicon";
  import WebsiteForm from "@/components/admin/WebsiteForm";
 import { getPublisherWebsites } from "@/app/lib/actions";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 export default function WebsitePage() {
   const searchParams = useSearchParams()
@@ -153,9 +154,9 @@ export default function WebsitePage() {
 
                <div id="websites-list">
                     <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
-                        <button className="btn btn-primary" onClick={() => { setEditing(true); setEditingSite(null); }}>
-                            + Add New Website
-                        </button>
+                        <InteractiveHoverButton as="button" onClick={() => { setEditing(true); setEditingSite(null); }}>
+                            Add New Website
+                        </InteractiveHoverButton>
                     </div>
                     <div className="card">
                         <table className="table">

@@ -2,6 +2,7 @@ import { getOrderById } from "@/app/lib/orders"
 import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 import Link from "next/link"
+import TipTapViewer from "@/components/admin/TipTapViewer"
 
 export default async function BuyerOrderDetailPage({ params }: {
     params: Promise<{ id: string }>
@@ -111,7 +112,7 @@ export default async function BuyerOrderDetailPage({ params }: {
                             </div>
                             <div className="form-group">
                                 <label className="form-label">Article Content</label>
-                                <textarea className="form-textarea" readOnly style={{ minHeight: "200px" }} defaultValue={order.content || "No content provided"} />
+                                <TipTapViewer content={order.content || '<p>No content provided.</p>'} />
                             </div>
                             <div className="form-group" style={{ marginBottom: 0 }}>
                                 <label className="form-label">Special Instructions</label>

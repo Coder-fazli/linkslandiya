@@ -1456,3 +1456,111 @@
     .admin .stats-grid, .admin .user-stats { grid-template-columns: 1fr; }
     .admin .form-grid, .admin .charts-grid { grid-template-columns: 1fr; }
 }
+
+/* ── TipTap Viewer ── */
+.tiptap-viewer {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  background: var(--bg-main);
+  min-height: 180px;
+}
+
+.tiptap-viewer .tiptap {
+  outline: none;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.tiptap-viewer .tiptap h1,
+.tiptap-viewer .tiptap h2,
+.tiptap-viewer .tiptap h3 {
+  font-weight: 700;
+  margin: 1em 0 0.4em;
+  color: var(--text-primary);
+}
+
+.tiptap-viewer .tiptap h1 { font-size: 1.5em; }
+.tiptap-viewer .tiptap h2 { font-size: 1.25em; }
+.tiptap-viewer .tiptap h3 { font-size: 1.1em; }
+
+.tiptap-viewer .tiptap p { margin: 0.5em 0; }
+
+.tiptap-viewer .tiptap ul,
+.tiptap-viewer .tiptap ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.tiptap-viewer .tiptap li { margin: 0.2em 0; }
+
+.tiptap-viewer .tiptap strong { font-weight: 700; }
+.tiptap-viewer .tiptap em { font-style: italic; }
+.tiptap-viewer .tiptap u { text-decoration: underline; }
+
+.tiptap-viewer .tiptap a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.tiptap-viewer .tiptap img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.tiptap-viewer .tiptap blockquote {
+  border-left: 3px solid var(--border);
+  padding-left: 1em;
+  color: var(--text-secondary);
+  margin: 0.75em 0;
+}
+
+.tiptap-viewer .tiptap code {
+  background: var(--border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* ── Copy Buttons Row ── */
+.copy-btns-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.copy-btn-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 5px 14px 5px 6px;
+  cursor: pointer;
+}
+
+.copy-btn-item .copy-btn-styled {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  background: #eff6ff !important;
+  border: none !important;
+  border-radius: 50% !important;
+  color: #2563eb !important;
+  box-shadow: none !important;
+}
+
+.copy-btn-item .copy-btn-styled:hover {
+  background: #dbeafe !important;
+}
+
+.copy-btn-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}

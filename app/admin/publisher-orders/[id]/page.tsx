@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import OrderStatusUpdated from "@/components/admin/OrderStatusUpdater"
+import ContentCopyPanel from "@/components/admin/ContentCopyPanel"
 
 export default async function OrderDetailPage({ params }: {
     params: Promise<{ id: string }>
@@ -115,7 +116,12 @@ export default async function OrderDetailPage({ params }: {
                             </div>
                             <div className="form-group">
                                 <label className="form-label">Article Content</label>
-                                <textarea className="form-textarea" readOnly style={{ minHeight: "200px" }} defaultValue={order.content || "No content provided"} />
+                                <ContentCopyPanel
+                                    title={order.title}
+                                    content={order.content || ''}
+                                    targetUrl={order.targetUrl}
+                                    anchorText={order.anchorText}
+                                />
                             </div>
                             <div className="form-group" style={{ marginBottom: 0 }}>
                                 <label className="form-label">Special Instructions</label>
