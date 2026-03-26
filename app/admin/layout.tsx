@@ -63,7 +63,15 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                             <ModeSwitcher activeMode={user.activeMode} canPublish={user.canPublish} />
                         )}
                         <ThemeSwitcher />
-                        <UserDropdown name={user.name} email={user.email} />
+                        <div className="balance-pill">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
+                                <rect x="2" y="7" width="20" height="14" rx="2"/>
+                                <path d="M16 11a2 2 0 0 1 0 4h-3v-4h3z"/>
+                                <path d="M2 11h5"/>
+                            </svg>
+                            ${(user.balance ?? 0).toFixed(2)}
+                        </div>
+                        <UserDropdown name={user.name} email={user.email} balance={user.balance ?? 0} />
                     </div>
                 </header>
                 <div className="main-inner">

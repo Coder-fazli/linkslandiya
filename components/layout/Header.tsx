@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button'
 
 type HeaderProps = {
  cartCount?: number;
@@ -29,9 +30,7 @@ export default function Header ({ cartCount = 0, isLoggedIn = false}: HeaderProp
                    
                    <div className="header-actions">
                      {isLoggedIn ? (
-                       <Link href="/admin" className="btn btn-primary">
-                         Dashboard
-                       </Link>
+                       <InteractiveHoverButton href="/admin">Dashboard</InteractiveHoverButton>
                      ) : (
                        <>                                             
                <Link href="/login"                          className="nav-link">Login</Link>                    

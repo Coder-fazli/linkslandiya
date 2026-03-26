@@ -6,9 +6,10 @@ import { logOut } from "@/app/(auth)/actions"
 type Props = {
   name: string
   email: string
+  balance?: number
 }
 
-export default function UserDropdown({ name, email }: Props) {
+export default function UserDropdown({ name, email, balance = 0 }: Props) {
   const initial = name?.charAt(0).toUpperCase() || "U"
 
   return (
@@ -32,7 +33,7 @@ export default function UserDropdown({ name, email }: Props) {
         {/* Balance */}
         <div className="udm-balance">
           <span className="udm-balance-label">Balance</span>
-          <span className="udm-balance-amount">$0.00</span>
+          <span className="udm-balance-amount">${balance.toFixed(2)}</span>
         </div>
 
         <div className="udm-divider" />

@@ -16,6 +16,7 @@ export type User = {
     canPublish: boolean
     activeMode: "buyer" | "publisher"
     isAdmin: boolean
+    balance?: number
 }
 
 // Get the users collection
