@@ -63,7 +63,7 @@ export const PulsatingButton = React.forwardRef<
           borderRadius: "999px",
           border: `2px solid ${pulseColor}`,
           background: "transparent",
-          animation: `pulsating-ring ${duration} ease-out ${parseFloat(duration) / 2}s infinite`,
+          animation: `pulsating-ring ${duration} ease-out 1s infinite`,
           pointerEvents: "none",
         }} />
         <span style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: "10px" }}>
