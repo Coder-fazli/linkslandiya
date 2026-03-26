@@ -17,6 +17,17 @@ export type User = {
     activeMode: "buyer" | "publisher"
     isAdmin: boolean
     balance?: number
+    // Profile
+    firstName?: string
+    lastName?: string
+    country?: string
+    phone?: string
+    companyWebsite?: string
+    identity?: string
+    // Payment
+    paymentCountry?: string
+    paymentMethod?: string
+    paypalEmail?: string
 }
 
 // Get the users collection

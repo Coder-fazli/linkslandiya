@@ -1343,6 +1343,16 @@
     color: var(--text-primary);
     margin-bottom: 1rem;
 }
+.admin .quick-actions-card > a {
+    display: flex !important;
+    width: 100%;
+    margin-bottom: 0.625rem;
+    box-sizing: border-box;
+    justify-content: center;
+}
+.admin .quick-actions-card > a:last-child {
+    margin-bottom: 0;
+}
 .admin .btn-browse {
     display: flex;
     align-items: center;

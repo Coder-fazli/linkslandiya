@@ -202,7 +202,7 @@ export default async function AdminHome() {
             <h2>Quick Actions</h2>
             {isPublisher ? (
               <>
-                <InteractiveHoverButton href="/admin/websites/new">Add New Website</InteractiveHoverButton>
+                <InteractiveHoverButton href="/admin/websites">Add New Website</InteractiveHoverButton>
                 <a href="/admin/publisher-orders" className="btn-view-orders">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
