@@ -1,11 +1,29 @@
 import { getCurrentUser } from "../lib/session"
 import { redirect } from "next/navigation"
+import { getOrdersByBuyer, getOrdersByPublisher } from "../lib/orders"
+import Link from "next/link"
 
 export default async function AdminHome() {
   const user = await getCurrentUser()
   if (!user) return redirect("/login")
 
   const isPublisher = user.activeMode === "publisher"
+  const uid = user._id.toString()
+
+  const orders = isPublisher
+    ? await getOrdersByPublisher(uid)
+    : await getOrdersByBuyer(uid)
+
+  const totalOrders  = orders.length
+  const pending      = orders.filter(o => o.status === "pending").length
+  const inProgress   = orders.filter(o => o.status === "in_progress").length
+  const completed    = orders.filter(o => o.status === "completed").length
+  const cancelled    = orders.filter(o => o.status === "cancelled").length
+  const totalMoney   = orders.reduce((sum, o) => sum + o.amount, 0)
+
+  const pct = (n: number) => totalOrders === 0 ? 0 : Math.round((n / totalOrders) * 100)
+
+  const recentOrders = orders.slice(0, 5)
 
   return (
     <div>
@@ -22,9 +40,9 @@ export default async function AdminHome() {
                   <path d="M3 9h18"/><path d="M9 21V9"/>
                 </svg>
               </div>
-              <div className="stat-card-label">My Websites</div>
-              <div className="stat-card-value">—</div>
-              <span className="stat-card-badge">🌐 Listed</span>
+              <div className="stat-card-label">Total Orders</div>
+              <div className="stat-card-value">{totalOrders}</div>
+              <span className="stat-card-badge">📦 All time</span>
             </div>
 
             <div className="stat-card stat-card-yellow">
@@ -35,7 +53,7 @@ export default async function AdminHome() {
                 </svg>
               </div>
               <div className="stat-card-label">Pending Orders</div>
-              <div className="stat-card-value">—</div>
+              <div className="stat-card-value">{pending}</div>
               <span className="stat-card-badge">⏳ Need action</span>
             </div>
 
@@ -46,7 +64,7 @@ export default async function AdminHome() {
                 </svg>
               </div>
               <div className="stat-card-label">Completed</div>
-              <div className="stat-card-value">—</div>
+              <div className="stat-card-value">{completed}</div>
               <span className="stat-card-badge">✅ Done</span>
             </div>
 
@@ -58,7 +76,7 @@ export default async function AdminHome() {
                 </svg>
               </div>
               <div className="stat-card-label">Total Earned</div>
-              <div className="stat-card-value">—</div>
+              <div className="stat-card-value">${totalMoney}</div>
               <span className="stat-card-badge">💰 All time</span>
             </div>
           </>
@@ -73,7 +91,7 @@ export default async function AdminHome() {
                 </svg>
               </div>
               <div className="stat-card-label">Total Orders</div>
-              <div className="stat-card-value">—</div>
+              <div className="stat-card-value">{totalOrders}</div>
               <span className="stat-card-badge">📦 All time</span>
             </div>
 
@@ -85,7 +103,7 @@ export default async function AdminHome() {
                 </svg>
               </div>
               <div className="stat-card-label">Pending</div>
-              <div className="stat-card-value">—</div>
+              <div className="stat-card-value">{pending}</div>
               <span className="stat-card-badge">⏳ Awaiting publisher</span>
             </div>
 
@@ -96,7 +114,7 @@ export default async function AdminHome() {
                 </svg>
               </div>
               <div className="stat-card-label">Completed</div>
-              <div className="stat-card-value">—</div>
+              <div className="stat-card-value">{completed}</div>
               <span className="stat-card-badge">✅ Done</span>
             </div>
 
@@ -108,7 +126,7 @@ export default async function AdminHome() {
                 </svg>
               </div>
               <div className="stat-card-label">Total Spent</div>
-              <div className="stat-card-value">—</div>
+              <div className="stat-card-value">${totalMoney}</div>
               <span className="stat-card-badge">💳 All time</span>
             </div>
           </>
@@ -134,19 +152,34 @@ export default async function AdminHome() {
             <div>Status</div>
           </div>
 
-          {/* Backend data comes later */}
-          <div className="empty-state">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <path d="M16 10a4 4 0 0 1-8 0"/>
-            </svg>
-            {isPublisher ? (
-              <p>No orders received yet — <a href="/admin/websites" style={{ color: "var(--accent)" }}>add your websites</a> to start receiving orders.</p>
-            ) : (
-              <p>No orders yet — <a href="/websites" style={{ color: "var(--accent)" }}>browse websites</a> to place your first order.</p>
-            )}
-          </div>
+          {recentOrders.length === 0 ? (
+            <div className="empty-state">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+              {isPublisher ? (
+                <p>No orders received yet — <a href="/admin/websites" style={{ color: "var(--accent)" }}>add your websites</a> to start receiving orders.</p>
+              ) : (
+                <p>No orders yet — <a href="/websites" style={{ color: "var(--accent)" }}>browse websites</a> to place your first order.</p>
+              )}
+            </div>
+          ) : (
+            recentOrders.map(order => (
+              <Link key={order._id} href={isPublisher ? `/admin/publisher-orders/${order._id}` : `/admin/buyer-orders/${order._id}`} className="order-row">
+                <div>{order.websiteName}</div>
+                <div style={{ textAlign: "center" }}>—</div>
+                <div style={{ textAlign: "right" }}>${order.amount}</div>
+                <div>{new Date(order.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
+                <div>
+                  <span className={`status-badge ${order.status.replace("_", "-")}`}>
+                    {order.status.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase())}
+                  </span>
+                </div>
+              </Link>
+            ))
+          )}
         </div>
 
         {/* Right 1/3 */}
@@ -201,28 +234,28 @@ export default async function AdminHome() {
               <div className="breakdown-row">
                 <div className="breakdown-row-header">
                   <span className="breakdown-row-label">Completed</span>
-                  <span className="breakdown-row-badge" style={{ background: "#f0fdf4", color: "#16a34a" }}>— · —%</span>
+                  <span className="breakdown-row-badge" style={{ background: "#f0fdf4", color: "#16a34a" }}>{completed} · {pct(completed)}%</span>
                 </div>
                 <div className="breakdown-bar-track">
-                  <div className="breakdown-bar-fill" style={{ width: "0%", background: "#4ade80" }}></div>
+                  <div className="breakdown-bar-fill" style={{ width: `${pct(completed)}%`, background: "#4ade80" }}></div>
                 </div>
               </div>
               <div className="breakdown-row">
                 <div className="breakdown-row-header">
                   <span className="breakdown-row-label">Pending</span>
-                  <span className="breakdown-row-badge" style={{ background: "#fffbeb", color: "#d97706" }}>— · —%</span>
+                  <span className="breakdown-row-badge" style={{ background: "#fffbeb", color: "#d97706" }}>{pending} · {pct(pending)}%</span>
                 </div>
                 <div className="breakdown-bar-track">
-                  <div className="breakdown-bar-fill" style={{ width: "0%", background: "#fbbf24" }}></div>
+                  <div className="breakdown-bar-fill" style={{ width: `${pct(pending)}%`, background: "#fbbf24" }}></div>
                 </div>
               </div>
               <div className="breakdown-row">
                 <div className="breakdown-row-header">
-                  <span className="breakdown-row-label">Rejected</span>
-                  <span className="breakdown-row-badge" style={{ background: "#fef2f2", color: "#dc2626" }}>— · —%</span>
+                  <span className="breakdown-row-label">Cancelled</span>
+                  <span className="breakdown-row-badge" style={{ background: "#fef2f2", color: "#dc2626" }}>{cancelled} · {pct(cancelled)}%</span>
                 </div>
                 <div className="breakdown-bar-track">
-                  <div className="breakdown-bar-fill" style={{ width: "0%", background: "#f87171" }}></div>
+                  <div className="breakdown-bar-fill" style={{ width: `${pct(cancelled)}%`, background: "#f87171" }}></div>
                 </div>
               </div>
             </div>
