@@ -1,7 +1,8 @@
 /* ── Wrapper ─────────────────────────────────────────── */
 .table-preview-wrapper {
   position: relative;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: visible;
 }
 
 .blur-bottom {
@@ -35,12 +36,43 @@
 
 /* ── Header row ───────────────────────────────────────── */
 .sites-grid-header {
-  padding: 0 16px 8px 16px;
+  padding: 12px 16px;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #64748b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Brand badge in column header */
+.col-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 800;
+  margin-right: 5px;
+  vertical-align: middle;
+  letter-spacing: 0.03em;
+}
+
+.moz-badge {
+  background: #1a5276;
+  color: #fff;
+}
+
+.traffic-badge {
+  background: #6d28d9;
+  color: #fff;
 }
 
 /* ── Scrollable container for overflow ───────────────── */

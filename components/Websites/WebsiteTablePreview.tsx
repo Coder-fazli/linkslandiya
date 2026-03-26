@@ -24,8 +24,16 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
       <div className={`sites-grid-header ${showActions ? 'with-actions' : ''}`}>
         <div>Website</div>
         <div className="col-center">Dofollow</div>
-        <div>DA (Moz)</div>
-        <div>Traffic</div>
+        <div>
+          <span className="col-brand-badge moz-badge">MOZ</span>
+          DA
+        </div>
+        <div>
+          <span className="col-brand-badge traffic-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"/></svg>
+          </span>
+          Traffic
+        </div>
         <div>Country</div>
         <div>Language</div>
         <div>Topic</div>
