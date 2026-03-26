@@ -16,11 +16,11 @@ export default async function Home() {
   return (
     <main className="main">
       <Hero />
+      <GlobalReach />
       <FilterShowcase />
       <Services />
       <Features />
       <ProcessTimeline />
-      <GlobalReach />
       <div className="container">
         <h2 className="page-title">Last Added Sites</h2>
          <WebsiteTablePreview websites={websites} limit={6} showBlur={true} />

@@ -3,7 +3,8 @@
     position: relative;
     padding: 100px 0 120px;
     background: #f8fafc;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 /* Bento Wrapper */

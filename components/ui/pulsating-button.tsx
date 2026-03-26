@@ -1,5 +1,4 @@
 import React from "react"
-import { cn } from "@/lib/utils"
 
 interface PulsatingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   pulseColor?: string
@@ -14,7 +13,7 @@ export const PulsatingButton = React.forwardRef<
     {
       className,
       children,
-      pulseColor = "rgba(96,165,250,0.6)",
+      pulseColor = "rgba(96,165,250,0.55)",
       duration = "2s",
       style,
       ...props
@@ -24,45 +23,52 @@ export const PulsatingButton = React.forwardRef<
     return (
       <button
         ref={ref}
-        className={cn(
-          "relative flex cursor-pointer items-center justify-center gap-2.5 rounded-full px-8 py-4 text-base font-bold text-white",
-          className
-        )}
+        className={className}
         style={{
+          position: "relative",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
+          padding: "14px 32px",
+          borderRadius: "999px",
           background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%)",
-          boxShadow: "0 8px 32px rgba(37,99,235,0.35)",
+          color: "#ffffff",
+          fontWeight: 700,
+          fontSize: "15px",
+          fontFamily: "inherit",
+          cursor: "pointer",
+          border: "none",
           overflow: "visible",
-          "--pulse-color": pulseColor,
-          "--duration": duration,
+          boxShadow: "0 8px 28px rgba(37,99,235,0.35)",
+          whiteSpace: "nowrap",
           ...style,
-        } as React.CSSProperties}
+        }}
         {...props}
       >
-        {/* Ring 1 — starts immediately */}
-        <span
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: "inherit",
-            border: "2px solid var(--pulse-color)",
-            background: "transparent",
-            animation: `pulsating-ring var(--duration) ease-out infinite`,
-            pointerEvents: "none",
-          }}
-        />
-        {/* Ring 2 — offset by half duration for continuous effect */}
-        <span
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: "inherit",
-            border: "2px solid var(--pulse-color)",
-            background: "transparent",
-            animation: `pulsating-ring var(--duration) ease-out calc(var(--duration) / 2) infinite`,
-            pointerEvents: "none",
-          }}
-        />
-        <span className="relative z-10 flex items-center gap-2.5">{children}</span>
+        {/* Ring 1 */}
+        <span style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "999px",
+          border: `2px solid ${pulseColor}`,
+          background: "transparent",
+          animation: `pulsating-ring ${duration} ease-out infinite`,
+          pointerEvents: "none",
+        }} />
+        {/* Ring 2 — staggered */}
+        <span style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "999px",
+          border: `2px solid ${pulseColor}`,
+          background: "transparent",
+          animation: `pulsating-ring ${duration} ease-out ${parseFloat(duration) / 2}s infinite`,
+          pointerEvents: "none",
+        }} />
+        <span style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: "10px" }}>
+          {children}
+        </span>
       </button>
     )
   }
