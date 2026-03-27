@@ -4,6 +4,7 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import OrderStatusUpdated from "@/components/admin/OrderStatusUpdater"
 import ContentCopyPanel from "@/components/admin/ContentCopyPanel"
+import PublisherUpload from "@/components/admin/PublisherUpload"
 
 export default async function OrderDetailPage({ params }: {
     params: Promise<{ id: string }>
@@ -120,17 +121,50 @@ export default async function OrderDetailPage({ params }: {
                         </div>
                         <div className="card-body">
                             <ContentCopyPanel
+                                orderType={order.orderType}
                                 title={order.title}
                                 content={order.content || ''}
                                 targetUrl={order.targetUrl}
                                 anchorText={order.anchorText}
+                                existingPostUrl={order.existingPostUrl}
+                                landingPageUrl={order.landingPageUrl}
                             />
+
+                            {/* Buyer uploaded a file — show download link */}
+                            {order.attachmentUrl && (
+                                <div style={{ margin: "1rem 0 0", padding: "12px 16px", background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: "10px", display: "flex", alignItems: "center", gap: "12px" }}>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" width="22" height="22">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                    </svg>
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontSize: "12px", fontWeight: 600, color: "#1d4ed8", marginBottom: "2px" }}>Article file provided by buyer</div>
+                                        <a href={order.attachmentUrl} target="_blank" rel="noopener noreferrer"
+                                            style={{ fontSize: "13px", color: "#3b82f6", fontWeight: 500 }}>
+                                            {order.attachmentName || "Download file"}
+                                        </a>
+                                    </div>
+                                    <a href={order.attachmentUrl} download style={{ padding: "6px 14px", background: "#3b82f6", color: "#fff", borderRadius: "8px", fontSize: "13px", fontWeight: 600, textDecoration: "none" }}>
+                                        Download
+                                    </a>
+                                </div>
+                            )}
+
                             <div className="form-group" style={{ marginBottom: 0, marginTop: '1rem' }}>
                                 <label className="form-label">Special Instructions</label>
                                 <textarea className="form-textarea" readOnly style={{ minHeight: "100px" }} defaultValue={order.instructions || "No instructions provided"} />
                             </div>
                         </div>
                     </div>
+
+                    {/* ============ Card 3: Publisher uploads article (when buyer chose "get content from us") ============ */}
+                    {order.orderType !== 'link_insertion' && (order.contentMode === 'get' || (!order.content && !order.attachmentUrl)) && (
+                        <PublisherUpload
+                            orderId={id}
+                            existingFileUrl={order.publisherFileUrl}
+                            existingFileName={order.publisherFileName}
+                        />
+                    )}
 
                 </div>
 

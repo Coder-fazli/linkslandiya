@@ -23,6 +23,10 @@ import { getDb } from "./db";
       landingPageUrl?: string
       attachmentUrl?: string
       attachmentName?: string
+      contentMode?: 'provide' | 'get'
+      // Publisher uploaded file (when buyer chose "get content from us")
+      publisherFileUrl?: string
+      publisherFileName?: string
       status: "pending" | "in_progress" | "review" | "revision" | "completed" | "cancelled"
       createdAt: Date
       publishedLink?: string

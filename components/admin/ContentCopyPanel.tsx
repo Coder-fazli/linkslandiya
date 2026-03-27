@@ -6,13 +6,17 @@ import { useState } from 'react'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 
 type Props = {
+  orderType?: 'guest_post' | 'link_insertion' | 'casino'
+  // Guest post / casino fields
   title: string
   content: string
   targetUrl: string
   anchorText: string
+  // Link insertion fields
+  existingPostUrl?: string
+  landingPageUrl?: string
 }
 
-// Custom button that copies HTML with formatting preserved (pastes into WordPress etc.)
 function HtmlCopyButton({ html }: { html: string }) {
   const [copied, setCopied] = useState(false)
 
@@ -28,7 +32,6 @@ function HtmlCopyButton({ html }: { html: string }) {
       setCopied(true)
       setTimeout(() => setCopied(false), 3000)
     } catch {
-      // Fallback for browsers that don't support ClipboardItem
       const plain = html.replace(/<[^>]*>/g, '').trim()
       await navigator.clipboard.writeText(plain)
       setCopied(true)
@@ -44,10 +47,66 @@ function HtmlCopyButton({ html }: { html: string }) {
   )
 }
 
-export default function ContentCopyPanel({ title, content, targetUrl, anchorText }: Props) {
+export default function ContentCopyPanel({ orderType = 'guest_post', title, content, targetUrl, anchorText, existingPostUrl, landingPageUrl }: Props) {
+
+  // ── Link Insertion layout ─────────────────────────────────
+  if (orderType === 'link_insertion') {
+    return (
+      <div>
+        {/* Order type badge */}
+        <div style={{ marginBottom: '16px' }}>
+          <span style={{ padding: '3px 12px', borderRadius: '9999px', fontSize: '12px', fontWeight: 700, background: '#e0f2fe', color: '#0369a1' }}>
+            Link Insertion
+          </span>
+        </div>
+
+        <div className="form-group">
+          <div className="form-label-row">
+            <label className="form-label">Existing Post URL</label>
+            <CopyButton content={existingPostUrl || ''} variant="outline" size="xs" className="copy-btn-styled" />
+          </div>
+          <input type="text" className="form-input" value={existingPostUrl || '—'} readOnly />
+          <p style={{ margin: '4px 0 0', fontSize: '12px', color: 'var(--text-secondary)' }}>
+            Find this post on your website and insert the link inside it
+          </p>
+        </div>
+
+        <div className="form-grid">
+          <div className="form-group">
+            <div className="form-label-row">
+              <label className="form-label">Anchor Text</label>
+              <CopyButton content={anchorText} variant="outline" size="xs" className="copy-btn-styled" />
+            </div>
+            <input type="text" className="form-input" value={anchorText || '—'} readOnly />
+          </div>
+          <div className="form-group">
+            <div className="form-label-row">
+              <label className="form-label">Landing Page URL (link to this)</label>
+              <CopyButton content={landingPageUrl || ''} variant="outline" size="xs" className="copy-btn-styled" />
+            </div>
+            <input type="text" className="form-input" value={landingPageUrl || '—'} readOnly />
+          </div>
+        </div>
+
+        {/* Quick guide */}
+        <div style={{ padding: '12px 16px', background: '#f8fafc', border: '1px solid var(--border-color)', borderRadius: '10px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+          <strong style={{ color: 'var(--text-primary)' }}>What to do:</strong> Open the post at the URL above, find a natural place in the text, wrap the anchor text <strong>"{anchorText}"</strong> as a hyperlink pointing to <strong>{landingPageUrl || 'the landing page URL'}</strong>.
+        </div>
+      </div>
+    )
+  }
+
+  // ── Guest Post / Casino layout ────────────────────────────
   return (
     <div>
-      {/* Article Title row with copy button inline */}
+      {orderType === 'casino' && (
+        <div style={{ marginBottom: '16px' }}>
+          <span style={{ padding: '3px 12px', borderRadius: '9999px', fontSize: '12px', fontWeight: 700, background: '#fef3c7', color: '#92400e' }}>
+            Casino
+          </span>
+        </div>
+      )}
+
       <div className="form-group">
         <div className="form-label-row">
           <label className="form-label">Article Title</label>
@@ -56,19 +115,23 @@ export default function ContentCopyPanel({ title, content, targetUrl, anchorText
         <input type="text" className="form-input" value={title} readOnly />
       </div>
 
-      {/* Target URL + Anchor Text */}
       <div className="form-grid">
         <div className="form-group">
-          <label className="form-label">Target URL</label>
-          <input type="text" className="form-input" value={targetUrl} readOnly />
+          <div className="form-label-row">
+            <label className="form-label">Target URL</label>
+            <CopyButton content={targetUrl} variant="outline" size="xs" className="copy-btn-styled" />
+          </div>
+          <input type="text" className="form-input" value={targetUrl || '—'} readOnly />
         </div>
         <div className="form-group">
-          <label className="form-label">Anchor Text</label>
-          <input type="text" className="form-input" value={anchorText} readOnly />
+          <div className="form-label-row">
+            <label className="form-label">Anchor Text</label>
+            <CopyButton content={anchorText} variant="outline" size="xs" className="copy-btn-styled" />
+          </div>
+          <input type="text" className="form-input" value={anchorText || '—'} readOnly />
         </div>
       </div>
 
-      {/* Article Content with copy button inline */}
       <div className="form-group">
         <div className="form-label-row">
           <label className="form-label">Article Content</label>

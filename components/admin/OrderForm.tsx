@@ -72,6 +72,7 @@ export default function OrderForm({
 
   const [orderType, setOrderType] = useState<OrderType>('guest_post')
   const [showFundsModal, setShowFundsModal] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
   const [contentMode, setContentMode] = useState<ContentMode>('provide')
   const [isDirty, setIsDirty] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -197,6 +198,7 @@ export default function OrderForm({
 
       await createOrderAction({ ...formData, orderType, contentMode, attachmentUrl, attachmentName })
       setIsDirty(false)
+      setShowSuccess(true)
     } catch (error: any) {
       if (error?.digest?.startsWith('NEXT_REDIRECT')) return
       alert('Failed to create order')
@@ -484,6 +486,66 @@ export default function OrderForm({
     </form>
 
     {showFundsModal && <AddFundsModal onClose={() => setShowFundsModal(false)} />}
+
+    {showSuccess && (
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px',
+      }}>
+        <div style={{
+          background: 'var(--bg-primary, #fff)', borderRadius: '20px', padding: '48px 40px',
+          maxWidth: '420px', width: '100%', textAlign: 'center',
+          boxShadow: '0 25px 60px rgba(0,0,0,0.2)',
+          animation: 'successPop 0.4s cubic-bezier(0.34,1.56,0.64,1)',
+        }}>
+          {/* Checkmark circle */}
+          <div style={{
+            width: 80, height: 80, borderRadius: '50%',
+            background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto 24px', boxShadow: '0 8px 24px rgba(34,197,94,0.35)',
+          }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="40" height="40">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+
+          <h2 style={{ margin: '0 0 10px', fontSize: '24px', fontWeight: 800 }}>Order Placed!</h2>
+          <p style={{ margin: '0 0 8px', color: 'var(--text-secondary)', fontSize: '15px', lineHeight: 1.6 }}>
+            Your order has been sent to the publisher.<br />
+            You'll be notified once it's ready for review.
+          </p>
+          <p style={{ margin: '0 0 32px', fontSize: '13px', color: 'var(--text-secondary)', opacity: 0.7 }}>
+            Funds are held and released upon your confirmation.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <button
+              onClick={() => router.push('/admin/buyer-orders')}
+              className="btn btn-primary"
+              style={{ width: '100%', padding: '13px', fontSize: '15px', fontWeight: 700 }}
+            >
+              View My Orders
+            </button>
+            <button
+              onClick={() => router.push('/websites')}
+              className="btn btn-secondary"
+              style={{ width: '100%', padding: '12px', fontSize: '14px' }}
+            >
+              Browse More Websites
+            </button>
+          </div>
+        </div>
+
+        <style>{`
+          @keyframes successPop {
+            from { transform: scale(0.7); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+          }
+        `}</style>
+      </div>
+    )}
     </>
   )
 }

@@ -74,6 +74,14 @@ export async function rejectWebsiteAction(websiteId: string){
    revalidatePath("/admin/all-websites")
 }
 
+// Publisher saves their uploaded article file
+export async function savePublisherFile(orderId: string, url: string, name: string) {
+  const user = await getCurrentUser()
+  if (!user) return redirect("/login")
+  await updateOrder(orderId, { publisherFileUrl: url, publisherFileName: name })
+  revalidatePath(`/admin/publisher-orders/${orderId}`)
+}
+
 // Save published link for order
 
 export async function savePublishedLink(orderId: string, link: string) {
