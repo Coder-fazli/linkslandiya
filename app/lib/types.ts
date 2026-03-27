@@ -47,6 +47,7 @@ export function formatTraffic(num: number): string {
 // For getting cleans websites names in websites page
 
 export function cleanDomain(url: string): string {
+    if (!url) return ''
    const clean = url
     .replace(/^https?:\/\//, '')
     .replace(/\/$/, '')
