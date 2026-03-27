@@ -12,6 +12,7 @@ export type Website = {
     language: string
     topic: string
     price: number
+    linkInsertionPrice?: number
     status: 'draft' | 'published' | 'pending_delete' | 'pending',
     ownerId: string
 

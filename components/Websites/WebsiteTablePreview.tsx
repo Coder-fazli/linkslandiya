@@ -33,18 +33,43 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
       <div className="table-scroll-inner">
         {/* Header */}
         <div className={`sites-grid-header ${showActions ? 'with-actions' : ''}`}>
-          <div>Website</div>
-          <div><span className="col-brand-badge moz-badge">MOZ</span>DA</div>
-          <div><span className="col-brand-badge ahrefs-badge">AHR</span>DR</div>
-          <div>
+          <div className="col-tooltip-wrapper">
+            Website
+            <span className="col-tooltip-icon">?</span>
+            <div className="col-tooltip-box">The domain name of the target website for a guest post or link insertion. The list of websites available for Guest posting or niche edits.</div>
+          </div>
+          <div className="col-tooltip-wrapper">
+            <span className="col-brand-badge moz-badge">MOZ</span>DA
+            <span className="col-tooltip-icon">?</span>
+            <div className="col-tooltip-box">A search engine ranking score by Moz that predicts how well a website is likely to rank on SERPs. The score ranges from 1 to 100, with higher scores indicating a better ability to rank.</div>
+          </div>
+          <div className="col-tooltip-wrapper">
+            <span className="col-brand-badge ahrefs-badge">AHR</span>DR
+            <span className="col-tooltip-icon">?</span>
+            <div className="col-tooltip-box">Ahrefs Domain Rating — measures the strength of a website's backlink profile on a scale from 1 to 100.</div>
+          </div>
+          <div className="col-tooltip-wrapper">
             <span className="col-brand-badge traffic-badge">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"/></svg>
             </span>
             Traffic
+            <span className="col-tooltip-icon">?</span>
+            <div className="col-tooltip-box">An estimate of the website's organic traffic for the previous month, based on data from the Ahrefs tool.</div>
           </div>
           <div>Country</div>
           <div>Topic</div>
-          <div className="col-center">Price</div>
+          <div>
+            <div className="col-tooltip-wrapper">
+              Guest Post
+              <span className="col-tooltip-icon">?</span>
+              <div className="col-tooltip-box">The fee for publishing an article on the specified website, excluding content creation.</div>
+            </div>
+            <div className="col-tooltip-wrapper" style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>
+              Link Insertion
+              <span className="col-tooltip-icon" style={{ background: '#cbd5e1' }}>?</span>
+              <div className="col-tooltip-box">The fee for inserting a backlink to an existing article on the specified website. Content is not required.</div>
+            </div>
+          </div>
           {showActions && <div className="col-center">Action</div>}
           <div></div>
         </div>
@@ -96,8 +121,12 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
                   </div>
 
                   {/* Price */}
-                  <div className="col-center">
+                  <div className="price-cell">
                     <span className="price-badge">${site.price}</span>
+                    {site.linkInsertionPrice != null
+                      ? <span className="price-badge price-badge-secondary">${site.linkInsertionPrice}</span>
+                      : <span className="price-badge-na">—</span>
+                    }
                   </div>
 
                   {/* Actions */}

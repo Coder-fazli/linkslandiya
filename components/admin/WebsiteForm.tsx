@@ -200,13 +200,22 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Price ($)</label>
-                                    <input 
-                                    type="number" 
-                                    className="form-input" 
+                                    <label className="form-label">Guest Post Price ($)</label>
+                                    <input
+                                    type="number"
+                                    className="form-input"
                                     value={formData.price}
                                     onChange={(e) => updateField("price", Number(e.target.value))}
                                     placeholder="e.g., 100" />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label">Link Insertion Price ($)</label>
+                                    <input
+                                    type="number"
+                                    className="form-input"
+                                    value={formData.linkInsertionPrice ?? ''}
+                                    onChange={(e) => updateField("linkInsertionPrice", Number(e.target.value))}
+                                    placeholder="e.g., 80" />
                                 </div>
                             </div>
 
