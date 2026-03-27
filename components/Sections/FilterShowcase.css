@@ -222,3 +222,47 @@
 .fs-features-row.fs-slide-up { transition-delay: .25s; }
 
 @keyframes fsDotBlink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .filter-showcase {
+    padding: 60px 20px;
+  }
+  .filter-showcase-inner {
+    gap: 40px;
+  }
+  .fs-title {
+    font-size: 40px;
+    letter-spacing: -1.5px;
+  }
+  .fs-image-outer {
+    padding: 8px;
+    overflow-x: auto;
+  }
+  .fs-image-wrap {
+    min-width: 680px;
+  }
+  .fs-float-badge {
+    display: none;
+  }
+  .fs-features-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .fs-cta-wrap {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .filter-showcase {
+    padding: 48px 16px;
+  }
+  .fs-title {
+    font-size: 30px;
+    letter-spacing: -1px;
+  }
+  .fs-desc {
+    font-size: 15px;
+  }
+}

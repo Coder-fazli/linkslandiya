@@ -35,11 +35,23 @@ export default function Header ({ cartCount = 0, isLoggedIn = false}: HeaderProp
                      {isLoggedIn ? (
                        <InteractiveHoverButton href="/admin">Dashboard</InteractiveHoverButton>
                      ) : (
-                       <>                                             
-               <Link href="/login"                          className="nav-link">Login</Link>                    
-                    <Link href="/register" 
-                    className="btn btn-primary">Sign Up</Link>  </>              
-                     )} </div>
+                       <>
+               <Link href="/login" className="nav-link">Login</Link>
+               <Link href="/register" className="btn btn-primary">Sign Up</Link>
+                       </>
+                     )}
+                     <button
+                       className="hamburger-btn"
+                       onClick={() => setMobileMenuOpen(true)}
+                       aria-label="Open menu"
+                     >
+                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
+                         <line x1="3" y1="6" x2="21" y2="6"/>
+                         <line x1="3" y1="12" x2="21" y2="12"/>
+                         <line x1="3" y1="18" x2="21" y2="18"/>
+                       </svg>
+                     </button>
+                   </div>
             </div>
         </div>
        

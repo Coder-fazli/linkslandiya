@@ -366,8 +366,12 @@
 }
 
 @media (max-width: 768px) {
+    .hero-new {
+        min-height: unset;
+    }
     .hero-new .container {
-        padding-top: 32px;
+        padding-top: 16px;
+        align-items: flex-start;
     }
 
     .hero-grid {
