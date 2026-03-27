@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { writeFile } from "fs/promises"
+import { writeFile, mkdir } from "fs/promises"
 import path from "path"
 import { getCurrentUser } from "@/app/lib/session"
 
@@ -56,8 +56,10 @@ export async function POST(req: Request) {
   // Unique filename: timestamp + user id + original name
   const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_")
   const filename = `${Date.now()}_${user._id}${ext}`
-  const uploadPath = path.join(process.cwd(), "public", "uploads", filename)
+  const uploadsDir = path.join(process.cwd(), "public", "uploads")
+  const uploadPath = path.join(uploadsDir, filename)
 
+  await mkdir(uploadsDir, { recursive: true })
   await writeFile(uploadPath, buffer)
 
   return NextResponse.json({ url: `/uploads/${filename}`, filename: safeName })
