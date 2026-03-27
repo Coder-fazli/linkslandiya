@@ -119,11 +119,6 @@ export default async function BuyerOrderDetailPage({ params }: {
                         </div>
                     </div>
 
-                    {/* ============ Buyer review actions — shown when status is 'review' ============ */}
-                    {order.status === "review" && order.publishedLink && (
-                        <BuyerOrderActions orderId={id} publishedLink={order.publishedLink} />
-                    )}
-
                     {/* ============ Revision note sent — shown when status is 'revision' ============ */}
                     {order.status === "revision" && order.revisionNote && (
                         <div className="card" style={{ marginBottom: "1.25rem" }}>
@@ -172,6 +167,11 @@ export default async function BuyerOrderDetailPage({ params }: {
 
                 {/* ============ Sidebar ============ */}
                 <div className="order-sidebar">
+
+                    {/* Review Published Link — top of sidebar when status is review */}
+                    {order.status === "review" && order.publishedLink && (
+                        <BuyerOrderActions orderId={id} publishedLink={order.publishedLink} />
+                    )}
 
                     {/* Payment card */}
                     <div className="card" style={{ marginBottom: "1.25rem" }}>
