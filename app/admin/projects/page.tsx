@@ -267,7 +267,7 @@ export default function ProjectsPage() {
         <NewProjectModal
           onClose={() => { setShowModal(false); setEditProject(null) }}
           onCreated={load}
-          editProject={editProject ?? undefined}
+          editProject={editProject ?? undefined as any}
         />
       )}
     </div>

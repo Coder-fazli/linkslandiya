@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb"
 import { getDb } from "./db"
 
 export type Project = {
-  _id?: string
+  _id: string
   buyerId: string
   name: string
   targetDomain: string
