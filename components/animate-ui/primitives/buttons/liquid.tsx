@@ -20,6 +20,7 @@ function LiquidButton({
   hoverScale = 1.05,
   tapScale = 0.95,
   asChild = false,
+  style,
   ...props
 }: LiquidButtonProps) {
   const Component = asChild ? Slot : motion.button;
@@ -47,6 +48,7 @@ function LiquidButton({
             'linear-gradient(var(--liquid-button-color) 0 0) no-repeat calc(200% - var(--liquid-button-fill-width, -1%)) 100% / 200% var(--liquid-button-fill-height, 0.2em)',
           backgroundColor: 'var(--liquid-button-background-color)',
           transition: `background ${delay} var(--liquid-button-delay, 0s), color ${delay} ${delay}, background-position ${delay} calc(${delay} - var(--liquid-button-delay, 0s))`,
+          ...style,
         } as React.CSSProperties
       }
       {...props}

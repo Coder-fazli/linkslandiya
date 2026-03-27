@@ -41,8 +41,8 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           </div>
 
           {/* MOZ DA — badge on top, label below */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-            <div className="col-tooltip-wrapper">
+          <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
+            <div className="col-tooltip-wrapper" style={{ justifyContent: 'center' }}>
               <span className="col-brand-badge moz-badge">MOZ</span>
               <span className="col-tooltip-icon">?</span>
               <div className="col-tooltip-box">A search engine ranking score by Moz that predicts how well a website is likely to rank on SERPs. The score ranges from 1 to 100, with higher scores indicating a better ability to rank.</div>
@@ -51,8 +51,8 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           </div>
 
           {/* AHR DR — badge on top, label below */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-            <div className="col-tooltip-wrapper">
+          <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
+            <div className="col-tooltip-wrapper" style={{ justifyContent: 'center' }}>
               <span className="col-brand-badge ahrefs-badge">AHR</span>
               <span className="col-tooltip-icon">?</span>
               <div className="col-tooltip-box">Ahrefs Domain Rating — measures the strength of a website's backlink profile on a scale from 1 to 100.</div>
@@ -61,8 +61,8 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           </div>
 
           {/* Traffic — badge on top, label below */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-            <div className="col-tooltip-wrapper">
+          <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
+            <div className="col-tooltip-wrapper" style={{ justifyContent: 'center' }}>
               <span className="col-brand-badge traffic-badge">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"/></svg>
               </span>
@@ -72,8 +72,8 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
             <span>Traffic</span>
           </div>
 
-          <div>Country</div>
-          <div>Topic</div>
+          <div className="col-center">Country</div>
+          <div className="col-center">Topic</div>
 
           {/* Guest Post — separate column */}
           <div className="col-tooltip-wrapper">

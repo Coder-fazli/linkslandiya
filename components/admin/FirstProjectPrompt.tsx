@@ -53,19 +53,20 @@ export default function FirstProjectPrompt() {
           You haven't created any projects yet. Create one now to start building links for your website — it's quick and easy.
         </p>
 
-        <LiquidButton
-          onClick={() => setShowForm(true)}
-          style={{
-            "--liquid-button-background-color": "var(--brand-primary)",
-            "--liquid-button-color": "#fff",
-            color: "#fff", width: "100%", padding: "14px 24px",
-            borderRadius: "10px", fontWeight: 700, fontSize: "16px",
-            border: "none", cursor: "pointer", marginBottom: "16px",
-            display: "block",
-          } as React.CSSProperties}
-        >
-          + Create New Project
-        </LiquidButton>
+        <div style={{ width: "100%", marginBottom: "16px" }}>
+          <LiquidButton
+            onClick={() => setShowForm(true)}
+            style={{
+              "--liquid-button-background-color": "var(--brand-primary)",
+              "--liquid-button-color": "#fff",
+              color: "#fff", width: "100%", padding: "14px 24px",
+              borderRadius: "10px", fontWeight: 700, fontSize: "16px",
+              border: "none", cursor: "pointer",
+            } as React.CSSProperties}
+          >
+            + Create New Project
+          </LiquidButton>
+        </div>
 
       </div>
 
