@@ -123,7 +123,7 @@ export function SparkleNavLink({ item, linkClassName }: { item: NavItem; linkCla
 
 export default function SparkleNavbar({ items, className, linkClassName }: Props) {
   return (
-    <nav className={className} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+    <nav className={className}>
       {items.map(item => (
         <SparkleNavLink key={item.href} item={item} linkClassName={linkClassName} />
       ))}
