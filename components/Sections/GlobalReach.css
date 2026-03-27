@@ -334,6 +334,7 @@
 @media (max-width: 768px) {
     .global-reach {
         padding: 60px 0;
+        min-height: 700px;
     }
 
     .global-reach-header {
@@ -350,6 +351,7 @@
 
     .world-map-container {
         opacity: 0.6;
+        width: 160%;
     }
 
     .country-cards-wrapper {
@@ -429,6 +431,14 @@
 }
 
 @media (max-width: 480px) {
+    .global-reach {
+        min-height: 720px;
+    }
+
+    .world-map-container {
+        width: 200%;
+    }
+
     .global-reach-title {
         font-size: 24px;
     }

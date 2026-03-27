@@ -114,8 +114,8 @@ export const ElectroBorder: React.FC<ElectroBorderProps> = ({
   const backgroundAura: CSSProperties = effects && aura ? { ...radiusStyle, transform: "scale(1.05)", background: `radial-gradient(circle at 50% 50%, ${toRGBA(borderColor, 0.5)} 0%, transparent 70%)`, filter: `blur(${glowBlur * 1.2}px)`, opacity: 0.7, zIndex: -1 } : {};
 
   return (
-    <div ref={rootRef} className={`relative isolate ${className ?? ""}`} style={style}>
-      <svg ref={svgRef} className="absolute w-0 h-0" aria-hidden focusable="false">
+    <div ref={rootRef} className={`relative isolate ${className ?? ""}`} style={{ touchAction: 'pan-y', ...style }}>
+      <svg ref={svgRef} className="absolute w-0 h-0" aria-hidden focusable="false" style={{ pointerEvents: 'none' }}>
         <defs>
           <filter id={filterId} x="-200%" y="-200%" width="500%" height="500%">
             <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="8" result="turb1" seed="1" />
@@ -132,14 +132,14 @@ export const ElectroBorder: React.FC<ElectroBorderProps> = ({
         </defs>
       </svg>
 
-      <div className="absolute inset-0 pointer-events-none" style={radiusStyle}>
-        <div ref={strokeLayer} className="absolute inset-0 -left-2 -top-3" style={borderBase} />
-        {effects && glow && <div className="absolute inset-0" style={glowLayer1} />}
-        {effects && glow && <div className="absolute inset-0" style={glowLayer2} />}
-        {effects && aura && <div className="absolute inset-0" style={backgroundAura} />}
+      <div className="absolute inset-0" style={{ ...radiusStyle, pointerEvents: 'none' }}>
+        <div ref={strokeLayer} className="absolute inset-0 -left-2 -top-3" style={{ ...borderBase, pointerEvents: 'none' }} />
+        {effects && glow && <div className="absolute inset-0" style={{ ...glowLayer1, pointerEvents: 'none' }} />}
+        {effects && glow && <div className="absolute inset-0" style={{ ...glowLayer2, pointerEvents: 'none' }} />}
+        {effects && aura && <div className="absolute inset-0" style={{ ...backgroundAura, pointerEvents: 'none' }} />}
       </div>
 
-      <div className="relative z-10" style={radiusStyle}>
+      <div className="relative z-10" style={{ ...radiusStyle, touchAction: 'pan-y' }}>
         {children}
       </div>
     </div>
