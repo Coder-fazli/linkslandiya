@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { SimpleEditor } from "../tiptap-templates/simple/simple-editor"
 import { cleanDomain } from "@/app/lib/types"
 import AddFundsModal from "./AddFundsModal"
+import { LiquidButton } from "@/components/animate-ui/components/buttons/liquid"
 
 type OrderType = 'guest_post' | 'link_insertion' | 'casino'
 type ContentMode = 'provide' | 'get'
@@ -473,12 +474,28 @@ export default function OrderForm({
             </>
           )}
 
-          <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+          <div style={{ display: 'flex', gap: '12px', marginTop: '24px', alignItems: 'center' }}>
             <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
             <button type="button" className="btn btn-secondary" onClick={handleClear}>Clear</button>
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting || !hasEnoughBalance}>
-              {isUploading ? 'Uploading...' : isSubmitting ? 'Submitting...' : 'Submit Order'}
-            </button>
+            <LiquidButton
+              type="submit"
+              disabled={isSubmitting || !hasEnoughBalance}
+              style={{
+                '--liquid-button-background-color': 'var(--brand-primary)',
+                '--liquid-button-color': '#fff',
+                color: (isSubmitting || !hasEnoughBalance) ? 'rgba(255,255,255,0.7)' : '#fff',
+                padding: '10px 32px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                fontSize: '15px',
+                border: 'none',
+                cursor: (isSubmitting || !hasEnoughBalance) ? 'not-allowed' : 'pointer',
+                opacity: (isSubmitting || !hasEnoughBalance) ? 0.6 : 1,
+                letterSpacing: '0.02em',
+              } as React.CSSProperties}
+            >
+              {isUploading ? 'Uploading…' : isSubmitting ? 'Submitting…' : 'Submit Order'}
+            </LiquidButton>
           </div>
 
         </div>
