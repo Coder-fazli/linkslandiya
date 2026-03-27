@@ -219,6 +219,7 @@ export default function OrderForm({
   ]
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
 
       {/* Website info bar */}
@@ -483,5 +484,6 @@ export default function OrderForm({
     </form>
 
     {showFundsModal && <AddFundsModal onClose={() => setShowFundsModal(false)} />}
+    </>
   )
 }

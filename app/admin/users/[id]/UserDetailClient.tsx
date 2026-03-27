@@ -63,73 +63,84 @@ export default function UserDetailClient({ user, buyerOrders, publisherOrders, w
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
-      {/* Profile card */}
-      <div className="card">
-        <div className="card-body">
-          <div style={{ display: "flex", gap: "20px", alignItems: "flex-start", flexWrap: "wrap" }}>
-            <div style={{
-              width: 64, height: 64, borderRadius: "50%", background: "var(--brand-primary)",
-              color: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "26px", fontWeight: 700, flexShrink: 0,
-            }}>
-              {user.name.charAt(0).toUpperCase()}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", marginBottom: "6px" }}>
-                <h2 style={{ margin: 0, fontSize: "20px" }}>{user.name}</h2>
-                <span style={{ padding: "3px 10px", borderRadius: "9999px", fontSize: "12px", fontWeight: 700, background: roleBadge.bg, color: roleBadge.color }}>
-                  {roleBadge.label}
-                </span>
-              </div>
-              <p style={{ margin: "0 0 8px", color: "var(--text-secondary)", fontSize: "14px" }}>{user.email}</p>
-              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", fontSize: "13px", color: "var(--text-secondary)" }}>
-                <span>Joined: <strong>{user.createdAt}</strong></span>
-                <span>Mode: <strong>{user.activeMode}</strong></span>
-                {user.country && <span>Country: <strong>{user.country}</strong></span>}
-                {user.phone && <span>Phone: <strong>{user.phone}</strong></span>}
-                {user.companyWebsite && <span>Website: <strong>{user.companyWebsite}</strong></span>}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Profile + Balance side by side */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
 
-      {/* Balance control */}
-      <div className="card">
-        <div className="card-header"><h3>Balance Management</h3></div>
-        <div className="card-body">
-          <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "20px", flexWrap: "wrap" }}>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "32px", fontWeight: 800, color: "var(--brand-primary)" }}>${balance.toFixed(2)}</div>
-              <div style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 600, textTransform: "uppercase" }}>Current Balance</div>
-            </div>
-            <div style={{ flex: 1, minWidth: "240px" }}>
-              <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
-                <input
-                  type="text" className="form-input" style={{ flex: 1 }}
-                  value={adjustAmount}
-                  onChange={e => setAdjustAmount(e.target.value.replace(/[^0-9.]/g, ""))}
-                  placeholder="Amount (e.g. 50)"
-                />
-                <button className="btn btn-primary" onClick={() => handleAdjust("add")} disabled={saving}
-                  style={{ whiteSpace: "nowrap", background: "#22c55e", borderColor: "#22c55e" }}>
-                  + Add
-                </button>
-                <button className="btn btn-secondary" onClick={() => handleAdjust("deduct")} disabled={saving}
-                  style={{ whiteSpace: "nowrap", color: "#ef4444", borderColor: "#fecaca" }}>
-                  − Deduct
-                </button>
+        {/* Profile card */}
+        <div className="card" style={{ margin: 0 }}>
+          <div className="card-body">
+            <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
+              <div style={{
+                width: 56, height: 56, borderRadius: "50%", background: "var(--brand-primary)",
+                color: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "22px", fontWeight: 700, flexShrink: 0,
+              }}>
+                {user.name.charAt(0).toUpperCase()}
               </div>
-              <input type="text" className="form-input" value={adjustNote}
-                onChange={e => setAdjustNote(e.target.value)}
-                placeholder="Optional note (internal)" />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "4px" }}>
+                  <h2 style={{ margin: 0, fontSize: "18px" }}>{user.name}</h2>
+                  <span style={{ padding: "2px 10px", borderRadius: "9999px", fontSize: "12px", fontWeight: 700, background: roleBadge.bg, color: roleBadge.color }}>
+                    {roleBadge.label}
+                  </span>
+                </div>
+                <p style={{ margin: "0 0 8px", color: "var(--text-secondary)", fontSize: "13px" }}>{user.email}</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: "3px", fontSize: "12px", color: "var(--text-secondary)" }}>
+                  <span>Joined: <strong>{user.createdAt}</strong></span>
+                  <span>Mode: <strong>{user.activeMode}</strong></span>
+                  {user.country && <span>Country: <strong>{user.country}</strong></span>}
+                  {user.phone && <span>Phone: <strong>{user.phone}</strong></span>}
+                  {user.companyWebsite && <span>Website: <strong>{user.companyWebsite}</strong></span>}
+                </div>
+              </div>
             </div>
-          </div>
-          <div style={{ display: "flex", gap: "24px", fontSize: "13px", color: "var(--text-secondary)" }}>
-            <span>Total spent (as buyer): <strong>${buyerOrders.reduce((s, o) => s + (o.amount || 0), 0).toFixed(2)}</strong></span>
-            <span>Total earned (as publisher): <strong>${publisherOrders.reduce((s, o) => s + (o.amount || 0), 0).toFixed(2)}</strong></span>
           </div>
         </div>
+
+        {/* Balance control */}
+        <div className="card" style={{ margin: 0 }}>
+          <div className="card-header"><h3>Balance Management</h3></div>
+          <div className="card-body">
+            <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "12px" }}>
+              <div style={{ textAlign: "center", flexShrink: 0 }}>
+                <div style={{ fontSize: "26px", fontWeight: 800, color: "var(--brand-primary)" }}>${balance.toFixed(2)}</div>
+                <div style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 600, textTransform: "uppercase" }}>Balance</div>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", gap: "6px", marginBottom: "6px" }}>
+                  <input
+                    type="text" className="form-input" style={{ flex: 1, minWidth: 0 }}
+                    value={adjustAmount}
+                    onChange={e => setAdjustAmount(e.target.value.replace(/[^0-9.]/g, ""))}
+                    placeholder="Amount"
+                  />
+                  <button className="btn btn-primary" onClick={() => handleAdjust("add")} disabled={saving}
+                    style={{ whiteSpace: "nowrap", background: "#22c55e", borderColor: "#22c55e", padding: "0 12px" }}>
+                    + Add
+                  </button>
+                  <button className="btn btn-secondary" onClick={() => handleAdjust("deduct")} disabled={saving}
+                    style={{ whiteSpace: "nowrap", color: "#ef4444", borderColor: "#fecaca", padding: "0 12px" }}>
+                    − Deduct
+                  </button>
+                </div>
+                <input type="text" className="form-input" value={adjustNote}
+                  onChange={e => setAdjustNote(e.target.value)}
+                  placeholder="Optional note (internal)" />
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <div style={{ flex: 1, background: "#fef2f2", borderRadius: "8px", padding: "8px 12px" }}>
+                <div style={{ fontSize: "11px", color: "#ef4444", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "2px" }}>Total Spent</div>
+                <div style={{ fontSize: "16px", fontWeight: 800, color: "#dc2626" }}>${buyerOrders.reduce((s, o) => s + (o.amount || 0), 0).toFixed(2)}</div>
+              </div>
+              <div style={{ flex: 1, background: "#f0fdf4", borderRadius: "8px", padding: "8px 12px" }}>
+                <div style={{ fontSize: "11px", color: "#22c55e", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "2px" }}>Total Earned</div>
+                <div style={{ fontSize: "16px", fontWeight: 800, color: "#16a34a" }}>${publisherOrders.reduce((s, o) => s + (o.amount || 0), 0).toFixed(2)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Tabs: orders + websites */}
