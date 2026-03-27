@@ -54,7 +54,7 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
               {/* Website */}
               <a href={`/site/${site._id}`} target="_blank" rel="noopener noreferrer" className="site-name-cell">
                 <WebsiteFavicon url={site.url} name={site.name} />
-                <span className="site-name">{cleanDomain(site.url)}</span>
+                <span className="site-name">{cleanDomain(site.url, site.name)}</span>
               </a>
 
               {/* Dofollow */}

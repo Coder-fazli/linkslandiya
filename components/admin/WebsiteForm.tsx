@@ -78,8 +78,11 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
             <input 
             type="url" 
             className="form-input" 
-            value={formData.name}
-            onChange={(e) => updateField("name", e.target.value)}
+            value={formData.url}
+            onChange={(e) => {
+              updateField("url", e.target.value)
+              updateField("name", e.target.value)
+            }}
             placeholder="https://example.com" />
         </div><div className="form-group full-width">
                 <label className="form-label">Description</label>
