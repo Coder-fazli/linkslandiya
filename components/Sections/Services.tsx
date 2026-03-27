@@ -1,7 +1,7 @@
 "use client"
 
 import './Services.css'
-import { ElectroBorder } from '@/components/ui/ElectroBorder'
+import { InteractiveGradient } from '@/components/ui/InteractiveGradient'
 
 const services = [
     {
@@ -61,15 +61,14 @@ export default function Services() {
 
                 <div className="services-new-grid">
                     {services.map((service) => (
-                        <ElectroBorder
+                        <InteractiveGradient
                             key={service.id}
-                            borderColor={service.featured ? '#00b4d8' : '#48cae4'}
-                            borderWidth={2}
-                            animationSpeed={service.featured ? 1.2 : 0.7}
-                            distortion={0.8}
-                            glowBlur={service.featured ? 40 : 24}
-                            radius="24px"
-                            className="h-full"
+                            color={service.featured ? '#00b4d8' : '#48cae4'}
+                            glowColor={service.featured ? 'rgba(0, 180, 216, 0.10)' : 'rgba(72, 202, 228, 0.07)'}
+                            borderRadius="20px"
+                            intensity={80}
+                            hoverOnly={false}
+                            className="h-full text-left place-content-start place-items-start"
                         >
                             <article
                                 className={`service-card-new ${service.featured ? 'service-card-featured' : ''}`}
@@ -93,7 +92,7 @@ export default function Services() {
                                     </a>
                                 </div>
                             </article>
-                        </ElectroBorder>
+                        </InteractiveGradient>
                     ))}
                 </div>
             </div>
