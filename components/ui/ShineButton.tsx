@@ -11,6 +11,7 @@ interface ShineButtonProps {
   href?: string
   target?: string
   rel?: string
+  disabled?: boolean
 }
 
 const sizeStyles: Record<NonNullable<ShineButtonProps["size"]>, { padding: string; fontSize: string }> = {
@@ -24,7 +25,7 @@ const sizeStyles: Record<NonNullable<ShineButtonProps["size"]>, { padding: strin
 const BRAND_GRADIENT =
   "linear-gradient(325deg, #0096b7 0%, #48cae4 55%, #0096b7 90%)"
 
-export function ShineButton({ label = "Get Started", onClick, className, size = "md", href, target, rel }: ShineButtonProps) {
+export function ShineButton({ label = "Get Started", onClick, className, size = "md", href, target, rel, disabled }: ShineButtonProps) {
   const { padding, fontSize } = sizeStyles[size]
 
   const sharedStyle: React.CSSProperties = {
@@ -96,7 +97,7 @@ export function ShineButton({ label = "Get Started", onClick, className, size = 
 
   return (
     <>
-      <button onClick={onClick} className={sharedClass} style={sharedStyle} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+      <button onClick={onClick} disabled={disabled} className={sharedClass} style={{ ...sharedStyle, opacity: disabled ? 0.65 : 1, cursor: disabled ? 'not-allowed' : 'pointer' }} onMouseEnter={onEnter} onMouseLeave={onLeave}>
         {label}
         {shineDiv}
       </button>

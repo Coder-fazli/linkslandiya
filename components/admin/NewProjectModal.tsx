@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { LiquidButton } from "@/components/animate-ui/components/buttons/liquid"
+import { ShineButton } from "@/components/ui/ShineButton"
 
 const CATEGORIES = [
   "Technology", "Finance", "Health & Wellness", "Fashion & Beauty",
@@ -165,20 +165,12 @@ export default function NewProjectModal({ onClose, onCreated, required, editProj
         {/* Footer — always visible */}
         <div style={{ padding: "16px 28px 28px", display: "flex", justifyContent: "flex-end", gap: "12px", flexShrink: 0, borderTop: "1px solid var(--border-color, #f0f0f0)" }}>
           {!required && <button className="btn btn-secondary" onClick={onClose} disabled={saving}>Cancel</button>}
-          <LiquidButton
+          <ShineButton
+            label={saving ? (isEdit ? "Saving..." : "Creating...") : (isEdit ? "Save Changes" : "Create Project")}
+            size="md"
             onClick={handleSave}
             disabled={saving}
-            style={{
-              "--liquid-button-background-color": "var(--brand-primary)",
-              "--liquid-button-color": "#fff",
-              color: "#fff", padding: "10px 32px", borderRadius: "8px",
-              fontWeight: 700, fontSize: "15px", border: "none",
-              cursor: saving ? "not-allowed" : "pointer",
-              opacity: saving ? 0.7 : 1,
-            } as React.CSSProperties}
-          >
-            {saving ? (isEdit ? "Saving..." : "Creating...") : (isEdit ? "Save Changes" : "Create Project")}
-          </LiquidButton>
+          />
         </div>
       </div>
 

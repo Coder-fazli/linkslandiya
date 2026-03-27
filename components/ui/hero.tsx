@@ -3,6 +3,15 @@ import Link from 'next/link'
 import './landing.css'
 import { useEffect, useState, useRef } from 'react'
 import { ShineButton } from '@/components/ui/ShineButton'
+import { TrustedUsers } from '@/components/ui/trusted-users'
+
+const AVATARS = [
+  'https://pbs.twimg.com/profile_images/1897311929028255744/otxpL-ke_400x400.jpg',
+  'https://pbs.twimg.com/profile_images/1948770261848756224/oPwqXMD6_400x400.jpg',
+  'https://pbs.twimg.com/profile_images/1593304942210478080/TUYae5z7_400x400.jpg',
+  'https://pbs.twimg.com/profile_images/1677042510839857154/Kq4tpySA_400x400.jpg',
+  'https://pbs.twimg.com/profile_images/1783856060249595904/8TfcCN0r_400x400.jpg',
+]
 
 function Counter({ end, suffix = '' }: { end: number, suffix?: string }) {
   const [count, setCount] = useState(0)
@@ -87,6 +96,15 @@ export default function Hero() {
                 Learn More
               </a>
             </div>
+
+            <TrustedUsers
+              avatars={AVATARS}
+              rating={5}
+              totalUsersText={6000}
+              caption="❤️ Loved by"
+              className="!justify-start !px-0 !py-0 mt-4"
+              starColorClass="text-yellow-400"
+            />
 
             <div className="hero-metrics animate-fade-up delay-3">
               <div className="metric">
