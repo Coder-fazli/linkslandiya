@@ -10,6 +10,7 @@ import {
     cleanDomain,
 } from '@/app/lib/types'
 import WebsiteFavicon from './WebsiteFavicon'
+import { ShineButton } from '@/components/ui/ShineButton'
 
 type WebsiteTablePreviewProps = {
   websites: Website[];
@@ -40,36 +41,36 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
             <div className="col-tooltip-box">The domain name of the target website for a guest post or link insertion. The list of websites available for Guest posting or niche edits.</div>
           </div>
 
-          {/* MOZ DA — badge on top, label below */}
+          {/* MOZ DA — badge centered on top, label + ? below */}
           <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
-            <div className="col-tooltip-wrapper" style={{ justifyContent: 'center' }}>
-              <span className="col-brand-badge moz-badge">MOZ</span>
+            <span className="col-brand-badge moz-badge">MOZ</span>
+            <div className="col-tooltip-wrapper">
+              <span>DA</span>
               <span className="col-tooltip-icon">?</span>
               <div className="col-tooltip-box">A search engine ranking score by Moz that predicts how well a website is likely to rank on SERPs. The score ranges from 1 to 100, with higher scores indicating a better ability to rank.</div>
             </div>
-            <span>DA</span>
           </div>
 
-          {/* AHR DR — badge on top, label below */}
+          {/* AHR DR — badge centered on top, label + ? below */}
           <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
-            <div className="col-tooltip-wrapper" style={{ justifyContent: 'center' }}>
-              <span className="col-brand-badge ahrefs-badge">AHR</span>
+            <span className="col-brand-badge ahrefs-badge">AHR</span>
+            <div className="col-tooltip-wrapper">
+              <span>DR</span>
               <span className="col-tooltip-icon">?</span>
               <div className="col-tooltip-box">Ahrefs Domain Rating — measures the strength of a website's backlink profile on a scale from 1 to 100.</div>
             </div>
-            <span>DR</span>
           </div>
 
-          {/* Traffic — badge on top, label below */}
+          {/* Traffic — badge centered on top, label + ? below */}
           <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
-            <div className="col-tooltip-wrapper" style={{ justifyContent: 'center' }}>
-              <span className="col-brand-badge traffic-badge">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"/></svg>
-              </span>
+            <span className="col-brand-badge traffic-badge">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"/></svg>
+            </span>
+            <div className="col-tooltip-wrapper">
+              <span>Traffic</span>
               <span className="col-tooltip-icon">?</span>
               <div className="col-tooltip-box">An estimate of the website's organic traffic for the previous month, based on data from the Ahrefs tool.</div>
             </div>
-            <span>Traffic</span>
           </div>
 
           <div className="col-center">Country</div>
@@ -161,9 +162,11 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
                           <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                       </a>
-                      <Link href={`/admin/buyer-orders/new?websiteId=${id}`} className="btn-post">
-                        Post
-                      </Link>
+                      <ShineButton
+                        label="Post"
+                        href={`/admin/buyer-orders/new?websiteId=${id}`}
+                        size="sm"
+                      />
                     </div>
                   )}
 

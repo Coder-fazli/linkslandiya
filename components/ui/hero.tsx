@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import './landing.css'
 import { useEffect, useState, useRef } from 'react'
+import { ShineButton } from '@/components/ui/ShineButton'
 
 function Counter({ end, suffix = '' }: { end: number, suffix?: string }) {
   const [count, setCount] = useState(0)
@@ -72,14 +73,13 @@ export default function Hero() {
             </p>
 
             <div className="hero-actions animate-fade-up delay-2">
-              <Link href = '/login'
-              className='btn-primary'
-              target="_blank"     // opens in new tab
-              rel="noopener noreferrer"
-             > 
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>Get Started</Link>
+              <ShineButton
+                label="→ Get Started"
+                href="/login"
+                target="_blank"
+                rel="noopener noreferrer"
+                size="lg"
+              />
                
                 
             
