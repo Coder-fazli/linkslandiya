@@ -13,13 +13,15 @@ type Props = {
   onClose: () => void
   onCreated?: () => void
   required?: boolean
+  editProject?: { _id: string; targetDomain: string; category?: string; competitors?: string[]; note?: string }
 }
 
-export default function NewProjectModal({ onClose, onCreated, required }: Props) {
-  const [targetDomain, setTargetDomain] = useState("")
-  const [category, setCategory] = useState("")
-  const [competitors, setCompetitors] = useState<string[]>([""])
-  const [note, setNote] = useState("")
+export default function NewProjectModal({ onClose, onCreated, required, editProject }: Props) {
+  const isEdit = !!editProject
+  const [targetDomain, setTargetDomain] = useState(editProject?.targetDomain ?? "")
+  const [category, setCategory] = useState(editProject?.category ?? "")
+  const [competitors, setCompetitors] = useState<string[]>(editProject?.competitors?.length ? editProject.competitors : [""])
+  const [note, setNote] = useState(editProject?.note ?? "")
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
 
@@ -48,11 +50,17 @@ export default function NewProjectModal({ onClose, onCreated, required }: Props)
     setSaving(true)
     setError("")
     try {
-      const res = await fetch("/api/projects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ targetDomain: targetDomain.trim(), category, competitors, note }),
-      })
+      const res = isEdit
+        ? await fetch("/api/projects", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: editProject!._id, targetDomain: targetDomain.trim(), category, competitors, note }),
+          })
+        : await fetch("/api/projects", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ targetDomain: targetDomain.trim(), category, competitors, note }),
+          })
       if (!res.ok) { const d = await res.json(); setError(d.error || "Failed to save"); return }
       onCreated?.()
       onClose()
@@ -77,8 +85,8 @@ export default function NewProjectModal({ onClose, onCreated, required }: Props)
         {/* Header */}
         <div style={{ padding: "24px 28px 0", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
           <div>
-            <h2 style={{ margin: 0, fontSize: "22px", fontWeight: 800 }}>Add New Project</h2>
-            <p style={{ margin: "4px 0 0", fontSize: "13px", color: "var(--text-secondary)" }}>Track your link building for a specific website</p>
+            <h2 style={{ margin: 0, fontSize: "22px", fontWeight: 800 }}>{isEdit ? "Edit Project" : "Add New Project"}</h2>
+            <p style={{ margin: "4px 0 0", fontSize: "13px", color: "var(--text-secondary)" }}>{isEdit ? "Update your project details" : "Track your link building for a specific website"}</p>
           </div>
           {!required && <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-secondary)", fontSize: "22px", lineHeight: 1, padding: "4px" }}>×</button>}
         </div>
@@ -169,7 +177,7 @@ export default function NewProjectModal({ onClose, onCreated, required }: Props)
               opacity: saving ? 0.7 : 1,
             } as React.CSSProperties}
           >
-            {saving ? "Creating..." : "Create Project"}
+            {saving ? (isEdit ? "Saving..." : "Creating...") : (isEdit ? "Save Changes" : "Create Project")}
           </LiquidButton>
         </div>
       </div>

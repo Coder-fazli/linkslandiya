@@ -14,14 +14,15 @@ interface ShineButtonProps {
 }
 
 const sizeStyles: Record<NonNullable<ShineButtonProps["size"]>, { padding: string; fontSize: string }> = {
-  sm: { padding: "0.5rem 1.2rem",  fontSize: "0.875rem" },
-  md: { padding: "0.65rem 1.6rem", fontSize: "1rem" },
-  lg: { padding: "0.85rem 2rem",   fontSize: "1.1rem" },
+  sm: { padding: "0.4rem 0.85rem", fontSize: "0.8rem" },
+  md: { padding: "0.55rem 1.2rem", fontSize: "0.95rem" },
+  lg: { padding: "0.75rem 1.6rem", fontSize: "1rem" },
 }
 
-// Exact gradient from Lightswind ShineButton
+// Brand gradient: dark → light → dark (same structure as Lightswind)
+// #0096b7 (dark) → #48cae4 (light) → #0096b7 (dark)
 const BRAND_GRADIENT =
-  "linear-gradient(325deg, hsl(217 100% 56%) 0%, hsl(194 100% 69%) 55%, hsl(217 100% 56%) 90%)"
+  "linear-gradient(325deg, #0096b7 0%, #48cae4 55%, #0096b7 90%)"
 
 export function ShineButton({ label = "Get Started", onClick, className, size = "md", href, target, rel }: ShineButtonProps) {
   const { padding, fontSize } = sizeStyles[size]
@@ -43,15 +44,15 @@ export function ShineButton({ label = "Get Started", onClick, className, size = 
     justifyContent: "center",
     gap: "6px",
     textDecoration: "none",
-    minWidth: "120px",
-    minHeight: "44px",
+    minWidth: "unset",
+    minHeight: "36px",
     position: "relative",
     overflow: "hidden",
   }
 
   const sharedClass = cn(
     "relative font-semibold transition-all duration-700",
-    "shadow-[0px_0px_20px_rgba(71,184,255,0.5),0px_5px_5px_-1px_rgba(58,125,233,0.25),inset_4px_4px_8px_rgba(175,230,255,0.5),inset_-4px_-4px_8px_rgba(19,95,216,0.35)]",
+    "shadow-[0px_0px_20px_rgba(0,180,216,0.5),0px_5px_5px_-1px_rgba(0,150,183,0.25),inset_4px_4px_8px_rgba(72,202,228,0.5),inset_-4px_-4px_8px_rgba(0,100,150,0.35)]",
     "hover:scale-[1.03] active:scale-95",
     className
   )

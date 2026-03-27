@@ -305,16 +305,21 @@ export default function OrderForm({
 
           {/* Project selector — all order types */}
           {projects.length > 0 && (
-            <div className="form-group" style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid var(--border-color)' }}>
-              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="2" width="14" height="14">
+            <div style={{
+              marginBottom: '20px', padding: '16px', borderRadius: '12px',
+              background: 'linear-gradient(135deg, color-mix(in srgb, var(--brand-primary) 6%, transparent), color-mix(in srgb, var(--brand-primary) 3%, transparent))',
+              border: '1.5px solid color-mix(in srgb, var(--brand-primary) 25%, transparent)',
+            }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '10px', fontWeight: 700, fontSize: '14px', color: 'var(--brand-primary)' }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                   <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                 </svg>
-                Select Project <span style={{ color: '#ef4444' }}>*</span>
+                Select Project <span style={{ color: '#ef4444', marginLeft: '2px' }}>*</span>
               </label>
               <select
                 className="form-select"
                 value={selectedProject}
+                style={{ borderColor: 'color-mix(in srgb, var(--brand-primary) 30%, transparent)', fontWeight: 600 }}
                 onChange={e => {
                   const id = e.target.value
                   setSelectedProject(id)
@@ -329,7 +334,7 @@ export default function OrderForm({
                   <option key={p.id} value={p.id}>{p.domain}</option>
                 ))}
               </select>
-              <p style={{ margin: '4px 0 0', fontSize: '12px', color: 'var(--text-secondary)' }}>
+              <p style={{ margin: '6px 0 0', fontSize: '12px', color: 'var(--text-secondary)' }}>
                 {orderType === 'link_insertion'
                   ? 'Landing Page URL will be pre-filled from your project.'
                   : 'Target URL will be pre-filled from your project. You can still edit the exact page below.'}
@@ -359,7 +364,7 @@ export default function OrderForm({
                   borderBottom: contentMode === mode ? '2px solid var(--brand-primary)' : '2px solid transparent',
                   marginBottom: '-2px', transition: 'all 0.2s',
                 }}>
-                  {mode === 'provide' ? 'Provide Content' : 'Get Content from Us'}
+                  {mode === 'provide' ? 'Provide Content' : 'Write Content for Me'}
                 </button>
               ))}
             </div>

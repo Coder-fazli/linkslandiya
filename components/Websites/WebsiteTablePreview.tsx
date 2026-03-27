@@ -1,7 +1,6 @@
 'use client'
 
 import './WebsitesPreview.css'
-import Link from 'next/link'
 import { useState } from 'react'
 import {
     Website,

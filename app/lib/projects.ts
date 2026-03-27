@@ -7,9 +7,9 @@ export type Project = {
   name: string
   targetDomain: string
   category?: string
-  forbiddenCategory?: string
   competitors?: string[]
   note?: string
+  archived?: boolean
   createdAt: Date
 }
 
@@ -26,9 +26,26 @@ export async function createProject(data: Omit<Project, "_id" | "createdAt">) {
   const db = await getDb()
   const result = await db.collection("projects").insertOne({
     ...data,
+    archived: false,
     createdAt: new Date(),
   })
   return result.insertedId
+}
+
+export async function updateProject(id: string, buyerId: string, data: Partial<Pick<Project, "targetDomain" | "category" | "competitors" | "note">>) {
+  const db = await getDb()
+  await db.collection("projects").updateOne(
+    { _id: new ObjectId(id), buyerId },
+    { $set: data }
+  )
+}
+
+export async function archiveProject(id: string, buyerId: string, archived: boolean) {
+  const db = await getDb()
+  await db.collection("projects").updateOne(
+    { _id: new ObjectId(id), buyerId },
+    { $set: { archived } }
+  )
 }
 
 export async function deleteProject(id: string, buyerId: string) {

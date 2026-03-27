@@ -3,6 +3,14 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button'
+import SparkleNavbar from '@/components/ui/SparkleNavbar'
+
+const NAV_ITEMS = [
+  { label: 'Websites', href: '/websites' },
+  { label: 'Packages', href: '/packages' },
+  { label: 'How It Works', href: '/how-it-works' },
+  { label: 'Contact', href: '/contact' },
+]
 
 type HeaderProps = {
  cartCount?: number;
@@ -21,12 +29,7 @@ export default function Header ({ cartCount = 0, isLoggedIn = false}: HeaderProp
                 <div className='logo-icon'>L</div>
                 <span className='logo-text'>Linkslandia</span>   
                </Link>
-                <nav className="nav">
-                    <Link href="/websites" className="nav-link">Websites</Link>
-                    <Link href="/packages" className="nav-link">Packages</Link>
-                    <Link href="/how-it-works" className="nav-link">How It Works</Link>
-                    <Link href="/contact" className="nav-link">Contact</Link>
-                </nav>
+                <SparkleNavbar items={NAV_ITEMS} className="nav" linkClassName="nav-link" />
                    
                    <div className="header-actions">
                      {isLoggedIn ? (
