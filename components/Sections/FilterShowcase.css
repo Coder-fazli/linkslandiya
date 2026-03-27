@@ -246,13 +246,13 @@
     transform-origin: top left;
     width: calc(100% / 0.57);
   }
-  .fs-features-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 0;
+  /* Pull badge inside container so it doesn't cause overflow scroll */
+  .fs-float-badge {
+    bottom: 10px;
   }
-  .fs-cta-wrap {
-    grid-column: 1;
+  /* Hide feature cards on mobile */
+  .fs-features-row {
+    display: none;
   }
 }
 
@@ -273,5 +273,8 @@
   .fs-image-wrap {
     transform: scale(0.46);
     width: calc(100% / 0.46);
+  }
+  .fs-features-row {
+    display: none;
   }
 }

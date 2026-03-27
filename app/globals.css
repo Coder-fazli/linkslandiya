@@ -240,8 +240,10 @@ body {
     gap: 12px;
 }
 
-.hamburger-btn {
-    display: none;
+@media (min-width: 1025px) {
+    .hamburger-btn {
+        display: none !important;
+    }
 }
 
 .btn-icon {
@@ -1779,7 +1781,7 @@ body {
 
     /* Hamburger button */
     .hamburger-btn {
-        display: flex;
+        display: flex !important;
         width: 44px;
         height: 44px;
         border-radius: 12px;
