@@ -15,6 +15,8 @@ type Props = {
   // Link insertion fields
   existingPostUrl?: string
   landingPageUrl?: string
+  // If buyer uploaded a file, hide the content editor
+  hasAttachment?: boolean
 }
 
 function HtmlCopyButton({ html }: { html: string }) {
@@ -47,7 +49,7 @@ function HtmlCopyButton({ html }: { html: string }) {
   )
 }
 
-export default function ContentCopyPanel({ orderType = 'guest_post', title, content, targetUrl, anchorText, existingPostUrl, landingPageUrl }: Props) {
+export default function ContentCopyPanel({ orderType = 'guest_post', title, content, targetUrl, anchorText, existingPostUrl, landingPageUrl, hasAttachment }: Props) {
 
   // ── Link Insertion layout ─────────────────────────────────
   if (orderType === 'link_insertion') {
@@ -132,13 +134,15 @@ export default function ContentCopyPanel({ orderType = 'guest_post', title, cont
         </div>
       </div>
 
-      <div className="form-group">
-        <div className="form-label-row">
-          <label className="form-label">Article Content</label>
-          <HtmlCopyButton html={content} />
+      {!hasAttachment && (
+        <div className="form-group">
+          <div className="form-label-row">
+            <label className="form-label">Article Content</label>
+            <HtmlCopyButton html={content} />
+          </div>
+          <TipTapViewer content={content || '<p>No content provided.</p>'} />
         </div>
-        <TipTapViewer content={content || '<p>No content provided.</p>'} />
-      </div>
+      )}
     </div>
   )
 }

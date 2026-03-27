@@ -32,9 +32,24 @@ export default async function OrderDetailPage({ params }: {
                 Back to Orders
             </Link>
 
-            {/* Header — Order ID and status badge */}
+            {/* Header — Order ID, website, status */}
             <div className="edit-header">
-                <h2>Order #{id.slice(-6).toUpperCase()}</h2>
+                <div>
+                    <h2 style={{ margin: 0 }}>Order #{id.slice(-6).toUpperCase()}</h2>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" strokeWidth="2" width="14" height="14">
+                            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <a href={order.websiteUrl || `https://${order.websiteName}`} target="_blank" rel="noopener noreferrer"
+                            style={{ fontSize: "13px", color: "var(--brand-primary)", textDecoration: "none", fontWeight: 500 }}>
+                            {order.websiteUrl || order.websiteName}
+                        </a>
+                    </div>
+                </div>
+                <span className={`status-badge ${order.status.replace("_", "-")}`}>
+                    {order.status.replace("_", " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}
+                </span>
             </div>
 
             {/* Two-column layout: main content on left, sidebar on right */}
@@ -128,6 +143,7 @@ export default async function OrderDetailPage({ params }: {
                                 anchorText={order.anchorText}
                                 existingPostUrl={order.existingPostUrl}
                                 landingPageUrl={order.landingPageUrl}
+                                hasAttachment={!!order.attachmentUrl}
                             />
 
                             {/* Buyer uploaded a file — show download link */}
