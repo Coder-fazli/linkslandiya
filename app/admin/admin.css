@@ -1613,3 +1613,75 @@
 .admin .copy-btn-styled-html:hover {
   background: var(--brand-primary-border);
 }
+
+/* ── Browse layout header ─────────────────────────────── */
+.browse-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+.browse-header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.browse-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-icon-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--brand-primary-light), var(--brand-primary));
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.browse-logo-text {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.browse-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.browse-add-funds-btn {
+  padding: 7px 16px;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  box-shadow: 0 4px 12px var(--brand-primary-shadow);
+}
+
+.browse-add-funds-btn:hover { opacity: 0.88; }
+
+.browse-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
