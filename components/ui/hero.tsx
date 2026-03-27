@@ -6,11 +6,11 @@ import { ShineButton } from '@/components/ui/ShineButton'
 import { TrustedUsers } from '@/components/ui/trusted-users'
 
 const AVATARS = [
-  'https://pbs.twimg.com/profile_images/1897311929028255744/otxpL-ke_400x400.jpg',
-  'https://pbs.twimg.com/profile_images/1948770261848756224/oPwqXMD6_400x400.jpg',
-  'https://pbs.twimg.com/profile_images/1593304942210478080/TUYae5z7_400x400.jpg',
-  'https://pbs.twimg.com/profile_images/1677042510839857154/Kq4tpySA_400x400.jpg',
-  'https://pbs.twimg.com/profile_images/1783856060249595904/8TfcCN0r_400x400.jpg',
+  'https://randomuser.me/api/portraits/women/44.jpg',
+  'https://randomuser.me/api/portraits/men/32.jpg',
+  'https://randomuser.me/api/portraits/women/68.jpg',
+  'https://randomuser.me/api/portraits/men/75.jpg',
+  'https://randomuser.me/api/portraits/women/26.jpg',
 ]
 
 function Counter({ end, suffix = '' }: { end: number, suffix?: string }) {
@@ -106,20 +106,6 @@ export default function Hero() {
               starColorClass="text-yellow-400"
             />
 
-            <div className="hero-metrics animate-fade-up delay-3">
-              <div className="metric">
-                <Counter end={23} suffix="K+" />
-                <span>Websites</span>
-              </div>
-              <div className="metric">
-                <Counter end={50} suffix="+" />
-                <span>Countries</span>
-              </div>
-              <div className="metric">
-                <Counter end={99} suffix="%" />
-                <span>Satisfaction</span>
-              </div>
-            </div>
           </div>
 
           {/* Right - Animation */}
