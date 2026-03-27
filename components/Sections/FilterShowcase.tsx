@@ -149,40 +149,47 @@ export default function FilterShowcase() {
 
         {/* BOTTOM: Features row + CTA */}
         <div className="fs-features-row fs-slide-up" ref={featuresRef}>
-          <div className="fs-feature">
-            <div className="fs-feature-icon" style={{ background: '#eff6ff' }}>
-              <svg fill="none" stroke={colors.primary} strokeWidth="2" viewBox="0 0 24 24">
-                <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/>
-              </svg>
+
+          <div className="fs-feature fs-feature-v2">
+            <div className="fs-feature-v2-top">
+              <div className="fs-feature-v2-icon" style={{ background: 'linear-gradient(135deg,#00b4d8,#0096b7)' }}>
+                <svg fill="none" stroke="#fff" strokeWidth="2.5" viewBox="0 0 24 24" width="22" height="22">
+                  <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/>
+                </svg>
+              </div>
+              <span className="fs-feature-v2-badge">8 Filters</span>
             </div>
-            <div>
-              <div className="fs-feature-title">Filter by DA, Traffic &amp; Niche</div>
-              <div className="fs-feature-sub">Sort by domain authority, monthly traffic, topic, and country to match your SEO goals.</div>
-            </div>
+            <div className="fs-feature-v2-stat">500+</div>
+            <div className="fs-feature-v2-title">Filter by DA, Traffic &amp; Niche</div>
+            <div className="fs-feature-v2-sub">Sort by domain authority, traffic, topic, country and price to match your SEO goals instantly.</div>
           </div>
 
-          <div className="fs-feature">
-            <div className="fs-feature-icon" style={{ background: '#f0fdf4' }}>
-              <svg fill="none" stroke="#16a34a" strokeWidth="2" viewBox="0 0 24 24">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-              </svg>
+          <div className="fs-feature fs-feature-v2">
+            <div className="fs-feature-v2-top">
+              <div className="fs-feature-v2-icon" style={{ background: 'linear-gradient(135deg,#16a34a,#15803d)' }}>
+                <svg fill="none" stroke="#fff" strokeWidth="2.5" viewBox="0 0 24 24" width="22" height="22">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+              </div>
+              <span className="fs-feature-v2-badge" style={{ background:'#f0fdf4', color:'#16a34a' }}>Real-time</span>
             </div>
-            <div>
-              <div className="fs-feature-title">Smart Search</div>
-              <div className="fs-feature-sub">Instantly search websites by name or URL. Results update in real time as you type.</div>
-            </div>
+            <div className="fs-feature-v2-stat" style={{ color:'#16a34a' }}>&lt;0.1s</div>
+            <div className="fs-feature-v2-title">Smart Search</div>
+            <div className="fs-feature-v2-sub">Search websites by name or URL — results update instantly as you type, zero delay.</div>
           </div>
 
-          <div className="fs-feature">
-            <div className="fs-feature-icon" style={{ background: '#fdf4ff' }}>
-              <svg fill="none" stroke="#9333ea" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
+          <div className="fs-feature fs-feature-v2">
+            <div className="fs-feature-v2-top">
+              <div className="fs-feature-v2-icon" style={{ background: 'linear-gradient(135deg,#9333ea,#7c3aed)' }}>
+                <svg fill="none" stroke="#fff" strokeWidth="2.5" viewBox="0 0 24 24" width="22" height="22">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <span className="fs-feature-v2-badge" style={{ background:'#fdf4ff', color:'#9333ea' }}>No hidden fees</span>
             </div>
-            <div>
-              <div className="fs-feature-title">Price Range Control</div>
-              <div className="fs-feature-sub">Set your budget and only see websites that fit. No surprises, no hidden fees.</div>
-            </div>
+            <div className="fs-feature-v2-stat" style={{ color:'#9333ea' }}>$25–$2k</div>
+            <div className="fs-feature-v2-title">Price Range Control</div>
+            <div className="fs-feature-v2-sub">Set your budget and only see sites that fit. Transparent pricing, one-time payment.</div>
           </div>
 
           <div className="fs-cta-wrap">

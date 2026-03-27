@@ -2,28 +2,40 @@ import { cn } from "@/lib/utils"
 
 const testimonials = [
   {
-    name: "Emma Wilson",
-    title: "Product Designer, TechCorp",
-    image: "https://cdn.badtz-ui.com/images/components/avatar-proof/avatar-2.webp",
-    body: "This design system has transformed our workflow. The components are intuitive and well-documented.",
+    name: "Sarah Mitchell",
+    title: "SEO Manager, GrowthLab",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    body: "We went from page 4 to page 1 in under 3 months. The quality of sites on Linkslandia is unmatched — every backlink actually moved the needle.",
   },
   {
-    name: "Lucas Chen",
-    title: "Frontend Developer, WebFlow",
-    image: "https://cdn.badtz-ui.com/images/components/avatar-proof/avatar-1.webp",
-    body: "The components are well-structured and customizable. They've significantly reduced our development time.",
+    name: "James Kowalski",
+    title: "Founder, RankFast Agency",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    body: "I've tried 6 different link building platforms. Linkslandia is the only one where the DA scores are real and the placements are permanent.",
   },
   {
-    name: "Sophia Martinez",
-    title: "UI/UX Lead, DesignHub",
-    image: "https://cdn.badtz-ui.com/images/components/avatar-proof/avatar-5.webp",
-    body: "Every component feels polished and professional. It's become our go-to resource for all projects.",
+    name: "Priya Nair",
+    title: "Content Strategist, ScaleUp",
+    image: "https://randomuser.me/api/portraits/women/68.jpg",
+    body: "The filtering system is a game changer. I found 12 niche-relevant sites in under 10 minutes. My clients are seeing results within weeks.",
   },
   {
-    name: "Oliver Thompson",
-    title: "Creative Director, StudioX",
-    image: "https://cdn.badtz-ui.com/images/components/avatar-proof/avatar-4.webp",
-    body: "This design system brings consistency and efficiency to our creative process. Beautiful and functional.",
+    name: "Daniel Reyes",
+    title: "Digital Marketing Lead, NovaBrands",
+    image: "https://randomuser.me/api/portraits/men/75.jpg",
+    body: "Transparent pricing, real traffic numbers, and fast delivery. Our organic traffic jumped 180% in Q1 using Linkslandia exclusively.",
+  },
+  {
+    name: "Anika Hoffmann",
+    title: "E-commerce SEO, ShopBoost",
+    image: "https://randomuser.me/api/portraits/women/26.jpg",
+    body: "Finally a marketplace that vets every site. No PBNs, no spam — just clean, high-authority links that Google loves.",
+  },
+  {
+    name: "Tom Nguyen",
+    title: "Independent SEO Consultant",
+    image: "https://randomuser.me/api/portraits/men/46.jpg",
+    body: "I recommend Linkslandia to every client. The ROI is incredible — one guest post from a DA 70+ site tripled our local rankings.",
   },
 ]
 

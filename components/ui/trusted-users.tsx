@@ -53,7 +53,7 @@ export const TrustedUsers: React.FC<TrustedUsersProps> = ({
         ))}
       </div>
 
-      <div className="flex flex-col items-start gap-1">
+      <div className="flex flex-col items-start gap-2">
         <div className={`flex gap-1 ${starColorClass}`}>
           {Array.from({ length: rating }).map((_, i) => (
             <Star key={i} fill="currentColor" className="w-4 h-4" aria-hidden="true" />

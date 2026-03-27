@@ -100,7 +100,7 @@ export default function Hero() {
             <TrustedUsers
               avatars={AVATARS}
               rating={5}
-              totalUsersText={6000}
+              totalUsersText={10879}
               caption="❤️ Loved by"
               className="!justify-start !px-0 !py-0 mt-4"
               starColorClass="text-yellow-400"

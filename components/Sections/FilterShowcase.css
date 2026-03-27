@@ -205,6 +205,71 @@
 
 /* PulsatingButton handles its own styles */
 
+/* ── Feature cards v2 ── */
+.fs-feature-v2 {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #e8edf5;
+  border-radius: 20px;
+  padding: 24px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: default;
+}
+
+.fs-feature-v2:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.10);
+}
+
+.fs-feature-v2-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.fs-feature-v2-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.fs-feature-v2-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e0f7fc;
+  color: #0096b7;
+  white-space: nowrap;
+}
+
+.fs-feature-v2-stat {
+  font-size: 36px;
+  font-weight: 900;
+  color: #00b4d8;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.fs-feature-v2-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.fs-feature-v2-sub {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.55;
+}
+
 /* ── Slide-up animation ── */
 .fs-slide-up {
   opacity: 0;

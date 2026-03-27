@@ -1,6 +1,7 @@
 "use client"
 
 import './Services.css'
+import { ElectroBorder } from '@/components/ui/ElectroBorder'
 
 const services = [
     {
@@ -60,29 +61,39 @@ export default function Services() {
 
                 <div className="services-new-grid">
                     {services.map((service) => (
-                        <article
+                        <ElectroBorder
                             key={service.id}
-                            className={`service-card-new ${service.featured ? 'service-card-featured' : ''}`}
+                            borderColor={service.featured ? '#00b4d8' : '#48cae4'}
+                            borderWidth={2}
+                            animationSpeed={service.featured ? 1.2 : 0.7}
+                            distortion={0.8}
+                            glowBlur={service.featured ? 40 : 24}
+                            radius="24px"
+                            className="h-full"
                         >
-                            {service.featured && <span className="service-badge">Popular</span>}
+                            <article
+                                className={`service-card-new ${service.featured ? 'service-card-featured' : ''}`}
+                            >
+                                {service.featured && <span className="service-badge">Popular</span>}
 
-                            <div className="service-icon-new">
-                                {service.icon}
-                            </div>
+                                <div className="service-icon-new">
+                                    {service.icon}
+                                </div>
 
-                            <h3 className="service-title-new">{service.title}</h3>
-                            <p className="service-desc-new">{service.description}</p>
+                                <h3 className="service-title-new">{service.title}</h3>
+                                <p className="service-desc-new">{service.description}</p>
 
-                            <div className="service-footer">
-                                <span className="service-stat">{service.stats}</span>
-                                <a href="#" className="service-link">
-                                    Learn More
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </article>
+                                <div className="service-footer">
+                                    <span className="service-stat">{service.stats}</span>
+                                    <a href="#" className="service-link">
+                                        Learn More
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
+                        </ElectroBorder>
                     ))}
                 </div>
             </div>
