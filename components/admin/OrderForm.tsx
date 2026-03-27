@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { SimpleEditor } from "../tiptap-templates/simple/simple-editor"
 import { cleanDomain } from "@/app/lib/types"
-import Link from "next/link"
+import AddFundsModal from "./AddFundsModal"
 
 type OrderType = 'guest_post' | 'link_insertion' | 'casino'
 type ContentMode = 'provide' | 'get'
@@ -71,6 +71,7 @@ export default function OrderForm({
 }: OrderFormProps) {
 
   const [orderType, setOrderType] = useState<OrderType>('guest_post')
+  const [showFundsModal, setShowFundsModal] = useState(false)
   const [contentMode, setContentMode] = useState<ContentMode>('provide')
   const [isDirty, setIsDirty] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -276,9 +277,9 @@ export default function OrderForm({
               You need <strong>${shortfall.toFixed(2)} more</strong> to place this order. Your balance: <strong>${userBalance.toFixed(2)}</strong>
             </span>
           </div>
-          <Link href="/admin/settings" style={{ padding: '7px 16px', background: '#f97316', color: '#fff', borderRadius: '9999px', fontWeight: 700, fontSize: '13px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+          <button onClick={() => setShowFundsModal(true)} style={{ padding: '7px 16px', background: '#f97316', color: '#fff', borderRadius: '9999px', fontWeight: 700, fontSize: '13px', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
             + Add Funds
-          </Link>
+          </button>
         </div>
       )}
 
@@ -480,5 +481,7 @@ export default function OrderForm({
         </div>
       </div>
     </form>
+
+    {showFundsModal && <AddFundsModal onClose={() => setShowFundsModal(false)} />}
   )
 }

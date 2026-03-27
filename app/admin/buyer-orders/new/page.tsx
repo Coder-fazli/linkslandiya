@@ -54,9 +54,8 @@ import { getCurrentUser } from "@/app/lib/session"
           websiteUrl: website.url,
         })
 
-        // Deduct from buyer, credit publisher
+        // Deduct from buyer (publisher gets paid only after buyer confirms completion)
         await adjustUserBalance(user._id.toString(), -amount)
-        await adjustUserBalance(website.ownerId.toString(), amount)
 
         redirect("/admin/buyer-orders")
       }

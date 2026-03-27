@@ -66,26 +66,45 @@ export default async function OrderDetailPage({ params }: {
 
                                 {/* Step 2: In Progress */}
                                 <div className={`timeline-item ${
-                                    order.status === "completed" ? "completed" :
+                                    ["review", "revision", "completed"].includes(order.status) ? "completed" :
                                     order.status === "in_progress" ? "active" : ""
                                 }`}>
                                     <div className="timeline-dot"></div>
                                     <div className="timeline-content">
-                                        <div className="timeline-title">Content Being Written</div>
+                                        <div className="timeline-title">Work in Progress</div>
                                         <div className="timeline-date">
-                                            {order.status === "pending" ? "Waiting..." :
-                                             order.status === "in_progress" ? "In progress..." : "Done"}
+                                            {order.status === "pending" ? "Waiting to accept..." :
+                                             order.status === "in_progress" ? "Working on it..." : "Done"}
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Step 3: Published */}
+                                {/* Step 3: Submitted for review */}
+                                <div className={`timeline-item ${
+                                    order.status === "completed" ? "completed" :
+                                    order.status === "review" ? "active" :
+                                    order.status === "revision" ? "active" : ""
+                                }`}>
+                                    <div className="timeline-dot"></div>
+                                    <div className="timeline-content">
+                                        <div className="timeline-title">
+                                            {order.status === "revision" ? "Revision Requested" : "Awaiting Buyer Confirmation"}
+                                        </div>
+                                        <div className="timeline-date">
+                                            {order.status === "review" ? "Waiting for buyer to confirm..." :
+                                             order.status === "revision" ? "Fix and resubmit" :
+                                             order.status === "completed" ? "Buyer confirmed" : "Pending"}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Step 4: Completed */}
                                 <div className={`timeline-item ${order.status === "completed" ? "completed" : ""}`}>
                                     <div className="timeline-dot"></div>
                                     <div className="timeline-content">
-                                        <div className="timeline-title">Published</div>
+                                        <div className="timeline-title">Completed & Paid</div>
                                         <div className="timeline-date">
-                                            {order.status === "completed" ? "Completed" : "Pending"}
+                                            {order.status === "completed" ? "Payment released!" : "Pending confirmation"}
                                         </div>
                                     </div>
                                 </div>
@@ -119,11 +138,12 @@ export default async function OrderDetailPage({ params }: {
                 <div className="order-sidebar">
 
                     {/* Update Status — publisher can change order status */}
-                    <OrderStatusUpdated 
-                    orderId={id} 
-                    currentStatus={order.status} 
+                    <OrderStatusUpdated
+                    orderId={id}
+                    currentStatus={order.status}
                     currentLink={order.publishedLink}
-                    websiteName={order.websiteName}
+                    websiteName={order.websiteUrl || order.websiteName}
+                    revisionNote={order.revisionNote}
                     />
 
                     {/* Card 3: Payment */}

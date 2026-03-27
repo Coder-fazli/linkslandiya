@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import TipTapViewer from "@/components/admin/TipTapViewer"
+import BuyerOrderActions from "@/components/admin/BuyerOrderActions"
 
 export default async function BuyerOrderDetailPage({ params }: {
     params: Promise<{ id: string }>
@@ -14,6 +15,15 @@ export default async function BuyerOrderDetailPage({ params }: {
 
     const order = await getOrderById(id)
     if (!order) return <div>Order not found</div>
+
+    const statusLabel: Record<string, string> = {
+        pending: "Pending",
+        in_progress: "In Progress",
+        review: "Under Review",
+        revision: "Revision Requested",
+        completed: "Completed",
+        cancelled: "Cancelled",
+    }
 
     return (
         <div className="section-content active">
@@ -31,7 +41,7 @@ export default async function BuyerOrderDetailPage({ params }: {
             <div className="edit-header">
                 <h2>Order #{id.slice(-6).toUpperCase()}</h2>
                 <span className={`status-badge ${order.status.replace("_", "-")}`}>
-                    {order.status.replace("_", " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}
+                    {statusLabel[order.status] ?? order.status}
                 </span>
             </div>
 
@@ -47,7 +57,7 @@ export default async function BuyerOrderDetailPage({ params }: {
                         <div className="card-body">
                             <div className="order-timeline">
 
-                                {/* Step 1: Order Placed — always completed */}
+                                {/* Step 1: Order Placed */}
                                 <div className={`timeline-item ${order.status !== "cancelled" ? "completed" : ""}`}>
                                     <div className="timeline-dot"></div>
                                     <div className="timeline-content">
@@ -60,14 +70,14 @@ export default async function BuyerOrderDetailPage({ params }: {
                                     </div>
                                 </div>
 
-                                {/* Step 2: Publisher working on it */}
+                                {/* Step 2: Publisher working */}
                                 <div className={`timeline-item ${
-                                    order.status === "completed" ? "completed" :
+                                    ["review", "revision", "completed"].includes(order.status) ? "completed" :
                                     order.status === "in_progress" ? "active" : ""
                                 }`}>
                                     <div className="timeline-dot"></div>
                                     <div className="timeline-content">
-                                        <div className="timeline-title">Content Being Written</div>
+                                        <div className="timeline-title">Being Published</div>
                                         <div className="timeline-date">
                                             {order.status === "pending" ? "Waiting for publisher..." :
                                              order.status === "in_progress" ? "Publisher is working on it..." : "Done"}
@@ -75,11 +85,30 @@ export default async function BuyerOrderDetailPage({ params }: {
                                     </div>
                                 </div>
 
-                                {/* Step 3: Published */}
+                                {/* Step 3: Under review / revision */}
+                                <div className={`timeline-item ${
+                                    order.status === "completed" ? "completed" :
+                                    order.status === "review" ? "active" :
+                                    order.status === "revision" ? "active" : ""
+                                }`}>
+                                    <div className="timeline-dot"></div>
+                                    <div className="timeline-content">
+                                        <div className="timeline-title">
+                                            {order.status === "revision" ? "Revision in Progress" : "Your Review"}
+                                        </div>
+                                        <div className="timeline-date">
+                                            {order.status === "review" ? "Please confirm the published link" :
+                                             order.status === "revision" ? "Publisher is making changes..." :
+                                             order.status === "completed" ? "Confirmed" : "Pending"}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Step 4: Completed */}
                                 <div className={`timeline-item ${order.status === "completed" ? "completed" : ""}`}>
                                     <div className="timeline-dot"></div>
                                     <div className="timeline-content">
-                                        <div className="timeline-title">Published</div>
+                                        <div className="timeline-title">Completed</div>
                                         <div className="timeline-date">
                                             {order.status === "completed" ? "Your post is live!" : "Pending"}
                                         </div>
@@ -89,6 +118,24 @@ export default async function BuyerOrderDetailPage({ params }: {
                             </div>
                         </div>
                     </div>
+
+                    {/* ============ Buyer review actions — shown when status is 'review' ============ */}
+                    {order.status === "review" && order.publishedLink && (
+                        <BuyerOrderActions orderId={id} publishedLink={order.publishedLink} />
+                    )}
+
+                    {/* ============ Revision note sent — shown when status is 'revision' ============ */}
+                    {order.status === "revision" && order.revisionNote && (
+                        <div className="card" style={{ marginBottom: "1.25rem" }}>
+                            <div className="card-header"><h3>Revision Request Sent</h3></div>
+                            <div className="card-body">
+                                <div style={{ padding: "14px 16px", background: "#fff7ed", borderRadius: "10px", border: "1px solid #fed7aa" }}>
+                                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#c2410c", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.04em" }}>Your note to the publisher</div>
+                                    <p style={{ margin: 0, fontSize: "14px", color: "#9a3412", lineHeight: 1.6 }}>{order.revisionNote}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* ============ Card 2: What you submitted ============ */}
                     <div className="card" style={{ marginBottom: "1.25rem" }}>
@@ -136,11 +183,16 @@ export default async function BuyerOrderDetailPage({ params }: {
                                 <span>Amount Paid</span>
                                 <span>${order.amount}</span>
                             </div>
+                            {order.status !== "completed" && (
+                                <p style={{ margin: "10px 0 0", fontSize: "12px", color: "var(--text-secondary)" }}>
+                                    Funds are held and released to publisher upon your confirmation
+                                </p>
+                            )}
                         </div>
                     </div>
 
-                    {/* Published Link card — only shows when publisher has submitted */}
-                    {order.publishedLink && (
+                    {/* Published Link card — shown for review/completed */}
+                    {order.publishedLink && order.status === "completed" && (
                         <div className="card" style={{ marginBottom: "1.25rem" }}>
                             <div className="card-header">
                                 <h3>Published Link</h3>

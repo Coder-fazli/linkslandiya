@@ -23,9 +23,10 @@ import { getDb } from "./db";
       landingPageUrl?: string
       attachmentUrl?: string
       attachmentName?: string
-      status: "pending" | "in_progress" | "completed" | "cancelled"
+      status: "pending" | "in_progress" | "review" | "revision" | "completed" | "cancelled"
       createdAt: Date
       publishedLink?: string
+      revisionNote?: string
   }
 
 
@@ -59,9 +60,35 @@ import { getDb } from "./db";
 
    export async function updateOrderStatus(id: string, status: Order["status"]){
       const db = await getDb()
-
-      const result = await db.collection("orders").updateOne({ _id: new ObjectId(id) }, 
+      await db.collection("orders").updateOne({ _id: new ObjectId(id) },
       { $set: {status} })
+   }
+
+   // Submit published link for buyer review
+   export async function submitForReview(id: string, publishedLink: string) {
+      const db = await getDb()
+      await db.collection("orders").updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { status: "review", publishedLink, revisionNote: "" } }
+      )
+   }
+
+   // Buyer confirms order is complete — credits publisher
+   export async function confirmOrderComplete(id: string) {
+      const db = await getDb()
+      await db.collection("orders").updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { status: "completed" } }
+      )
+   }
+
+   // Buyer requests revision with a note
+   export async function requestOrderRevision(id: string, note: string) {
+      const db = await getDb()
+      await db.collection("orders").updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { status: "revision", revisionNote: note } }
+      )
    }
 
    // Update full order
