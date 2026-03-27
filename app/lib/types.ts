@@ -13,6 +13,7 @@ export type Website = {
     topic: string
     price: number
     linkInsertionPrice?: number
+    casinoPrice?: number
     status: 'draft' | 'published' | 'pending_delete' | 'pending',
     ownerId: string
 

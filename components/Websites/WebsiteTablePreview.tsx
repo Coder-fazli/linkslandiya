@@ -41,7 +41,7 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           </div>
 
           {/* MOZ DA — badge on top, label below */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
             <div className="col-tooltip-wrapper">
               <span className="col-brand-badge moz-badge">MOZ</span>
               <span className="col-tooltip-icon">?</span>
@@ -51,7 +51,7 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           </div>
 
           {/* AHR DR — badge on top, label below */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
             <div className="col-tooltip-wrapper">
               <span className="col-brand-badge ahrefs-badge">AHR</span>
               <span className="col-tooltip-icon">?</span>
@@ -61,7 +61,7 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           </div>
 
           {/* Traffic — badge on top, label below */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
             <div className="col-tooltip-wrapper">
               <span className="col-brand-badge traffic-badge">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"/></svg>

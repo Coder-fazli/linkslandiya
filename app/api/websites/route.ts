@@ -29,11 +29,16 @@ import { getCurrentUser } from "@/app/lib/session";
  }
 
  export async function PUT(req: Request){
-   const body = await req.json();
-   const updated = await UpdatedWebsite(body._id, body);
-   return NextResponse.json({ updated })
-
- }
+  try {
+    const body = await req.json();
+    if (!body._id) return NextResponse.json({ error: "Missing _id" }, { status: 400 })
+    const updated = await UpdatedWebsite(body._id, body);
+    return NextResponse.json({ updated })
+  } catch (error) {
+    console.error("PUT /api/websites failed:", error)
+    return NextResponse.json({ error: "Failed to update website" }, { status: 500 })
+  }
+}
 
 // Delete Website Api Function  
 export async function DELETE(req: Request) {

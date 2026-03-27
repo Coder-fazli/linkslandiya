@@ -12,8 +12,15 @@ import { useEffect, useState } from "react"
   }
 
 
+const PRICE_INCREASE_LIMIT = 0.30 // 30% max increase
+
 export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirtyChange }: WebsiteFormProps) {
-     
+
+    // Store original prices to enforce the 30% increase cap
+    const originalPrice = website?.price ?? null
+    const originalLinkPrice = website?.linkInsertionPrice ?? null
+    const originalCasinoPrice = website?.casinoPrice ?? null
+
     const [formData, setFormData] = useState<Website>(website || {
           name: "",
           url: "",
@@ -30,8 +37,18 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
           ownerId: "", // Add a default value for ownerId
     })
     
-    // Tracks if user hase made any changes to the from(websites admin pane)
+    // Tracks if user has made any changes to the form (websites admin pane)
     const [isDirty, setIsDirty] = useState(false)
+
+    // Price validation helpers
+    function isPriceOverLimit(newPrice: number, original: number | null) {
+        if (original === null || original === 0) return false
+        return newPrice > original * (1 + PRICE_INCREASE_LIMIT)
+    }
+
+    const guestPriceOverLimit = isPriceOverLimit(formData.price, originalPrice)
+    const linkPriceOverLimit = formData.linkInsertionPrice != null && isPriceOverLimit(formData.linkInsertionPrice, originalLinkPrice)
+    const casinoPriceOverLimit = formData.casinoPrice != null && isPriceOverLimit(formData.casinoPrice, originalCasinoPrice)
     
     function updateField(field: keyof Website, value: string | number | boolean) {
          setIsDirty(true)  
@@ -207,6 +224,11 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
                                     value={formData.price}
                                     onChange={(e) => updateField("price", Number(e.target.value))}
                                     placeholder="e.g., 100" />
+                                    {guestPriceOverLimit && originalPrice !== null && (
+                                        <p style={{ color: '#ef4444', fontSize: '12px', marginTop: '4px' }}>
+                                            Max allowed: ${Math.floor(originalPrice * (1 + PRICE_INCREASE_LIMIT))} (30% above current price)
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Link Insertion Price ($)</label>
@@ -214,8 +236,27 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
                                     type="number"
                                     className="form-input"
                                     value={formData.linkInsertionPrice ?? ''}
-                                    onChange={(e) => updateField("linkInsertionPrice", Number(e.target.value))}
+                                    onChange={(e) => updateField("linkInsertionPrice", e.target.value === '' ? null as any : Number(e.target.value))}
                                     placeholder="e.g., 80" />
+                                    {linkPriceOverLimit && originalLinkPrice !== null && (
+                                        <p style={{ color: '#ef4444', fontSize: '12px', marginTop: '4px' }}>
+                                            Max allowed: ${Math.floor(originalLinkPrice * (1 + PRICE_INCREASE_LIMIT))} (30% above current price)
+                                        </p>
+                                    )}
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label">Casino Price ($)</label>
+                                    <input
+                                    type="number"
+                                    className="form-input"
+                                    value={formData.casinoPrice ?? ''}
+                                    onChange={(e) => updateField("casinoPrice", e.target.value === '' ? null as any : Number(e.target.value))}
+                                    placeholder="e.g., 200" />
+                                    {casinoPriceOverLimit && originalCasinoPrice !== null && (
+                                        <p style={{ color: '#ef4444', fontSize: '12px', marginTop: '4px' }}>
+                                            Max allowed: ${Math.floor(originalCasinoPrice * (1 + PRICE_INCREASE_LIMIT))} (30% above current price)
+                                        </p>
+                                    )}
                                 </div>
                             </div>
 
@@ -240,6 +281,7 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
           Cancel 
       </button>
       <button className="btn btn-primary"
+  disabled={guestPriceOverLimit || linkPriceOverLimit || casinoPriceOverLimit}
   onClick={() => {
     if (!formData.url.startsWith('http://') && !formData.url.startsWith('https://')) {
       alert('Please enter a full URL starting with https://')

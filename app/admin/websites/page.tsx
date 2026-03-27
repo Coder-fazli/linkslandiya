@@ -52,24 +52,31 @@ export default function WebsitePage() {
 
     // Save website to Db
       async function handleSave(website: Website) {
-         
-        const isEditing = !!website._id  // true if website already exists
-           setLoadingAction("saving") // Show Loading
+        const isEditing = !!website._id
 
-        const response = await fetch('/api/websites', {
+        setLoadingAction("saving")
+
+        try {
+          const response = await fetch('/api/websites', {
             method: isEditing ? 'PUT' : 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(website)  
-        })
-        
-        if(response.ok) {
-            // refresh list
+            body: JSON.stringify(website)
+          })
+
+          if (response.ok) {
             const data = await getPublisherWebsites()
             setWebsites(data)
-            // Close from
             setEditing(false)
+          } else {
+            const err = await response.json().catch(() => ({}))
+            alert('Failed to save: ' + (err.error || response.statusText))
+          }
+        } catch (e) {
+          alert('Something went wrong. Please try again.')
+          console.error(e)
+        } finally {
+          setLoadingAction(null)
         }
-        setLoadingAction(null) // Hide Loading
     }
     
     // Confirm before deleting

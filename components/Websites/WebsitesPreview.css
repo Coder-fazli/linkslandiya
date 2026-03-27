@@ -37,6 +37,15 @@
   grid-template-columns: 1.6fr 0.65fr 0.65fr 0.75fr 0.85fr 0.85fr 0.75fr 0.85fr 1fr 0.4fr;
 }
 
+/* Center every column except the first (Website) */
+.sites-grid-header > *:not(:first-child),
+.site-card > *:not(:first-child) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 /* ── Header row ───────────────────────────────────────── */
 .sites-grid-header {
   padding: 12px 14px;
@@ -161,6 +170,7 @@
 .site-metric-cell {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 3px;
 }
 

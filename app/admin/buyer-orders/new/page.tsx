@@ -1,7 +1,8 @@
-import Link from "next/link"                  
+import Link from "next/link"
 import OrderForm, { OrderFormData } from "@/components/admin/OrderForm"
 import { getWebsiteById } from "@/app/lib/websites"
 import { createOrder } from "@/app/lib/orders"
+import { adjustUserBalance } from "@/app/lib/user"
 import { redirect } from "next/navigation"
 import { getCurrentUser } from "@/app/lib/session"
 
@@ -33,31 +34,50 @@ import { getCurrentUser } from "@/app/lib/session"
 
       // Server action
       async function createOrderAction(data: OrderFormData) {
-              "use server"
-              const user = await getCurrentUser()
+        "use server"
+        const user = await getCurrentUser()
+        if (!user) return redirect("/login")
+        if (!website) return
 
-              if (!user) return redirect("/login")
-              if (!website) return
-              await createOrder({
-                  ...data, buyerId: user._id.toString(),
-                  publisherId: website.ownerId.toString(),
-                  amount: website.price,
-                  websiteName: website.name,
-                  websiteUrl: website.url
-              })
-              redirect("/admin/buyer-orders")
+        // Pick correct price based on order type
+        const amount =
+          data.orderType === 'link_insertion' ? (website.linkInsertionPrice ?? website.price) :
+          data.orderType === 'casino' ? (website.casinoPrice ?? website.price) :
+          website.price
+
+        await createOrder({
+          ...data,
+          buyerId: user._id.toString(),
+          publisherId: website.ownerId.toString(),
+          amount,
+          websiteName: website.name,
+          websiteUrl: website.url,
+        })
+
+        // Deduct from buyer, credit publisher
+        await adjustUserBalance(user._id.toString(), -amount)
+        await adjustUserBalance(website.ownerId.toString(), amount)
+
+        redirect("/admin/buyer-orders")
       }
+
+      const user = await getCurrentUser()
 
       return (
         <div>
               <h1>New Order</h1>
               <OrderForm
                   websiteId={website._id.toString()}
-                  websiteName={website.name}  
-                  websiteDA={website.da}      
-                  websiteDR={website.dr}      
+                  websiteName={website.name}
+                  websiteUrl={website.url}
+                  websiteDA={website.da}
+                  websiteDR={website.dr}
                   websitePrice={website.price}
-                  createOrderAction={createOrderAction}       
+                  websiteLinkInsertionPrice={website.linkInsertionPrice}
+                  websiteCasinoPrice={website.casinoPrice}
+                  websiteLanguage={website.language}
+                  userBalance={user?.balance ?? 0}
+                  createOrderAction={createOrderAction}
               />
           </div>
       )

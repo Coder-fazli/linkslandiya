@@ -9,16 +9,20 @@ import { getDb } from "./db";
       websiteName:string
       websiteUrl: string
       publisherId: string
+      buyerId: string
+      amount: number
+      orderType: 'guest_post' | 'link_insertion' | 'casino'
+      // Guest post fields
       title: string
       targetUrl: string
       anchorText: string
-      instructions: string
-      status: "pending" | "in_progress" |     
-  "completed" | "cancelled"
-      createdAt: Date
-      buyerId: string 
-      amount: number 
       content: string
+      instructions: string
+      // Link insertion / casino fields
+      existingPostUrl?: string
+      landingPageUrl?: string
+      status: "pending" | "in_progress" | "completed" | "cancelled"
+      createdAt: Date
       publishedLink?: string
   }
 

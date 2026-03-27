@@ -91,3 +91,12 @@ export async function getAllUsers(){
     const users = await collection.find({}).toArray()
     return users as unknown as User[]
 }
+
+// Increase or decrease a user's balance (use negative amount to deduct)
+export async function adjustUserBalance(userId: string, amount: number) {
+    const collection = await getCollection()
+    await collection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $inc: { balance: amount } }
+    )
+}
