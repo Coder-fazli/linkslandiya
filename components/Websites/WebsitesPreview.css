@@ -22,28 +22,28 @@
 }
 
 /* ── Grid columns ─────────────────────────────────────── */
-/* cols: Website | DA | DR | Traffic | Country | Topic | Price | Chevron */
+/* cols: Website | DA | DR | Traffic | Country | Topic | Guest Post | Link Insertion | Chevron */
 .sites-grid-header,
 .site-card {
   display: grid;
-  grid-template-columns: 1.6fr 0.7fr 0.7fr 0.8fr 0.9fr 0.9fr 0.8fr 0.4fr;
+  grid-template-columns: 1.6fr 0.65fr 0.65fr 0.75fr 0.85fr 0.85fr 0.75fr 0.85fr 0.4fr;
   gap: 12px;
   align-items: center;
 }
 
-/* with actions: Website | DA | DR | Traffic | Country | Topic | Price | Action | Chevron */
+/* with actions: + Action column */
 .sites-grid-header.with-actions,
 .site-card.with-actions {
-  grid-template-columns: 1.6fr 0.7fr 0.7fr 0.8fr 0.9fr 0.9fr 0.8fr 1fr 0.4fr;
+  grid-template-columns: 1.6fr 0.65fr 0.65fr 0.75fr 0.85fr 0.85fr 0.75fr 0.85fr 1fr 0.4fr;
 }
 
 /* ── Header row ───────────────────────────────────────── */
 .sites-grid-header {
   padding: 12px 14px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: #475569;
   background: #eef2f7;
   border: 1px solid #cbd5e1;
@@ -165,7 +165,7 @@
 }
 
 .metric-value {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #0f172a;
 }

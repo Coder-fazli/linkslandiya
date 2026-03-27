@@ -75,18 +75,18 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
           <div>Country</div>
           <div>Topic</div>
 
-          {/* Price — Guest Post on top, Link Insertion below */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            <div className="col-tooltip-wrapper">
-              Guest Post
-              <span className="col-tooltip-icon">?</span>
-              <div className="col-tooltip-box">The fee for publishing an article on the specified website, excluding content creation.</div>
-            </div>
-            <div className="col-tooltip-wrapper" style={{ color: '#94a3b8' }}>
-              Link Insertion
-              <span className="col-tooltip-icon" style={{ background: '#cbd5e1' }}>?</span>
-              <div className="col-tooltip-box">The fee for inserting a backlink to an existing article on the specified website. Content is not required.</div>
-            </div>
+          {/* Guest Post — separate column */}
+          <div className="col-tooltip-wrapper">
+            Guest Post
+            <span className="col-tooltip-icon">?</span>
+            <div className="col-tooltip-box">The fee for publishing an article on the specified website, excluding content creation.</div>
+          </div>
+
+          {/* Link Insertion — separate column */}
+          <div className="col-tooltip-wrapper">
+            Link Insertion
+            <span className="col-tooltip-icon">?</span>
+            <div className="col-tooltip-box">The fee for inserting a backlink to an existing article on the specified website. Content is not required.</div>
           </div>
 
           {showActions && <div className="col-center">Action</div>}
@@ -139,11 +139,15 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
                     <span className="badge-topic">{site.topic}</span>
                   </div>
 
-                  {/* Price */}
-                  <div className="price-cell">
+                  {/* Guest Post price */}
+                  <div>
                     <span className="price-badge">${site.price}</span>
+                  </div>
+
+                  {/* Link Insertion price */}
+                  <div>
                     {site.linkInsertionPrice != null
-                      ? <span className="price-badge price-badge-secondary">${site.linkInsertionPrice}</span>
+                      ? <span className="price-badge">${site.linkInsertionPrice}</span>
                       : <span className="price-badge-na">—</span>
                     }
                   </div>
