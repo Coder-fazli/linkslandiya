@@ -39,6 +39,7 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
     
     // Tracks if user has made any changes to the form (websites admin pane)
     const [isDirty, setIsDirty] = useState(false)
+    const [urlError, setUrlError] = useState(false)
 
     // Price validation helpers
     function isPriceOverLimit(newPrice: number, original: number | null) {
@@ -92,15 +93,22 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
           <>
           <div className="form-group">
             <label className="form-label">Website URL <span>*</span></label>
-            <input 
-            type="url" 
-            className="form-input" 
-            value={formData.url}
+            <input
+            type="url"
+            className="form-input"
+            style={urlError ? { borderColor: '#ef4444' } : {}}
+            value={formData.url || ''}
             onChange={(e) => {
+              setUrlError(false)
               updateField("url", e.target.value)
               updateField("name", e.target.value)
             }}
             placeholder="https://example.com" />
+            {urlError && (
+              <p style={{ color: '#ef4444', fontSize: '12px', marginTop: '4px' }}>
+                Please enter a valid URL starting with https://
+              </p>
+            )}
         </div><div className="form-group full-width">
                 <label className="form-label">Description</label>
                 <textarea
@@ -283,8 +291,10 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
       <button className="btn btn-primary"
   disabled={guestPriceOverLimit || linkPriceOverLimit || casinoPriceOverLimit}
   onClick={() => {
-    if (!formData.url.startsWith('http://') && !formData.url.startsWith('https://')) {
-      alert('Please enter a full URL starting with https://')
+    const url = formData.url || ''
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      setUrlError(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
       return
     }
     onSave(formData)
