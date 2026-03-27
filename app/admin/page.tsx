@@ -1,9 +1,11 @@
 import { getCurrentUser } from "../lib/session"
 import { redirect } from "next/navigation"
 import { getOrdersByBuyer, getOrdersByPublisher } from "../lib/orders"
+import { getProjectsByBuyer } from "../lib/projects"
 import Link from "next/link"
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button"
 import { colors } from "../lib/colors"
+import FirstProjectPrompt from "@/components/admin/FirstProjectPrompt"
 
 export default async function AdminHome() {
   const user = await getCurrentUser()
@@ -15,6 +17,9 @@ export default async function AdminHome() {
   const orders = isPublisher
     ? await getOrdersByPublisher(uid)
     : await getOrdersByBuyer(uid)
+
+  const projects = isPublisher ? [] : await getProjectsByBuyer(uid)
+  const showProjectPrompt = !isPublisher && projects.length === 0
 
   const totalOrders  = orders.length
   const pending      = orders.filter(o => o.status === "pending").length
@@ -29,6 +34,8 @@ export default async function AdminHome() {
 
   return (
     <div>
+
+      {showProjectPrompt && <FirstProjectPrompt />}
 
       {/* ── Stat Cards ── */}
       <div className="stats-grid">

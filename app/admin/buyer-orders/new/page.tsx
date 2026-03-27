@@ -3,6 +3,7 @@ import OrderForm, { OrderFormData } from "@/components/admin/OrderForm"
 import { getWebsiteById } from "@/app/lib/websites"
 import { createOrder } from "@/app/lib/orders"
 import { adjustUserBalance } from "@/app/lib/user"
+import { getProjectsByBuyer } from "@/app/lib/projects"
 import { redirect } from "next/navigation"
 import { getCurrentUser } from "@/app/lib/session"
 
@@ -59,6 +60,7 @@ import { getCurrentUser } from "@/app/lib/session"
       }
 
       const user = await getCurrentUser()
+      const projects = user ? await getProjectsByBuyer(user._id.toString()) : []
 
       return (
         <div>
@@ -74,6 +76,7 @@ import { getCurrentUser } from "@/app/lib/session"
                   websiteCasinoPrice={website.casinoPrice}
                   websiteLanguage={website.language}
                   userBalance={user?.balance ?? 0}
+                  projects={projects.map(p => ({ id: p._id!, domain: p.targetDomain }))}
                   createOrderAction={createOrderAction}
               />
           </div>

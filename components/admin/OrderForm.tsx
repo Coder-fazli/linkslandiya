@@ -29,6 +29,7 @@ type OrderFormProps = {
   websiteCasinoPrice?: number
   websiteLanguage?: string
   userBalance: number
+  projects?: { id: string; domain: string }[]
   createOrderAction: (data: OrderFormData) => Promise<void>
 }
 
@@ -68,12 +69,13 @@ function validateFile(file: File): string | null {
 export default function OrderForm({
   websiteId, websiteName, websiteUrl, websiteDA, websiteDR,
   websitePrice, websiteLinkInsertionPrice, websiteCasinoPrice,
-  websiteLanguage, userBalance, createOrderAction,
+  websiteLanguage, userBalance, projects = [], createOrderAction,
 }: OrderFormProps) {
 
   const [orderType, setOrderType] = useState<OrderType>('guest_post')
   const [showFundsModal, setShowFundsModal] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [selectedProject, setSelectedProject] = useState<string>("")
   const [contentMode, setContentMode] = useState<ContentMode>('provide')
   const [isDirty, setIsDirty] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -108,6 +110,16 @@ export default function OrderForm({
     setOrderType(type)
     setFormData(prev => ({ ...prev, orderType: type }))
     setIsDirty(true)
+    // Re-apply project domain to the correct field for the new order type
+    if (selectedProject) {
+      const proj = projects.find(p => p.id === selectedProject)
+      const domain = proj ? (proj.domain.startsWith('http') ? proj.domain : `https://${proj.domain}`) : ''
+      if (type === 'link_insertion') {
+        setFormData(prev => ({ ...prev, orderType: type, landingPageUrl: domain }))
+      } else {
+        setFormData(prev => ({ ...prev, orderType: type, targetUrl: domain }))
+      }
+    }
   }
 
   function handleModeChange(mode: ContentMode) {
@@ -290,6 +302,52 @@ export default function OrderForm({
       {/* Form body */}
       <div className="card">
         <div className="card-body">
+
+          {/* Project selector — all order types */}
+          {projects.length > 0 && (
+            <div className="form-group" style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid var(--border-color)' }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="2" width="14" height="14">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                Select Project <span style={{ color: '#ef4444' }}>*</span>
+              </label>
+              <select
+                className="form-select"
+                value={selectedProject}
+                onChange={e => {
+                  const id = e.target.value
+                  setSelectedProject(id)
+                  const proj = projects.find(p => p.id === id)
+                  const domain = proj ? (proj.domain.startsWith('http') ? proj.domain : `https://${proj.domain}`) : ''
+                  if (orderType === 'link_insertion') updateField('landingPageUrl', domain)
+                  else updateField('targetUrl', domain)
+                }}
+              >
+                <option value="">— Choose a project —</option>
+                {projects.map(p => (
+                  <option key={p.id} value={p.id}>{p.domain}</option>
+                ))}
+              </select>
+              <p style={{ margin: '4px 0 0', fontSize: '12px', color: 'var(--text-secondary)' }}>
+                {orderType === 'link_insertion'
+                  ? 'Landing Page URL will be pre-filled from your project.'
+                  : 'Target URL will be pre-filled from your project. You can still edit the exact page below.'}
+              </p>
+            </div>
+          )}
+
+          {/* No projects warning — all order types */}
+          {projects.length === 0 && (
+            <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 14px', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '10px' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" width="18" height="18">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span style={{ fontSize: '13px', color: '#1d4ed8', flex: 1 }}>
+                You have no projects yet. <a href="/admin/projects" style={{ fontWeight: 700, color: '#1d4ed8' }}>Create a project</a> to pre-fill your target URL automatically.
+              </span>
+            </div>
+          )}
 
           {/* Content mode sub-tabs (Guest Post + Casino only) */}
           {showContentTabs && (

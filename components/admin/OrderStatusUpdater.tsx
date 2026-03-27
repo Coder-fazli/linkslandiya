@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { updateStatus, submitForReviewAction } from "@/app/lib/actions"
+import { LiquidButton } from "@/components/animate-ui/components/buttons/liquid"
 
 type Props = {
     orderId: string
@@ -112,9 +113,20 @@ export default function OrderStatusUpdater({ orderId, currentStatus, currentLink
                 {/* Accept order button for pending */}
                 {currentStatus === "pending" && (
                     <div style={{ marginBottom: "16px" }}>
-                        <button className="btn btn-primary" onClick={handleAccept} disabled={saving} style={{ width: "100%" }}>
+                        <LiquidButton
+                            onClick={handleAccept}
+                            disabled={saving}
+                            style={{
+                                '--liquid-button-background-color': 'var(--brand-primary)',
+                                '--liquid-button-color': '#fff',
+                                color: '#fff', width: '100%', padding: '10px 20px',
+                                borderRadius: '8px', fontWeight: 700, fontSize: '14px',
+                                border: 'none', cursor: saving ? 'not-allowed' : 'pointer',
+                                opacity: saving ? 0.6 : 1,
+                            } as React.CSSProperties}
+                        >
                             {saving ? "Accepting..." : "Accept Order"}
-                        </button>
+                        </LiquidButton>
                         <p style={{ margin: "8px 0 0", fontSize: "12px", color: "var(--text-secondary)", textAlign: "center" }}>
                             Click to start working on this order
                         </p>
@@ -139,14 +151,20 @@ export default function OrderStatusUpdater({ orderId, currentStatus, currentLink
                                 Must be a URL on <strong>{websiteName.replace(/^https?:\/\//, "")}</strong>
                             </p>
                         </div>
-                        <button
-                            className="btn btn-primary"
-                            style={{ width: "100%", background: "#8b5cf6", borderColor: "#8b5cf6" }}
+                        <LiquidButton
                             onClick={handleSubmitReview}
                             disabled={saving}
+                            style={{
+                                '--liquid-button-background-color': 'var(--brand-primary)',
+                                '--liquid-button-color': '#fff',
+                                color: '#fff', width: '100%', padding: '10px 20px',
+                                borderRadius: '8px', fontWeight: 700, fontSize: '14px',
+                                border: 'none', cursor: saving ? 'not-allowed' : 'pointer',
+                                opacity: saving ? 0.6 : 1,
+                            } as React.CSSProperties}
                         >
                             {saving ? "Submitting..." : "Submit for Review"}
-                        </button>
+                        </LiquidButton>
                         <p style={{ margin: "8px 0 0", fontSize: "12px", color: "var(--text-secondary)", textAlign: "center" }}>
                             Buyer will confirm and release your payment
                         </p>

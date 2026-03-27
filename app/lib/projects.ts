@@ -1,0 +1,37 @@
+import { ObjectId } from "mongodb"
+import { getDb } from "./db"
+
+export type Project = {
+  _id?: string
+  buyerId: string
+  name: string
+  targetDomain: string
+  category?: string
+  forbiddenCategory?: string
+  competitors?: string[]
+  note?: string
+  createdAt: Date
+}
+
+export async function getProjectsByBuyer(buyerId: string): Promise<Project[]> {
+  const db = await getDb()
+  const projects = await db.collection("projects")
+    .find({ buyerId })
+    .sort({ createdAt: -1 })
+    .toArray()
+  return projects as unknown as Project[]
+}
+
+export async function createProject(data: Omit<Project, "_id" | "createdAt">) {
+  const db = await getDb()
+  const result = await db.collection("projects").insertOne({
+    ...data,
+    createdAt: new Date(),
+  })
+  return result.insertedId
+}
+
+export async function deleteProject(id: string, buyerId: string) {
+  const db = await getDb()
+  await db.collection("projects").deleteOne({ _id: new ObjectId(id), buyerId })
+}
