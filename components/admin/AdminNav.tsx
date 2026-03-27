@@ -188,6 +188,17 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
                 </span>
                 Settings
               </Link>
+
+              <Link href="/admin/payment-settings" className={`nav-item ${isActive(pathName, '/admin/payment-settings') ? 'active' : ''}`}>
+                <span className="nav-item-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2"/>
+                    <path d="M16 11a2 2 0 0 1 0 4h-3v-4h3z"/>
+                    <path d="M2 11h5"/>
+                  </svg>
+                </span>
+                Payment Settings
+              </Link>
             </div>
           </>
         )}

@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button"
+import AddFundsButton from "@/components/admin/AddFundsButton"
 import "../admin/admin.css"
 
 export default async function BrowseLayout({ children }: { children: React.ReactNode }) {
@@ -27,9 +28,7 @@ export default async function BrowseLayout({ children }: { children: React.React
               ${(user.balance ?? 0).toFixed(2)}
             </div>
 
-            <Link href="/admin/settings" className="browse-add-funds-btn">
-              + Add Funds
-            </Link>
+            <AddFundsButton />
 
             <InteractiveHoverButton href="/admin">Dashboard</InteractiveHoverButton>
           </div>

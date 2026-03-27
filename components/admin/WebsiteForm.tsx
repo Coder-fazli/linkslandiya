@@ -41,6 +41,22 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
     const [isDirty, setIsDirty] = useState(false)
     const [urlError, setUrlError] = useState(false)
 
+    // Raw string values for number inputs so user can clear and retype freely
+    const [raw, setRaw] = useState({
+        da:               String(website?.da               ?? ''),
+        dr:               String(website?.dr               ?? ''),
+        traffic:          String(website?.traffic          ?? ''),
+        price:            String(website?.price            ?? ''),
+        linkInsertionPrice: String(website?.linkInsertionPrice ?? ''),
+        casinoPrice:      String(website?.casinoPrice      ?? ''),
+    })
+
+    function updateNumber(field: 'da' | 'dr' | 'traffic' | 'price' | 'linkInsertionPrice' | 'casinoPrice', text: string) {
+        setRaw(prev => ({ ...prev, [field]: text }))
+        const num = text === '' ? 0 : Number(text)
+        if (!isNaN(num)) updateField(field, num === 0 && text === '' ? 0 : num)
+    }
+
     // Price validation helpers
     function isPriceOverLimit(newPrice: number, original: number | null) {
         if (original === null || original === 0) return false
@@ -129,28 +145,29 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
                             <div className="form-grid three-col">
                                 <div className="form-group">
                                     <label className="form-label">DA (Moz)</label>
-                                    <input 
-                                    type="number" 
-                                    className="form-input" 
-                                    value={formData.da}
-                                    onChange={(e) => updateField("da", Number(e.target.value))}
+                                    <input
+                                    type="text" inputMode="numeric" pattern="[0-9]*"
+                                    className="form-input"
+                                    value={raw.da}
+                                    onChange={(e) => updateNumber("da", e.target.value.replace(/[^0-9]/g, ''))}
                                     placeholder="0-100" />
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">DR (Ahrefs)</label>
-                                    <input 
-                                    type="number" 
-                                    value={formData.dr}
-                                    onChange={(e) => updateField("dr", Number(e.target.value))}
-                                    className="form-input" placeholder="0-100" />
+                                    <input
+                                    type="text" inputMode="numeric" pattern="[0-9]*"
+                                    className="form-input"
+                                    value={raw.dr}
+                                    onChange={(e) => updateNumber("dr", e.target.value.replace(/[^0-9]/g, ''))}
+                                    placeholder="0-100" />
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Monthly Traffic</label>
-                                    <input 
-                                    type="number" 
-                                    className="form-input" 
-                                    value={formData.traffic}
-                                    onChange={(e) => updateField("traffic", Number(e.target.value))}
+                                    <input
+                                    type="text" inputMode="numeric" pattern="[0-9]*"
+                                    className="form-input"
+                                    value={raw.traffic}
+                                    onChange={(e) => updateNumber("traffic", e.target.value.replace(/[^0-9]/g, ''))}
                                     placeholder="e.g., 50000" />
                                 </div>
                             </div>
@@ -227,10 +244,10 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
                                 <div className="form-group">
                                     <label className="form-label">Guest Post Price ($)</label>
                                     <input
-                                    type="number"
+                                    type="text" inputMode="numeric" pattern="[0-9]*"
                                     className="form-input"
-                                    value={formData.price}
-                                    onChange={(e) => updateField("price", Number(e.target.value))}
+                                    value={raw.price}
+                                    onChange={(e) => updateNumber("price", e.target.value.replace(/[^0-9]/g, ''))}
                                     placeholder="e.g., 100" />
                                     {guestPriceOverLimit && originalPrice !== null && (
                                         <p style={{ color: '#ef4444', fontSize: '12px', marginTop: '4px' }}>
@@ -241,10 +258,14 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
                                 <div className="form-group">
                                     <label className="form-label">Link Insertion Price ($)</label>
                                     <input
-                                    type="number"
+                                    type="text" inputMode="numeric" pattern="[0-9]*"
                                     className="form-input"
-                                    value={formData.linkInsertionPrice ?? ''}
-                                    onChange={(e) => updateField("linkInsertionPrice", e.target.value === '' ? null as any : Number(e.target.value))}
+                                    value={raw.linkInsertionPrice}
+                                    onChange={(e) => {
+                                        const t = e.target.value.replace(/[^0-9]/g, '')
+                                        setRaw(prev => ({ ...prev, linkInsertionPrice: t }))
+                                        updateField("linkInsertionPrice", t === '' ? null as any : Number(t))
+                                    }}
                                     placeholder="e.g., 80" />
                                     {linkPriceOverLimit && originalLinkPrice !== null && (
                                         <p style={{ color: '#ef4444', fontSize: '12px', marginTop: '4px' }}>
@@ -255,10 +276,14 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
                                 <div className="form-group">
                                     <label className="form-label">Casino Price ($)</label>
                                     <input
-                                    type="number"
+                                    type="text" inputMode="numeric" pattern="[0-9]*"
                                     className="form-input"
-                                    value={formData.casinoPrice ?? ''}
-                                    onChange={(e) => updateField("casinoPrice", e.target.value === '' ? null as any : Number(e.target.value))}
+                                    value={raw.casinoPrice}
+                                    onChange={(e) => {
+                                        const t = e.target.value.replace(/[^0-9]/g, '')
+                                        setRaw(prev => ({ ...prev, casinoPrice: t }))
+                                        updateField("casinoPrice", t === '' ? null as any : Number(t))
+                                    }}
                                     placeholder="e.g., 200" />
                                     {casinoPriceOverLimit && originalCasinoPrice !== null && (
                                         <p style={{ color: '#ef4444', fontSize: '12px', marginTop: '4px' }}>

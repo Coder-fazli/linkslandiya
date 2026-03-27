@@ -3,6 +3,7 @@ import AdminNav from "../../components/admin/AdminNav";
 import ModeSwitcher from "../../components/admin/ModeSwitcher";
 import ThemeSwitcher from "../../components/admin/ThemeSwitcher";
 import UserDropdown from "../../components/admin/UserDropdown";
+import AddFundsButton from "../../components/admin/AddFundsButton";
 import { getCurrentUser } from "../lib/session";
 import { redirect } from "next/navigation"
 
@@ -63,6 +64,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                             <ModeSwitcher activeMode={user.activeMode} canPublish={user.canPublish} />
                         )}
                         <ThemeSwitcher />
+                        <AddFundsButton />
                         <div className="balance-pill">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
                                 <rect x="2" y="7" width="20" height="14" rx="2"/>

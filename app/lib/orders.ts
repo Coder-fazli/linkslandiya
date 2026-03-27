@@ -21,6 +21,8 @@ import { getDb } from "./db";
       // Link insertion / casino fields
       existingPostUrl?: string
       landingPageUrl?: string
+      attachmentUrl?: string
+      attachmentName?: string
       status: "pending" | "in_progress" | "completed" | "cancelled"
       createdAt: Date
       publishedLink?: string
