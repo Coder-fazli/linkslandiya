@@ -6,20 +6,15 @@ import NewProjectModal from "./NewProjectModal"
 import { useRouter } from "next/navigation"
 
 export default function FirstProjectPrompt() {
-  const [open, setOpen] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const router = useRouter()
-
-  // No dismissal — always shows until a project is created
-  function dismiss() { setOpen(false) }
-
-  if (!open) return null
 
   if (showForm) {
     return (
       <NewProjectModal
         onClose={() => setShowForm(false)}
         onCreated={() => { router.push("/admin/projects"); router.refresh() }}
+        required
       />
     )
   }
@@ -72,9 +67,6 @@ export default function FirstProjectPrompt() {
           + Create New Project
         </LiquidButton>
 
-        <button onClick={dismiss} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", color: "var(--text-secondary)" }}>
-          Skip for now
-        </button>
       </div>
 
       <style>{`

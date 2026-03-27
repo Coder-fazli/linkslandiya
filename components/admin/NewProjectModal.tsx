@@ -12,9 +12,10 @@ const CATEGORIES = [
 type Props = {
   onClose: () => void
   onCreated?: () => void
+  required?: boolean
 }
 
-export default function NewProjectModal({ onClose, onCreated }: Props) {
+export default function NewProjectModal({ onClose, onCreated, required }: Props) {
   const [targetDomain, setTargetDomain] = useState("")
   const [category, setCategory] = useState("")
   const [forbiddenCategory, setForbiddenCategory] = useState("")
@@ -24,10 +25,10 @@ export default function NewProjectModal({ onClose, onCreated }: Props) {
   const [error, setError] = useState("")
 
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose() }
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape" && !required) onClose() }
     window.addEventListener("keydown", handleKey)
     return () => window.removeEventListener("keydown", handleKey)
-  }, [onClose])
+  }, [onClose, required])
 
   function addCompetitor() {
     if (competitors.length < 5) setCompetitors([...competitors, ""])
@@ -66,7 +67,7 @@ export default function NewProjectModal({ onClose, onCreated }: Props) {
       position: "fixed", inset: 0, zIndex: 9999,
       background: "rgba(0,0,0,0.55)", backdropFilter: "blur(4px)",
       display: "flex", alignItems: "center", justifyContent: "center", padding: "16px",
-    }} onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+    }} onClick={e => { if (!required && e.target === e.currentTarget) onClose() }}>
       <div style={{
         background: "var(--bg-primary, #fff)", borderRadius: "20px",
         width: "100%", maxWidth: "580px", maxHeight: "90vh", overflowY: "auto",
@@ -79,7 +80,7 @@ export default function NewProjectModal({ onClose, onCreated }: Props) {
             <h2 style={{ margin: 0, fontSize: "22px", fontWeight: 800 }}>Add New Project</h2>
             <p style={{ margin: "4px 0 0", fontSize: "13px", color: "var(--text-secondary)" }}>Track your link building for a specific website</p>
           </div>
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-secondary)", fontSize: "22px", lineHeight: 1, padding: "4px" }}>×</button>
+          {!required && <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-secondary)", fontSize: "22px", lineHeight: 1, padding: "4px" }}>×</button>}
         </div>
 
         {/* Body */}
@@ -164,7 +165,7 @@ export default function NewProjectModal({ onClose, onCreated }: Props) {
 
         {/* Footer */}
         <div style={{ padding: "0 28px 28px", display: "flex", justifyContent: "flex-end", gap: "12px" }}>
-          <button className="btn btn-secondary" onClick={onClose} disabled={saving}>Cancel</button>
+          {!required && <button className="btn btn-secondary" onClick={onClose} disabled={saving}>Cancel</button>}
           <LiquidButton
             onClick={handleSave}
             disabled={saving}
@@ -177,7 +178,7 @@ export default function NewProjectModal({ onClose, onCreated }: Props) {
               opacity: saving ? 0.7 : 1,
             } as React.CSSProperties}
           >
-            {saving ? "Saving..." : "Save Project"}
+            {saving ? "Creating..." : "Create Project"}
           </LiquidButton>
         </div>
       </div>
