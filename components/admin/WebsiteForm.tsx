@@ -231,7 +231,13 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
           Cancel 
       </button>
       <button className="btn btn-primary"
-  onClick={() => onSave(formData)}>
+  onClick={() => {
+    if (!formData.url.startsWith('http://') && !formData.url.startsWith('https://')) {
+      alert('Please enter a full URL starting with https://')
+      return
+    }
+    onSave(formData)
+  }}>
           { isDraft ? 'Publish' : 'Save Website' }
       </button>
   </div>
