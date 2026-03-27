@@ -1142,11 +1142,9 @@ body {
     color: #64748b;
 }
 
-/* mobile-nav-overlay hidden on desktop via clip-path */
+/* mobile-nav-overlay: hidden on desktop */
 .mobile-nav-overlay {
-    clip-path: circle(0px at calc(100% - 38px) 38px);
-    pointer-events: none;
-    transition: clip-path 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: none;
 }
 
 .modal-close:hover {
@@ -1797,13 +1795,13 @@ body {
 
     /* Mobile Navigation Overlay — clip-path circle animation */
     .mobile-nav-overlay {
+        display: flex;
         position: fixed;
         inset: 0;
         z-index: 1001;
         background: #00b4d8;
         clip-path: circle(0px at calc(100% - 38px) 38px);
         transition: clip-path 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        display: flex;
         flex-direction: column;
         padding: 90px 32px 40px;
         pointer-events: none;

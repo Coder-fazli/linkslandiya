@@ -491,3 +491,63 @@
 .col-tooltip-wrapper:hover .col-tooltip-box {
   display: block;
 }
+
+/* ── Mobile responsive ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .table-preview-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-scroll-inner {
+    min-width: 700px;
+  }
+
+  .sites-grid-header,
+  .site-card {
+    grid-template-columns: 1.6fr 0.65fr 0.65fr 0.7fr 0.85fr 0.85fr 0.75fr 0.85fr 0.4fr;
+    gap: 8px;
+    padding: 12px 10px;
+    font-size: 11px;
+  }
+
+  .site-favicon {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    border-radius: 7px;
+  }
+
+  .site-name {
+    font-size: 12px;
+  }
+
+  .metric-value {
+    font-size: 13px;
+  }
+
+  .metric-bar {
+    width: 32px;
+  }
+
+  .badge-country,
+  .badge-topic {
+    font-size: 11px;
+    padding: 3px 7px;
+  }
+
+  .price-badge {
+    font-size: 12px;
+    padding: 2px 8px;
+  }
+
+  .sites-grid-header {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-scroll-inner {
+    min-width: 620px;
+  }
+}

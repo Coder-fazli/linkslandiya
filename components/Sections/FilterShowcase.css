@@ -235,19 +235,21 @@
     font-size: 40px;
     letter-spacing: -1.5px;
   }
+  /* Scale down table to fit on mobile */
   .fs-image-outer {
-    padding: 8px;
-    overflow-x: auto;
+    padding: 0;
+    height: 320px; /* 560px * 0.57 ≈ 319px */
+    overflow: hidden;
   }
   .fs-image-wrap {
-    min-width: 680px;
-  }
-  .fs-float-badge {
-    display: none;
+    transform: scale(0.57);
+    transform-origin: top left;
+    width: calc(100% / 0.57);
   }
   .fs-features-row {
     grid-template-columns: 1fr;
     gap: 12px;
+    margin-top: 0;
   }
   .fs-cta-wrap {
     grid-column: 1;
@@ -264,5 +266,12 @@
   }
   .fs-desc {
     font-size: 15px;
+  }
+  .fs-image-outer {
+    height: 260px; /* 560px * 0.46 */
+  }
+  .fs-image-wrap {
+    transform: scale(0.46);
+    width: calc(100% / 0.46);
   }
 }
