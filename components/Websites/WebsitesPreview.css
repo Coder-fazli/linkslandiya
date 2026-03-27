@@ -22,34 +22,33 @@
 }
 
 /* ── Grid columns ─────────────────────────────────────── */
-/* cols: Website | Dofollow | DA | DR | Traffic | Country | Topic | Price | Chevron */
+/* cols: Website | DA | DR | Traffic | Country | Topic | Price | Chevron */
 .sites-grid-header,
 .site-card {
   display: grid;
-  grid-template-columns: 1.4fr 0.6fr 0.7fr 0.7fr 0.9fr 1.1fr 1fr 0.9fr 0.4fr;
+  grid-template-columns: 1.6fr 0.7fr 0.7fr 0.8fr 0.9fr 0.9fr 0.8fr 0.4fr;
   gap: 12px;
   align-items: center;
 }
 
-/* with actions: +1 col before chevron */
-/* cols: Website | Dofollow | DA | DR | Traffic | Country | Topic | Price | Action | Chevron */
+/* with actions: Website | DA | DR | Traffic | Country | Topic | Price | Action | Chevron */
 .sites-grid-header.with-actions,
 .site-card.with-actions {
-  grid-template-columns: 1.4fr 0.6fr 0.7fr 0.7fr 0.9fr 1.1fr 1fr 0.9fr 1fr 0.4fr;
+  grid-template-columns: 1.6fr 0.7fr 0.7fr 0.8fr 0.9fr 0.9fr 0.8fr 1fr 0.4fr;
 }
 
 /* ── Header row ───────────────────────────────────────── */
 .sites-grid-header {
-  padding: 11px 14px;
-  font-size: 12px;
-  font-weight: 700;
+  padding: 12px 14px;
+  font-size: 11px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #64748b;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  letter-spacing: 0.08em;
+  color: #475569;
+  background: #eef2f7;
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 /* Brand badge in column header */
@@ -85,7 +84,7 @@
 .sites-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   padding-bottom: 4px;
 }
 
@@ -338,32 +337,40 @@
 }
 
 .expand-info-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #94a3b8;
+  color: #64748b;
 }
 
 .expand-info-value {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1e293b;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
 }
+
+.expand-dofollow {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.expand-dofollow.yes { color: #16a34a; }
+.expand-dofollow.no  { color: #dc2626; }
 
 .expand-actions-row {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .expand-btn-action {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 12px;
+  gap: 6px;
+  padding: 7px 16px;
   border-radius: 9999px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   border: 1px solid;
