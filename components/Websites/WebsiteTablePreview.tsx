@@ -4,6 +4,7 @@ import {
     Website,
     formatTraffic,
     countryFlags,
+    cleanDomain,
 } from '@/app/lib/types'
 import WebsiteFavicon from './WebsiteFavicon'
 
@@ -53,7 +54,7 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
               {/* Website */}
               <a href={`/site/${site._id}`} target="_blank" rel="noopener noreferrer" className="site-name-cell">
                 <WebsiteFavicon url={site.url} name={site.name} />
-                <span className="site-name">{site.name}</span>
+                <span className="site-name">{cleanDomain(site.url)}</span>
               </a>
 
               {/* Dofollow */}
