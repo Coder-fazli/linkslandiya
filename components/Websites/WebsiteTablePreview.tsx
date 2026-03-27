@@ -154,10 +154,6 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
                         <span className="expand-info-label">Language</span>
                         <span className="expand-info-value">{site.language || '—'}</span>
                       </div>
-                      <div className="expand-info-item">
-                        <span className="expand-info-label">Topic</span>
-                        <span className="expand-info-value">{site.topic || '—'}</span>
-                      </div>
                     </div>
                     <div className="expand-actions-row">
                       <a href={site.url} target="_blank" rel="noopener noreferrer" className="expand-btn-action view-sample">

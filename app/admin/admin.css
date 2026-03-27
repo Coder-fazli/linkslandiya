@@ -159,7 +159,8 @@
 }
 
 /* ── Balance Pill ── */
-.admin .balance-pill {
+.admin .balance-pill,
+.balance-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -172,7 +173,8 @@
     border-radius: 9999px;
     white-space: nowrap;
 }
-[data-theme="dark"] .admin .balance-pill {
+[data-theme="dark"] .admin .balance-pill,
+[data-theme="dark"] .balance-pill {
     background: rgba(34,197,94,0.12);
     border-color: rgba(34,197,94,0.25);
     color: #4ade80;
@@ -1625,8 +1627,6 @@
 }
 
 .browse-header-inner {
-  max-width: 1400px;
-  margin: 0 auto;
   padding: 0 24px;
   height: 60px;
   display: flex;
@@ -1681,7 +1681,5 @@
 .browse-add-funds-btn:hover { opacity: 0.88; }
 
 .browse-main {
-  max-width: 1400px;
-  margin: 0 auto;
   padding: 24px;
 }
