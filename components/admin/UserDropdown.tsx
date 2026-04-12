@@ -1,16 +1,20 @@
 "use client"
 
 import Link from "next/link"
-import { logOut } from "@/app/(auth)/actions"
+import { logOut, switchMode } from "@/app/(auth)/actions"
 
 type Props = {
   name: string
   email: string
   balance?: number
+  activeMode?: "buyer" | "publisher"
+  canPublish?: boolean
+  canBuy?: boolean
 }
 
-export default function UserDropdown({ name, email, balance = 0 }: Props) {
+export default function UserDropdown({ name, email, balance = 0, activeMode, canPublish, canBuy }: Props) {
   const initial = name?.charAt(0).toUpperCase() || "U"
+  const showModeSwitcher = !!activeMode && (canPublish || canBuy)
 
   return (
     <div className="user-dropdown-wrap">
@@ -35,6 +39,47 @@ export default function UserDropdown({ name, email, balance = 0 }: Props) {
           <span className="udm-balance-label">Balance</span>
           <span className="udm-balance-amount">${balance.toFixed(2)}</span>
         </div>
+
+        {/* Mode switcher — only for non-admin users with multiple roles */}
+        {showModeSwitcher && (canPublish && canBuy) && (
+          <>
+            <div className="udm-divider" />
+            <div className="udm-mode-section">
+              <span className="udm-mode-label">Switch Mode</span>
+              <div className="udm-mode-pills">
+                {canBuy && (
+                  <form action={() => switchMode("buyer")} style={{ margin: 0 }}>
+                    <button
+                      type="submit"
+                      className={`udm-mode-pill${activeMode === "buyer" ? " udm-mode-pill--active" : ""}`}
+                    >
+                      <svg viewBox="0 0 16 16" fill="none" width="13" height="13">
+                        <path d="M2 3h1.5l1.8 7.5h7l1.7-5H5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <circle cx="7" cy="13" r="1" fill="currentColor"/>
+                        <circle cx="12" cy="13" r="1" fill="currentColor"/>
+                      </svg>
+                      Buyer
+                    </button>
+                  </form>
+                )}
+                {canPublish && (
+                  <form action={() => switchMode("publisher")} style={{ margin: 0 }}>
+                    <button
+                      type="submit"
+                      className={`udm-mode-pill${activeMode === "publisher" ? " udm-mode-pill--active" : ""}`}
+                    >
+                      <svg viewBox="0 0 16 16" fill="none" width="13" height="13">
+                        <rect x="2" y="3" width="12" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M5 7h6M5 9.5h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                      </svg>
+                      Publisher
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="udm-divider" />
 

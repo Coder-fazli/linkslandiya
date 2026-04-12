@@ -18,75 +18,92 @@ type WebsiteTablePreviewProps = {
   showActions?: boolean;
 }
 
+type TooltipState = { x: number; y: number; text: string } | null
+
 export default function WebsiteTablePreview({ websites, limit, showBlur = false, showActions = false }: WebsiteTablePreviewProps) {
   const visible = typeof limit === "number" ? websites.slice(0, limit) : websites;
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [tooltip, setTooltip] = useState<TooltipState>(null)
 
   function toggleExpand(id: string) {
     setExpandedId(prev => prev === id ? null : id)
+  }
+
+  function showTip(e: React.MouseEvent, text: string) {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    setTooltip({ x: rect.left + rect.width / 2, y: rect.bottom + 8, text })
+  }
+
+  function hideTip() {
+    setTooltip(null)
   }
 
   return (
     <div className="table-preview-wrapper">
       {showBlur && <div className="blur-bottom"></div>}
 
+      {/* Fixed tooltip — escapes overflow clipping */}
+      {tooltip && (
+        <div
+          className="col-tooltip-fixed"
+          style={{ left: tooltip.x, top: tooltip.y }}
+        >
+          <div className="col-tooltip-fixed-arrow" />
+          {tooltip.text}
+        </div>
+      )}
+
       <div className="table-scroll-inner">
         {/* Header */}
         <div className={`sites-grid-header ${showActions ? 'with-actions' : ''}`}>
           {/* Website */}
-          <div className="col-tooltip-wrapper">
+          <div className="col-tooltip-wrapper" onMouseEnter={e => showTip(e, "The domain name of the target website for a guest post or link insertion. The list of websites available for Guest posting or niche edits.")} onMouseLeave={hideTip}>
             Website
             <span className="col-tooltip-icon">?</span>
-            <div className="col-tooltip-box">The domain name of the target website for a guest post or link insertion. The list of websites available for Guest posting or niche edits.</div>
           </div>
 
-          {/* MOZ DA — badge centered on top, label + ? below */}
+          {/* MOZ DA */}
           <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
             <span className="col-brand-badge moz-badge">MOZ</span>
-            <div className="col-tooltip-wrapper">
+            <div className="col-tooltip-wrapper" onMouseEnter={e => showTip(e, "A search engine ranking score by Moz that predicts how well a website is likely to rank on SERPs. The score ranges from 1 to 100, with higher scores indicating a better ability to rank.")} onMouseLeave={hideTip}>
               <span>DA</span>
               <span className="col-tooltip-icon">?</span>
-              <div className="col-tooltip-box">A search engine ranking score by Moz that predicts how well a website is likely to rank on SERPs. The score ranges from 1 to 100, with higher scores indicating a better ability to rank.</div>
             </div>
           </div>
 
-          {/* AHR DR — badge centered on top, label + ? below */}
+          {/* AHR DR */}
           <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
             <span className="col-brand-badge ahrefs-badge">AHR</span>
-            <div className="col-tooltip-wrapper">
+            <div className="col-tooltip-wrapper" onMouseEnter={e => showTip(e, "Ahrefs Domain Rating — measures the strength of a website's backlink profile on a scale from 1 to 100.")} onMouseLeave={hideTip}>
               <span>DR</span>
               <span className="col-tooltip-icon">?</span>
-              <div className="col-tooltip-box">Ahrefs Domain Rating — measures the strength of a website's backlink profile on a scale from 1 to 100.</div>
             </div>
           </div>
 
-          {/* Traffic — badge centered on top, label + ? below */}
+          {/* Traffic */}
           <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
             <span className="col-brand-badge traffic-badge">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"/></svg>
             </span>
-            <div className="col-tooltip-wrapper">
+            <div className="col-tooltip-wrapper" onMouseEnter={e => showTip(e, "An estimate of the website's organic traffic for the previous month, based on data from the Ahrefs tool.")} onMouseLeave={hideTip}>
               <span>Traffic</span>
               <span className="col-tooltip-icon">?</span>
-              <div className="col-tooltip-box">An estimate of the website's organic traffic for the previous month, based on data from the Ahrefs tool.</div>
             </div>
           </div>
 
           <div className="col-center">Country</div>
           <div className="col-center">Topic</div>
 
-          {/* Guest Post — separate column */}
-          <div className="col-tooltip-wrapper">
+          {/* Guest Post */}
+          <div className="col-tooltip-wrapper" onMouseEnter={e => showTip(e, "The fee for publishing an article on the specified website, excluding content creation.")} onMouseLeave={hideTip}>
             Guest Post
             <span className="col-tooltip-icon">?</span>
-            <div className="col-tooltip-box">The fee for publishing an article on the specified website, excluding content creation.</div>
           </div>
 
-          {/* Link Insertion — separate column */}
-          <div className="col-tooltip-wrapper">
+          {/* Link Insertion */}
+          <div className="col-tooltip-wrapper" onMouseEnter={e => showTip(e, "The fee for inserting a backlink to an existing article on the specified website. Content is not required.")} onMouseLeave={hideTip}>
             Link Insertion
             <span className="col-tooltip-icon">?</span>
-            <div className="col-tooltip-box">The fee for inserting a backlink to an existing article on the specified website. Content is not required.</div>
           </div>
 
           {showActions && <div className="col-center">Action</div>}

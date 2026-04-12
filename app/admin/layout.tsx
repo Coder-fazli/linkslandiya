@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic'
 
 import "./admin.css";
 import AdminNav from "../../components/admin/AdminNav";
-import ModeSwitcher from "../../components/admin/ModeSwitcher";
 import ThemeSwitcher from "../../components/admin/ThemeSwitcher";
 import UserDropdown from "../../components/admin/UserDropdown";
 import AddFundsButton from "../../components/admin/AddFundsButton";
@@ -68,7 +67,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                     </div>
                     <div className="header-actions">
                         {!user.isAdmin && (
-                            <ModeSwitcher activeMode={user.activeMode} canPublish={user.canPublish} />
+                            <div className="active-mode-badge" data-mode={user.activeMode}>
+                                {user.activeMode === "buyer" ? "Buyer" : "Publisher"}
+                            </div>
                         )}
                         <ThemeSwitcher />
                         <AddFundsButton />
@@ -80,7 +81,14 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                             </svg>
                             ${(user.balance ?? 0).toFixed(2)}
                         </div>
-                        <UserDropdown name={user.name} email={user.email} balance={user.balance ?? 0} />
+                        <UserDropdown
+                            name={user.name}
+                            email={user.email}
+                            balance={user.balance ?? 0}
+                            activeMode={user.isAdmin ? undefined : user.activeMode}
+                            canPublish={user.canPublish}
+                            canBuy={user.canBuy}
+                        />
                     </div>
                 </header>
                 <div className="main-inner">

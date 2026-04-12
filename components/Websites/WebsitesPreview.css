@@ -455,11 +455,9 @@
   flex-shrink: 0;
 }
 
-.col-tooltip-box {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
+/* Fixed-position tooltip — escapes overflow:auto clipping */
+.col-tooltip-fixed {
+  position: fixed;
   transform: translateX(-50%);
   background: #1e293b;
   color: #f1f5f9;
@@ -470,15 +468,14 @@
   border-radius: 8px;
   width: 240px;
   white-space: normal;
-  z-index: 9999;
+  z-index: 99999;
   box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   pointer-events: none;
   text-transform: none;
   letter-spacing: 0;
 }
 
-.col-tooltip-box::before {
-  content: '';
+.col-tooltip-fixed-arrow {
   position: absolute;
   top: -5px;
   left: 50%;
@@ -486,10 +483,6 @@
   border-width: 0 5px 5px 5px;
   border-style: solid;
   border-color: transparent transparent #1e293b transparent;
-}
-
-.col-tooltip-wrapper:hover .col-tooltip-box {
-  display: block;
 }
 
 /* ── Mobile responsive ─────────────────────────────────── */
