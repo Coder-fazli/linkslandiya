@@ -1,9 +1,12 @@
+export const dynamic = 'force-dynamic'
+
 import "./admin.css";
 import AdminNav from "../../components/admin/AdminNav";
 import ModeSwitcher from "../../components/admin/ModeSwitcher";
 import ThemeSwitcher from "../../components/admin/ThemeSwitcher";
 import UserDropdown from "../../components/admin/UserDropdown";
 import AddFundsButton from "../../components/admin/AddFundsButton";
+import RoleSelectionModal from "../../components/admin/RoleSelectionModal";
 import { getCurrentUser } from "../lib/session";
 import { redirect } from "next/navigation"
 
@@ -12,6 +15,10 @@ import { ReactNode } from "react";
 export default async function AdminLayout({ children }: { children: ReactNode }) {
     const user = await getCurrentUser()
     if (!user) return redirect("/login")
+
+    if (!user.hasSelectedRole) {
+        return <RoleSelectionModal />
+    }
 
     return (
      <div className="admin">

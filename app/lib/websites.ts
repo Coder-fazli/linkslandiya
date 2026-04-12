@@ -47,30 +47,17 @@ export async function getWebsiteById(id: string){
 
 // UpdatedWebsite function
 
-export async function UpdatedWebsite(id: string, data: any) {
+export async function UpdatedWebsite(id: string, ownerId: string, data: any) {
     const db = await getDb();
     const { _id, ...updateData } = data;
 
-   //Debug
-     const found = await db.collection("websites").findOne({ _id: new ObjectId(id) });
-        console.log("Found document:", found);
-
-     if (!found) {
-       console.log("ERROR: Document not found with _id:", id);
-     }
-
     const result = await db.collection("websites").updateOne(
-      { _id: new ObjectId(id) },
+      { _id: new ObjectId(id), ownerId: ownerId },
       { $set: updateData }
     );
 
-   console.log("matchedCount:",
-  result.matchedCount);
-      console.log("modifiedCount:",
-  result.modifiedCount);
-
     return result.modifiedCount;
-} 
+}
 
 // Get websites owned by THIS user ("My Websites"for publisher)
 export async function getWebsitesByOwner(ownerId: string) {

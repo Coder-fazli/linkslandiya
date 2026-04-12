@@ -3,6 +3,10 @@ import { getPaymentSettings, updatePaymentSettings } from "@/app/lib/payment-set
 import { getCurrentUser } from "@/app/lib/session"
 
 export async function GET() {
+   const user = await getCurrentUser()
+    if(!user) return NextResponse.json({ 
+      error: "Not logged in" }, { status: 401 })
+
   const settings = await getPaymentSettings()
   return NextResponse.json(settings)
 }

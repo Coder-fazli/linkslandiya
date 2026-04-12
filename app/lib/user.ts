@@ -28,6 +28,7 @@ export type User = {
     paymentCountry?: string
     paymentMethod?: string
     paypalEmail?: string
+    hasSelectedRole: boolean
 }
 
 // Get the users collection
@@ -53,6 +54,7 @@ export async function getUserById(id: string) {
         canPublish: user.canPublish ?? true,
         activeMode: user.activeMode ?? "buyer",
         isAdmin: user.isAdmin ?? false,
+        hasSelectedRole: user.hasSelectedRole ?? false,
     }
 }
 

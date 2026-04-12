@@ -3,9 +3,10 @@ import { z } from "zod"
 import { signInSchema, signUpSchema } from "./schemas"
 import { redirect } from "next/navigation"
 import { generateSalt, hashPassword } from "./core/passwordHasher"
-import { getUserByEmail, createUser, getCollection, switchUserMode } from "../lib/user"
+import { getUserByEmail, createUser, switchUserMode } from "../lib/user"
 import { createSession, deleteSession, getCurrentUser } from "../lib/session"
 import { revalidatePath } from "next/cache"  
+import { updateUserRoles } from "./data/user"
 
     
 export async function signIn(unsafeData: z.infer<typeof signInSchema>)
@@ -40,10 +41,11 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
           name: data.name,
           email: data.email,
           passwordHash, salt,
-          canBuy: true,
-          canPublish: true,
+          canBuy: false,
+          canPublish: false,
           activeMode: "buyer",
-          isAdmin: false
+          isAdmin: false,
+          hasSelectedRole: false
        })
              redirect("/login")
 
@@ -65,3 +67,12 @@ export async function switchMode(mode: "buyer" | "publisher") {
 
 }
 
+
+export async function selectUserRoles(canBuy: boolean, canPublish: boolean) { 
+   const user = await getCurrentUser()
+   if (!user) redirect("/login")
+
+    await updateUserRoles(user._id!.toString(), canBuy, canPublish)
+       revalidatePath("/admin")                                       
+    redirect("/admin")
+}

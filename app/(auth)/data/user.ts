@@ -16,6 +16,7 @@ const DB_NAME = "linkslandiya"
     canPublish: boolean
     activeMode: "buyer" | "publisher"
     isAdmin: boolean
+    hasSelectedRole?: boolean
   }
 
   // Get the users collection
@@ -42,6 +43,7 @@ const DB_NAME = "linkslandiya"
         canPublish: user.canPublish ?? true,
         activeMode: user.activeMode ?? "buyer",
         isAdmin: user.isAdmin ?? false,
+        hasSelectedRole: user.hasSelectedRole ?? false,
        }
    }
 
@@ -73,4 +75,17 @@ const DB_NAME = "linkslandiya"
       { _id: new ObjectId(userId) },
       { $set: { canPublish: true }}
     ) 
+  }
+
+  export async function updateUserRoles(userId: string, canBuy: boolean, canPublish: boolean) {
+    const collection = await getCollection();
+    await collection.updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: 
+        { canBuy, 
+          canPublish,
+          hasSelectedRole: true,
+          activeMode: canBuy ? "buyer" : "publisher"
+         }}
+    )
   }

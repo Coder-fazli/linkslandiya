@@ -19,7 +19,7 @@ export default async function AdminHome() {
     : await getOrdersByBuyer(uid)
 
   const projects = isPublisher ? [] : await getProjectsByBuyer(uid)
-  const showProjectPrompt = !isPublisher && projects.length === 0
+  const showProjectPrompt = user.canBuy && !isPublisher && projects.length === 0
 
   const totalOrders  = orders.length
   const pending      = orders.filter(o => o.status === "pending").length
