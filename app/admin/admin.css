@@ -186,25 +186,28 @@
 }
 
 .admin .user-avatar-btn {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark));
-    border: 2px solid transparent;
+    padding: 2.5px;
+    background: linear-gradient(135deg, #9333ea, #f97316);
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.85rem;
     cursor: pointer;
-    color: #ffffff;
     transition: all 0.2s;
     outline: none;
+    overflow: hidden;
+}
+.admin .user-avatar-btn svg {
+    border-radius: 50%;
+    display: block;
 }
 .admin .user-avatar-btn:hover,
 .admin .user-dropdown-wrap:hover .user-avatar-btn {
-    border-color: var(--brand-primary);
-    box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb),0.15);
+    box-shadow: 0 0 0 3px rgba(147,51,234,0.2);
+    transform: scale(1.05);
 }
 
 .admin .user-dropdown-menu {
@@ -236,17 +239,20 @@
     padding: 14px 16px;
 }
 .admin .udm-avatar {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark));
-    color: #fff;
+    padding: 2.5px;
+    background: linear-gradient(135deg, #9333ea, #f97316);
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.85rem;
-    flex-shrink: 0;
+    overflow: hidden;
+}
+.admin .udm-avatar svg {
+    border-radius: 50%;
+    display: block;
 }
 .admin .udm-name {
     font-size: 0.875rem;

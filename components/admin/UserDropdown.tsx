@@ -12,20 +12,39 @@ type Props = {
   canBuy?: boolean
 }
 
+function AvatarSilhouette() {
+  return (
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+      <rect width="36" height="36" rx="18" fill="url(#avatarBg)"/>
+      {/* Head */}
+      <ellipse cx="18" cy="13" rx="6.5" ry="7" fill="#1a1a2e"/>
+      {/* Shoulders / body */}
+      <path d="M5 34 C5 24 31 24 31 34" fill="#1a1a2e"/>
+      <defs>
+        <radialGradient id="avatarBg" cx="60%" cy="40%" r="70%">
+          <stop offset="0%" stopColor="#f97316"/>
+          <stop offset="100%" stopColor="#dc2626"/>
+        </radialGradient>
+      </defs>
+    </svg>
+  )
+}
+
 export default function UserDropdown({ name, email, balance = 0, activeMode, canPublish, canBuy }: Props) {
-  const initial = name?.charAt(0).toUpperCase() || "U"
   const showModeSwitcher = !!activeMode && (canPublish || canBuy)
 
   return (
     <div className="user-dropdown-wrap">
       <button className="user-avatar-btn" aria-label="User menu">
-        {initial}
+        <AvatarSilhouette />
       </button>
 
       <div className="user-dropdown-menu">
         {/* User info header */}
         <div className="udm-header">
-          <div className="udm-avatar">{initial}</div>
+          <div className="udm-avatar">
+            <AvatarSilhouette />
+          </div>
           <div>
             <div className="udm-name">{name}</div>
             <div className="udm-email">{email}</div>
