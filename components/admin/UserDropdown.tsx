@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { logOut, switchMode } from "@/app/(auth)/actions"
+import AddFundsModal from "./AddFundsModal"
 
 type Props = {
   name: string
@@ -22,25 +23,11 @@ type Props = {
   canBuy?: boolean
 }
 
-function AvatarSilhouette() {
-  return (
-    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
-      <rect width="36" height="36" rx="18" fill="url(#avatarBgFill)"/>
-      <ellipse cx="18" cy="13" rx="6.5" ry="7" fill="#1a1a2e"/>
-      <path d="M5 34 C5 24 31 24 31 34" fill="#1a1a2e"/>
-      <defs>
-        <radialGradient id="avatarBgFill" cx="60%" cy="40%" r="70%">
-          <stop offset="0%" stopColor="#f97316"/>
-          <stop offset="100%" stopColor="#dc2626"/>
-        </radialGradient>
-      </defs>
-    </svg>
-  )
-}
-
 export default function UserDropdown({ name, email, balance = 0, activeMode, canPublish, canBuy }: Props) {
   const [isOpen, setIsOpen] = React.useState(false)
+  const [fundsOpen, setFundsOpen] = React.useState(false)
   const showModeSwitcher = !!activeMode && !!(canPublish && canBuy)
+  const initial = name?.charAt(0).toUpperCase() || "U"
 
   return (
     <div className="relative">
@@ -49,56 +36,46 @@ export default function UserDropdown({ name, email, balance = 0, activeMode, can
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className="flex items-center gap-4 p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 hover:shadow-sm transition-all duration-200 focus:outline-none"
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 p-0.5 focus:outline-none hover:scale-105 transition-transform duration-200"
+              aria-label="User menu"
             >
-              <div className="text-left flex-1">
-                <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight">
-                  {name}
-                </div>
-                <div className="text-xs text-zinc-500 dark:text-zinc-400 tracking-tight leading-tight mt-0.5">
-                  {email}
-                </div>
-              </div>
-              <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 p-0.5">
-                  <div className="w-full h-full rounded-full overflow-hidden">
-                    <AvatarSilhouette />
-                  </div>
-                </div>
+              <div className="w-full h-full rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center text-white font-bold text-sm">
+                {initial}
               </div>
             </button>
           </DropdownMenuTrigger>
-
-          {/* Bending line indicator */}
-          <div
-            className={cn(
-              "absolute -right-3 top-1/2 -translate-y-1/2 transition-all duration-200",
-              isOpen ? "opacity-100" : "opacity-60 group-hover:opacity-100"
-            )}
-          >
-            <svg
-              width="12" height="24" viewBox="0 0 12 24" fill="none"
-              className={cn(
-                "transition-all duration-200",
-                isOpen
-                  ? "text-blue-500 dark:text-blue-400 scale-110"
-                  : "text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-600 dark:group-hover:text-zinc-300"
-              )}
-              aria-hidden="true"
-            >
-              <path d="M2 4C6 8 6 16 2 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-            </svg>
-          </div>
 
           <DropdownMenuContent
             align="end"
             sideOffset={8}
             className="w-64 p-2 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl shadow-xl"
           >
-            {/* Balance */}
+            {/* Profile card */}
+            <div className="flex items-center justify-between gap-3 p-3 mb-1 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/50">
+              <div className="flex flex-col min-w-0">
+                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate">{name}</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate">{email}</span>
+              </div>
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 p-0.5 flex-shrink-0">
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center text-white font-bold text-xs">
+                  {initial}
+                </div>
+              </div>
+            </div>
+
+            {/* Balance + Add Funds */}
             <div className="flex items-center justify-between px-3 py-2 mb-1 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/50">
-              <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Balance</span>
-              <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">${balance.toFixed(2)}</span>
+              <div className="flex flex-col">
+                <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Balance</span>
+                <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">${balance.toFixed(2)}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => { setIsOpen(false); setFundsOpen(true) }}
+                className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-600 hover:to-cyan-700 transition-all duration-150 shadow-sm"
+              >
+                + Add Funds
+              </button>
             </div>
 
             {/* Mode switcher */}
@@ -172,6 +149,8 @@ export default function UserDropdown({ name, email, balance = 0, activeMode, can
           </DropdownMenuContent>
         </div>
       </DropdownMenu>
+
+      {fundsOpen && <AddFundsModal onClose={() => setFundsOpen(false)} />}
     </div>
   )
 }
