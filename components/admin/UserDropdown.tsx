@@ -1,16 +1,7 @@
 "use client"
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
-import { Settings, LogOut, ShoppingCart, FileText } from "lucide-react"
+import { useState } from "react"
 import Link from "next/link"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { logOut, switchMode } from "@/app/(auth)/actions"
 import AddFundsModal from "./AddFundsModal"
 
@@ -24,133 +15,102 @@ type Props = {
 }
 
 export default function UserDropdown({ name, email, balance = 0, activeMode, canPublish, canBuy }: Props) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [fundsOpen, setFundsOpen] = React.useState(false)
+  const [fundsOpen, setFundsOpen] = useState(false)
   const showModeSwitcher = !!activeMode && !!(canPublish && canBuy)
   const initial = name?.charAt(0).toUpperCase() || "U"
 
   return (
-    <div className="relative">
-      <DropdownMenu onOpenChange={setIsOpen}>
-        <div className="group relative">
-          <DropdownMenuTrigger asChild>
+    <>
+      <div className="udm-wrap">
+        {/* Trigger — gradient ring avatar */}
+        <button className="udm-trigger" aria-label="User menu">
+          <div className="udm-ring">
+            <div className="udm-initial">{initial}</div>
+          </div>
+        </button>
+
+        {/* Dropdown panel */}
+        <div className="udm-panel">
+
+          {/* Profile card */}
+          <div className="udm-profile-card">
+            <div className="udm-profile-text">
+              <span className="udm-profile-name">{name}</span>
+              <span className="udm-profile-email">{email}</span>
+            </div>
+            <div className="udm-ring udm-ring--sm">
+              <div className="udm-initial udm-initial--sm">{initial}</div>
+            </div>
+          </div>
+
+          {/* Balance + Add Funds */}
+          <div className="udm-balance-row">
+            <div>
+              <span className="udm-balance-label">Balance</span>
+              <span className="udm-balance-amount">${balance.toFixed(2)}</span>
+            </div>
             <button
               type="button"
-              className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 p-0.5 focus:outline-none hover:scale-105 transition-transform duration-200"
-              aria-label="User menu"
+              className="udm-add-funds-btn"
+              onClick={() => setFundsOpen(true)}
             >
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center text-white font-bold text-sm">
-                {initial}
-              </div>
+              + Add Funds
             </button>
-          </DropdownMenuTrigger>
+          </div>
 
-          <DropdownMenuContent
-            align="end"
-            sideOffset={8}
-            className="w-64 p-2 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl shadow-xl"
-          >
-            {/* Profile card */}
-            <div className="flex items-center justify-between gap-3 p-3 mb-1 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/50">
-              <div className="flex flex-col min-w-0">
-                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate">{name}</span>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400 truncate">{email}</span>
-              </div>
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 p-0.5 flex-shrink-0">
-                <div className="w-full h-full rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center text-white font-bold text-xs">
-                  {initial}
-                </div>
+          {/* Mode switcher */}
+          {showModeSwitcher && (
+            <div className="udm-mode-section">
+              <span className="udm-mode-label">Switch Mode</span>
+              <div className="udm-mode-pills">
+                <form action={() => switchMode("buyer")} style={{ margin: 0, flex: 1 }}>
+                  <button type="submit" className={`udm-mode-pill${activeMode === "buyer" ? " active" : ""}`}>
+                    <svg viewBox="0 0 16 16" fill="none" width="12" height="12">
+                      <path d="M2 3h1.5l1.8 7.5h7l1.7-5H5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="7" cy="13" r="1" fill="currentColor"/>
+                      <circle cx="12" cy="13" r="1" fill="currentColor"/>
+                    </svg>
+                    Buyer
+                  </button>
+                </form>
+                <form action={() => switchMode("publisher")} style={{ margin: 0, flex: 1 }}>
+                  <button type="submit" className={`udm-mode-pill${activeMode === "publisher" ? " active" : ""}`}>
+                    <svg viewBox="0 0 16 16" fill="none" width="12" height="12">
+                      <rect x="2" y="3" width="12" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+                      <path d="M5 7h6M5 9.5h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                    </svg>
+                    Publisher
+                  </button>
+                </form>
               </div>
             </div>
+          )}
 
-            {/* Balance + Add Funds */}
-            <div className="flex items-center justify-between px-3 py-2 mb-1 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/50">
-              <div className="flex flex-col">
-                <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Balance</span>
-                <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">${balance.toFixed(2)}</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => { setIsOpen(false); setFundsOpen(true) }}
-                className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:from-cyan-600 hover:to-cyan-700 transition-all duration-150 shadow-sm"
-              >
-                + Add Funds
-              </button>
-            </div>
+          <div className="udm-divider" />
 
-            {/* Mode switcher */}
-            {showModeSwitcher && (
-              <div className="px-3 py-2 mb-1">
-                <p className="text-xs text-zinc-400 dark:text-zinc-500 font-semibold uppercase tracking-wider mb-2">Switch Mode</p>
-                <div className="flex gap-2">
-                  <form action={() => switchMode("buyer")} style={{ margin: 0, flex: 1 }}>
-                    <button
-                      type="submit"
-                      className={cn(
-                        "w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-semibold border transition-all duration-150",
-                        activeMode === "buyer"
-                          ? "bg-blue-500 text-white border-blue-500 shadow-sm"
-                          : "bg-transparent text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-blue-400 hover:text-blue-500"
-                      )}
-                    >
-                      <ShoppingCart className="w-3 h-3" />
-                      Buyer
-                    </button>
-                  </form>
-                  <form action={() => switchMode("publisher")} style={{ margin: 0, flex: 1 }}>
-                    <button
-                      type="submit"
-                      className={cn(
-                        "w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-semibold border transition-all duration-150",
-                        activeMode === "publisher"
-                          ? "bg-blue-500 text-white border-blue-500 shadow-sm"
-                          : "bg-transparent text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-blue-400 hover:text-blue-500"
-                      )}
-                    >
-                      <FileText className="w-3 h-3" />
-                      Publisher
-                    </button>
-                  </form>
-                </div>
-              </div>
-            )}
+          <Link href="/admin/settings" className="udm-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            Account Settings
+          </Link>
 
-            <div className="space-y-0.5">
-              <DropdownMenuItem asChild>
-                <Link
-                  href="/admin/settings"
-                  className="flex items-center p-3 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/60 rounded-xl transition-all duration-200 cursor-pointer group border border-transparent hover:border-zinc-200/50 dark:hover:border-zinc-700/50"
-                >
-                  <div className="flex items-center gap-2 flex-1">
-                    <Settings className="w-4 h-4" />
-                    <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100 tracking-tight">
-                      Account Settings
-                    </span>
-                  </div>
-                </Link>
-              </DropdownMenuItem>
-            </div>
+          <form action={logOut} style={{ margin: 0 }}>
+            <button type="submit" className="udm-item udm-logout">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+              Sign Out
+            </button>
+          </form>
 
-            <DropdownMenuSeparator className="my-2 bg-gradient-to-r from-transparent via-zinc-200 to-transparent dark:via-zinc-800" />
-
-            <DropdownMenuItem asChild>
-              <form action={logOut} style={{ margin: 0 }}>
-                <button
-                  type="submit"
-                  className="w-full flex items-center gap-3 p-3 duration-200 bg-red-500/10 rounded-xl hover:bg-red-500/20 cursor-pointer border border-transparent hover:border-red-500/30 hover:shadow-sm transition-all group"
-                >
-                  <LogOut className="w-4 h-4 text-red-500 group-hover:text-red-600" />
-                  <span className="text-sm font-medium text-red-500 group-hover:text-red-600">
-                    Sign Out
-                  </span>
-                </button>
-              </form>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
         </div>
-      </DropdownMenu>
+      </div>
 
       {fundsOpen && <AddFundsModal onClose={() => setFundsOpen(false)} />}
-    </div>
+    </>
   )
 }

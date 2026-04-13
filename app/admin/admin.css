@@ -180,7 +180,240 @@
     color: #4ade80;
 }
 
-/* ── User Dropdown — now uses shadcn DropdownMenu + Tailwind ── */
+/* ── User Dropdown ── */
+.admin .udm-wrap {
+    position: relative;
+}
+
+/* Avatar trigger */
+.admin .udm-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+.admin .udm-trigger:hover {
+    transform: scale(1.06);
+}
+
+/* Gradient ring */
+.admin .udm-ring {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #9333ea, #ec4899, #f97316);
+    padding: 2.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin .udm-ring--sm {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+/* Initial letter inside ring */
+.admin .udm-initial {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+.admin .udm-initial--sm {
+    font-size: 0.8rem;
+}
+
+/* Dropdown panel */
+.admin .udm-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 260px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.13);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    z-index: 500;
+    overflow: hidden;
+    padding: 8px;
+}
+.admin .udm-wrap:hover .udm-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Profile card at top */
+.admin .udm-profile-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 6px;
+}
+.admin .udm-profile-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+.admin .udm-profile-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.admin .udm-profile-email {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+/* Balance row */
+.admin .udm-balance-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    margin-bottom: 4px;
+}
+.admin .udm-balance-label {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    display: block;
+}
+.admin .udm-balance-amount {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.admin .udm-add-funds-btn {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark));
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+.admin .udm-add-funds-btn:hover {
+    opacity: 0.88;
+}
+
+/* Mode section */
+.admin .udm-mode-section {
+    padding: 6px 14px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.admin .udm-mode-label {
+    font-size: 0.67rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+}
+.admin .udm-mode-pills {
+    display: flex;
+    gap: 6px;
+}
+.admin .udm-mode-pill {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+.admin .udm-mode-pill:hover:not(.active) {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
+.admin .udm-mode-pill.active {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: #fff;
+    cursor: default;
+    box-shadow: 0 2px 8px rgba(var(--brand-primary-rgb), 0.3);
+}
+
+/* Divider */
+.admin .udm-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+}
+
+/* Menu items */
+.admin .udm-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+}
+.admin .udm-item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+.admin .udm-logout {
+    color: #ef4444;
+}
+.admin .udm-logout:hover {
+    background: rgba(239,68,68,0.07);
+    color: #dc2626;
+}
 
 /* Active mode badge in header */
 .admin .active-mode-badge {
