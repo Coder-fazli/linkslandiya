@@ -74,6 +74,15 @@ export async function getWebsitesByOwner(ownerId: string) {
   return websites.map(w => ({ ...w, _id: w._id.toString() })) as unknown as Website[]
 }
 
+// Admin updates any website fields
+export async function adminUpdateWebsite(id: string, data: { da: number, dr: number, traffic: number, status: string }) {
+    const db = await getDb();
+    await db.collection("websites").updateOne(
+        { _id: new ObjectId(id) },
+        { $set: data }
+    )
+}
+
 // Approving website
 
 export async function approveWebsite(id: string){

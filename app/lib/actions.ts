@@ -5,7 +5,7 @@ import { getCurrentUser } from "./session"
 import { updateOrderStatus, updateOrder, submitForReview, confirmOrderComplete, requestOrderRevision, getOrderById } from "./orders"
 import { adjustUserBalance } from "./user"
 import { revalidatePath } from "next/cache"
-import { getWebsitesByOwner, approveWebsite, rejectWebsite } from "./websites"
+import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite } from "./websites"
 
 
 export async function updateStatus(orderId:
@@ -76,6 +76,45 @@ export async function approveWebsiteAction(websiteId: string){
     if (!admin || !admin.isAdmin) return
     await approveWebsite(websiteId)
     revalidatePath("/admin/publishers-websites")
+}
+
+// Admin sets any order status
+export async function adminSetOrderStatusAction(orderId: string, formData: FormData) {
+    const admin = await getCurrentUser()
+    if (!admin || !admin.isAdmin) return
+    const status = formData.get("status") as string
+    await updateOrderStatus(orderId, status as any)
+    revalidatePath(`/admin/buyer-orders/${orderId}`)
+}
+
+// Admin cancels order and refunds buyer if order was completed
+export async function adminCancelOrderAction(orderId: string) {
+    const admin = await getCurrentUser()
+    if (!admin || !admin.isAdmin) return
+    const order = await getOrderById(orderId)
+    if (!order) return
+    if (order.status === "cancelled") return
+    // If already completed, publisher was paid — reverse the payment
+    if (order.status === "completed") {
+        await adjustUserBalance(order.publisherId, -order.amount) // deduct from publisher
+        await adjustUserBalance(order.buyerId, order.amount)      // refund buyer
+    }
+    await updateOrderStatus(orderId, "cancelled")
+    revalidatePath(`/admin/buyer-orders/${orderId}`)
+}
+
+// Admin updates any website (SEO metrics, status, etc.)
+export async function adminUpdateWebsiteAction(websiteId: string, formData: FormData) {
+    const admin = await getCurrentUser()
+    if (!admin || !admin.isAdmin) return
+    await adminUpdateWebsite(websiteId, {
+        da: Number(formData.get("da")),
+        dr: Number(formData.get("dr")),
+        traffic: Number(formData.get("traffic")),
+        status: formData.get("status") as string
+    })
+    revalidatePath("/admin/publishers-websites")
+    redirect("/admin/publishers-websites")
 }
 
 // Reject website

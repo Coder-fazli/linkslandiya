@@ -4,6 +4,7 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import TipTapViewer from "@/components/admin/TipTapViewer"
 import BuyerOrderActions from "@/components/admin/BuyerOrderActions"
+import { adminSetOrderStatusAction, adminCancelOrderAction } from "@/app/lib/actions"
 
 export default async function BuyerOrderDetailPage({ params }: {
     params: Promise<{ id: string }>
@@ -206,6 +207,48 @@ export default async function BuyerOrderDetailPage({ params }: {
                                 >
                                     {order.publishedLink}
                                 </a>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Admin Controls — only visible to admins */}
+                    {user.isAdmin && (
+                        <div className="card" style={{ marginBottom: "1.25rem", border: "1px solid #f97316" }}>
+                            <div className="card-header">
+                                <h3 style={{ color: "#f97316" }}>Admin Controls</h3>
+                            </div>
+                            <div className="card-body">
+
+                                {/* Change status */}
+                                <form action={adminSetOrderStatusAction.bind(null, id)} style={{ marginBottom: "1rem" }}>
+                                    <label className="form-label">Override Status</label>
+                                    <div style={{ display: "flex", gap: "8px" }}>
+                                        <select name="status" className="form-input" defaultValue={order.status}>
+                                            <option value="pending">Pending</option>
+                                            <option value="in_progress">In Progress</option>
+                                            <option value="review">Review</option>
+                                            <option value="revision">Revision</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="cancelled">Cancelled</option>
+                                        </select>
+                                        <button type="submit" className="action-btn view" title="Apply" style={{ flexShrink: 0 }}>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </form>
+
+                                {/* Cancel & Refund */}
+                                {order.status !== "cancelled" && (
+                                    <form action={adminCancelOrderAction.bind(null, id)}>
+                                        <button type="submit" className="action-btn delete" style={{ width: "100%", padding: "8px", borderRadius: "8px" }}
+                                            title={order.status === "completed" ? "Cancel & Refund buyer" : "Cancel order"}>
+                                            {order.status === "completed" ? "Cancel & Refund Buyer" : "Cancel Order"}
+                                        </button>
+                                    </form>
+                                )}
+
                             </div>
                         </div>
                     )}
