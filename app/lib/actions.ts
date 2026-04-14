@@ -14,15 +14,23 @@ export async function updateStatus(orderId:
 
    const user = await getCurrentUser()
    if(!user) return redirect("/login")
+   
+      // Ensure user is publisher and owns the order
+   const order = await getOrderById(orderId)
+   if(!order) return
+   if (order.publisherId !== user._id.toString()) return
    await updateOrderStatus(orderId, status)
 
    revalidatePath(`/admin/publisher-orders/${orderId}`)
 }
-
+ 
 // Publisher submits published link for buyer review
 export async function submitForReviewAction(orderId: string, publishedLink: string) {
   const user = await getCurrentUser()
   if (!user) return redirect("/login")
+   const order = await getOrderById(orderId)
+   if (!order) return
+   if (order.publisherId !== user._id.toString()) return
   await submitForReview(orderId, publishedLink)
   revalidatePath(`/admin/publisher-orders/${orderId}`)
 }
@@ -33,6 +41,8 @@ export async function confirmOrderAction(orderId: string) {
   if (!user) return redirect("/login")
   const order = await getOrderById(orderId)
   if (!order) return
+  if (order.buyerId !== user._id.toString()) return
+  if (order.status === "completed") return
   // Credit publisher now that buyer has confirmed
   await adjustUserBalance(order.publisherId, order.amount)
   await confirmOrderComplete(orderId)
@@ -43,6 +53,9 @@ export async function confirmOrderAction(orderId: string) {
 export async function requestRevisionAction(orderId: string, note: string) {
   const user = await getCurrentUser()
   if (!user) return redirect("/login")
+   const order = await getOrderById(orderId)
+   if (!order) return
+   if (order.buyerId !== user._id.toString()) return
   await requestOrderRevision(orderId, note)
   revalidatePath(`/admin/buyer-orders/${orderId}`)
   revalidatePath(`/admin/publisher-orders/${orderId}`)
@@ -62,7 +75,7 @@ export async function approveWebsiteAction(websiteId: string){
     const admin = await getCurrentUser()
     if (!admin || !admin.isAdmin) return
     await approveWebsite(websiteId)
-    revalidatePath("/admin/all-websites")
+    revalidatePath("/admin/publishers-websites")
 }
 
 // Reject website
@@ -71,13 +84,16 @@ export async function rejectWebsiteAction(websiteId: string){
    const admin = await getCurrentUser()
    if(!admin || !admin.isAdmin) return
    await rejectWebsite(websiteId)
-   revalidatePath("/admin/all-websites")
+   revalidatePath("/admin/publishers-websites")
 }
 
 // Publisher saves their uploaded article file
 export async function savePublisherFile(orderId: string, url: string, name: string) {
   const user = await getCurrentUser()
   if (!user) return redirect("/login")
+   const order = await getOrderById(orderId)
+  if(!order) return
+  if (order.publisherId !== user._id.toString()) return
   await updateOrder(orderId, { publisherFileUrl: url, publisherFileName: name })
   revalidatePath(`/admin/publisher-orders/${orderId}`)
 }
@@ -87,6 +103,9 @@ export async function savePublisherFile(orderId: string, url: string, name: stri
 export async function savePublishedLink(orderId: string, link: string) {
    const user = await getCurrentUser();
    if (!user) return redirect("/login")
+      const order = await getOrderById(orderId)                                  
+  if (!order) return
+  if (order.publisherId !== user._id.toString()) return   
       await updateOrder(orderId, {
    publishedLink: link })
    revalidatePath(`/admin/publisher-orders/${orderId}`)

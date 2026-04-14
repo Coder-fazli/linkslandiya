@@ -109,7 +109,7 @@ export default function WebsitePage() {
                     <div
                         className={`tab ${activeTab === 'all' ? 'active' : ''}`}
                         onClick={() => setActiveTab('all')}
-                    >All Websites</div>
+                    >Publishers Websites</div>
                     <div
                         className={`tab ${activeTab === 'active' ? 'active' : ''}`}
                         onClick={() => setActiveTab('active')}

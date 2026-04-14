@@ -8,7 +8,7 @@ import UserDetailClient from "./UserDetailClient"
 
 export default async function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await getCurrentUser()
-  if (!admin?.isAdmin) return redirect("/admin")
+  if (!admin?.isAdmin) return redirect("/")
 
   const { id } = await params
   const user = await getUserById(id)

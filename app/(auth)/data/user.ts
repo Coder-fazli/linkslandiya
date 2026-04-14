@@ -1,4 +1,4 @@
-import clientPromise from "@/mongodb";
+import { getClientPromise } from "@/mongodb";
 import { ObjectId } from "mongodb";
 
 const DB_NAME = "linkslandiya"
@@ -21,7 +21,7 @@ const DB_NAME = "linkslandiya"
 
   // Get the users collection
  export async function getCollection(){
-     const client = await clientPromise
+     const client = await getClientPromise()
      return client.db(DB_NAME).collection<User>("users")
   }
 

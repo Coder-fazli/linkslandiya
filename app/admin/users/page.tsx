@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export default async function UsersPage() {
     const admin = await getCurrentUser()
-    if (!admin || !admin.isAdmin) return redirect("/admin")
+    if (!admin || !admin.isAdmin) return redirect("/")
 
     const users = await getAllUsers()
 

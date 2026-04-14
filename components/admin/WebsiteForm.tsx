@@ -274,7 +274,7 @@ export default function WebsiteForm({ website, onSave, onCancel, isDraft, onDirt
                                     )}
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Casino Price ($)</label>
+                                    <label className="form-label">Casino Price ($) <span style={{ fontWeight: 400, color: 'var(--text-secondary)', fontSize: '0.8rem' }}>— replaces base price</span></label>
                                     <input
                                     type="text" inputMode="numeric" pattern="[0-9]*"
                                     className="form-input"

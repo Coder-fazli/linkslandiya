@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAllWebsites, createWebsites, deleteWebsiteById, UpdatedWebsite, getWebsiteById } from "../../lib/websites";
+import { getAllWebsites, createWebsites, deleteWebsiteById, UpdatedWebsite, getWebsiteById, getPublishedWebsites } from "../../lib/websites";
 import { getCurrentUser } from "@/app/lib/session";
 
 
@@ -10,7 +10,7 @@ import { getCurrentUser } from "@/app/lib/session";
       if(!user) return NextResponse.json({ 
       error: "Not logged in" }, { status: 401 })
 
-      const websites = await getAllWebsites();
+      const websites = user.isAdmin ? await getAllWebsites() : await getPublishedWebsites();
       return NextResponse.json(websites);
     } 
     catch (error) {  
@@ -25,6 +25,8 @@ import { getCurrentUser } from "@/app/lib/session";
     const user = await getCurrentUser()
     if(!user) return NextResponse.json({ 
       error: "Not logged in" }, { status: 401 })
+        
+        if (!user.canPublish && !user.isAdmin) return NextResponse.json({ error: "Not a publisher" }, { status: 403 })
 
     const body = await req.json();
     const  { name, url, desc, dofollow, da, dr, traffic, country, language, topic, price, linkInsertionPrice, casinoPrice } = body;

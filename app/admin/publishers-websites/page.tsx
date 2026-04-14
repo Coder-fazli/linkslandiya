@@ -10,7 +10,7 @@ export default async function AllWebsitesPage() {
     if (!user) return redirect("/login")
 
     // Only admins can see this page
-    if (!user.isAdmin) return redirect("/admin")
+    if (!user.isAdmin) return redirect("/")
 
     // Get every website from every publisher
     const websites = await getAllWebsites()

@@ -36,10 +36,53 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
           </Link>
         </div>
 
+        {/* ADMIN — shown first after Dashboard, only for admins */}
+        {isAdmin && (
+          <>
+            <div className="nav-section">
+              <div className="nav-section-title">Management</div>
+
+              <Link href="/admin/users" className={`nav-item ${isActive(pathName, '/admin/users') ? 'active' : ''}`}>
+                <span className="nav-item-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                </span>
+                All Users
+              </Link>
+
+              <Link href="/admin/publishers-websites" className={`nav-item ${isActive(pathName, '/admin/publishers-websites') ? 'active' : ''}`}>
+                <span className="nav-item-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  </svg>
+                </span>
+                Publishers Websites
+              </Link>
+
+              <Link href="/admin/all-orders" className={`nav-item ${isActive(pathName, '/admin/all-orders') ? 'active' : ''}`}>
+                <span className="nav-item-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                  </svg>
+                </span>
+                All Orders
+              </Link>
+            </div>
+          </>
+        )}
+
         {/* BUYER */}
         {activeMode === "buyer" && (
           <div className="nav-section">
-            <div className="nav-section-title">Buyer</div>
+            <div className="nav-section-title">{isAdmin ? "Admin" : "Buyer"}</div>
 
             <Link href="/admin/projects" className={`nav-item ${isActive(pathName, '/admin/projects') ? 'active' : ''}`}>
               <span className="nav-item-icon">
@@ -118,46 +161,9 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
           </div>
         )}
 
-        {/* ADMIN */}
+        {/* CONTENT + SETTINGS — admin only */}
         {isAdmin && (
           <>
-            <div className="nav-section">
-              <div className="nav-section-title">Admin</div>
-
-              <Link href="/admin/users" className={`nav-item ${isActive(pathName, '/admin/users') ? 'active' : ''}`}>
-                <span className="nav-item-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                  </svg>
-                </span>
-                All Users
-              </Link>
-
-              <Link href="/admin/all-websites" className={`nav-item ${isActive(pathName, '/admin/all-websites') ? 'active' : ''}`}>
-                <span className="nav-item-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="2" y1="12" x2="22" y2="12"></line>
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                  </svg>
-                </span>
-                All Websites
-              </Link>
-
-              <Link href="/admin/all-orders" className={`nav-item ${isActive(pathName, '/admin/all-orders') ? 'active' : ''}`}>
-                <span className="nav-item-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                  </svg>
-                </span>
-                All Orders
-              </Link>
-            </div>
 
             <div className="nav-section">
               <div className="nav-section-title">Content</div>

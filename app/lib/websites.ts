@@ -9,6 +9,14 @@ export async function getAllWebsites() {
   return websites.map(w => ({ ...w, _id: w._id.toString() })) as unknown as Website[];
 }
 
+ export async function getPublishedWebsites() {                             
+    const db = await getDb();                   
+    const websites = await db.collection("websites").find({ status:          
+  "published" }).toArray();                                                  
+    return websites.map(w => ({ ...w, _id: w._id.toString() })) as unknown as
+   Website[];                                                                
+  }   
+
 export async function createWebsites(data: any) {
     const db = await getDb();
     const result = await db.collection("websites").insertOne(data);
@@ -23,8 +31,8 @@ export async function deleteWebsiteById(id: string) {
    db.collection("websites").findOne({ _id: new    
    ObjectId(id) });
 
-   if (website?.status === 'draft' || !website?.status) {
-        // Already draft → delete forever
+   if (website?.status === 'draft' || website?.status === 'pending' || website?.status === 'rejected' || !website?.status) {
+        // Draft, pending, or rejected → delete forever
           const result = await db.collection("websites").deleteOne({ _id: new ObjectId(id) });
           return result.deletedCount; }
          
@@ -76,12 +84,12 @@ export async function approveWebsite(id: string){
      )
 }
 
-// Rejecting website (moving to draft)
+// Rejecting website
 
 export async function rejectWebsite(id: string) {
    const db = await getDb();
    await db.collection("websites").updateOne(
       {_id: new ObjectId(id)},
-      {$set: {status: 'draft'}}
+      {$set: {status: 'rejected'}}
    )
 }
