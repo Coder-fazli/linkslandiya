@@ -5,7 +5,7 @@ import { getCurrentUser } from "./session"
 import { updateOrderStatus, updateOrder, submitForReview, confirmOrderComplete, requestOrderRevision, getOrderById } from "./orders"
 import { adjustUserBalance } from "./user"
 import { revalidatePath } from "next/cache"
-import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite } from "./websites"
+import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, approvePendingChanges, rejectPendingChanges } from "./websites"
 
 
 export async function updateStatus(orderId:
@@ -103,15 +103,27 @@ export async function adminCancelOrderAction(orderId: string) {
     revalidatePath(`/admin/buyer-orders/${orderId}`)
 }
 
-// Admin updates any website (SEO metrics, status, etc.)
+// Admin updates any website (all fields)
 export async function adminUpdateWebsiteAction(websiteId: string, formData: FormData) {
     const admin = await getCurrentUser()
     if (!admin || !admin.isAdmin) return
+    const casinoRaw = formData.get("casinoPrice") as string
+    const linkRaw = formData.get("linkInsertionPrice") as string
     await adminUpdateWebsite(websiteId, {
+        url: formData.get("url") as string,
+        name: formData.get("url") as string,
+        desc: formData.get("desc") as string,
         da: Number(formData.get("da")),
         dr: Number(formData.get("dr")),
         traffic: Number(formData.get("traffic")),
-        status: formData.get("status") as string
+        price: Number(formData.get("price")),
+        linkInsertionPrice: linkRaw ? Number(linkRaw) : undefined,
+        casinoPrice: casinoRaw ? Number(casinoRaw) : undefined,
+        country: formData.get("country") as string,
+        language: formData.get("language") as string,
+        topic: formData.get("topic") as string,
+        dofollow: formData.get("dofollow") === "on",
+        status: formData.get("status") as any,
     })
     revalidatePath("/admin/publishers-websites")
     redirect("/admin/publishers-websites")
@@ -150,3 +162,20 @@ export async function savePublishedLink(orderId: string, link: string) {
    revalidatePath(`/admin/publisher-orders/${orderId}`)
      
 }
+
+// Aprrove publihser pending chnages
+export async function approvePendingChangesAction(websiteId: string) {
+    const admin = await getCurrentUser()
+    if (!admin || !admin.isAdmin) return
+    await approvePendingChanges(websiteId)
+    revalidatePath("/admin/publishers-websites")  
+}
+
+// Reject publisher pending changes
+  export async function rejectPendingChangesAction(websiteId: string) 
+  {                                                              
+      const admin = await getCurrentUser()
+      if (!admin || !admin.isAdmin) return                            
+      await rejectPendingChanges(websiteId)                 
+      revalidatePath("/admin/publishers-websites")
+  }

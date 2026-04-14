@@ -75,11 +75,12 @@ export async function getWebsitesByOwner(ownerId: string) {
 }
 
 // Admin updates any website fields
-export async function adminUpdateWebsite(id: string, data: { da: number, dr: number, traffic: number, status: string }) {
+export async function adminUpdateWebsite(id: string, data: Partial<Website>) {
     const db = await getDb();
+    const { _id, ...updateData } = data as any
     await db.collection("websites").updateOne(
         { _id: new ObjectId(id) },
-        { $set: data }
+        { $set: updateData }
     )
 }
 
@@ -101,4 +102,39 @@ export async function rejectWebsite(id: string) {
       {_id: new ObjectId(id)},
       {$set: {status: 'rejected'}}
    )
+}
+
+// Save Publisher edits into Waiting room
+
+export async function savePendingChanges(id: string, ownerId: string, data: Partial<Website>) {
+   const db = await getDb();
+   const result = await db.collection("websites").updateOne(
+   { _id: new ObjectId(id), ownerId: ownerId },
+   { $set: { pendingData: data } }
+   )
+   return result.modifiedCount
+}
+
+// Admin approves pending changes - copy pendginData into main fields
+
+export async function approvePendingChanges(id: string) {
+   const db = await getDb();
+   const website = await db.collection("websites").findOne({
+      _id: new ObjectId(id)
+   })
+   if (!website?.pendingData) return 
+   const { _id, ...updates } = website.pendingData as any
+   await db.collection("websites").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updates, $unset: { pendingData: "" } }
+   )
+}
+
+export async function rejectPendingChanges(id: string) {
+   const db = await getDb();
+   await db.collection("websites").updateOne({
+      _id: new ObjectId(id)
+   }, {
+      $unset: { pendingData: "" }
+   })
 }

@@ -15,64 +15,186 @@ export default async function AdminEditWebsitePage({ params }: { params: Promise
 
     return (
         <div className="section-content active">
-            <div className="card" style={{ maxWidth: "600px" }}>
 
-                <div style={{ marginBottom: "1.5rem" }}>
-                    <Link href="/admin/publishers-websites" style={{ color: "var(--text-secondary)", fontSize: "0.85rem", textDecoration: "none" }}>
-                        ← Back to Publishers Websites
-                    </Link>
-                    <h2 style={{ marginTop: "0.75rem", marginBottom: "0.25rem" }}>Edit Website</h2>
-                    <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>{website.url}</p>
-                </div>
+            {/* Back link + header */}
+            <Link href="/admin/publishers-websites" className="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Publishers Websites
+            </Link>
 
-                <form action={adminUpdateWebsiteAction.bind(null, id)}>
-                    <div className="form-grid three-col" style={{ marginBottom: "1.5rem" }}>
-                        <div className="form-group">
-                            <label className="form-label">DA (Moz)</label>
-                            <input
-                                type="number"
-                                name="da"
-                                className="form-input"
-                                defaultValue={website.da}
-                                min={0} max={100}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">DR (Ahrefs)</label>
-                            <input
-                                type="number"
-                                name="dr"
-                                className="form-input"
-                                defaultValue={website.dr}
-                                min={0} max={100}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">Monthly Traffic</label>
-                            <input
-                                type="number"
-                                name="traffic"
-                                className="form-input"
-                                defaultValue={website.traffic}
-                                min={0}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="form-group" style={{ marginBottom: "1.5rem" }}>
-                        <label className="form-label">Status</label>
-                        <select name="status" className="form-input" defaultValue={website.status}>
-                            <option value="pending">Pending</option>
-                            <option value="published">Published</option>
-                            <option value="draft">Draft</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" className="btn-primary">Save Changes</button>
-                </form>
-
+            <div className="edit-header">
+                <h2>Edit Website</h2>
+                <span className={`status-badge ${website.status}`}>
+                    {website.status.charAt(0).toUpperCase() + website.status.slice(1)}
+                </span>
             </div>
+
+            <form action={adminUpdateWebsiteAction.bind(null, id)}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "1.25rem", alignItems: "start" }}>
+
+                    {/* Left column */}
+                    <div>
+
+                        {/* Basic Info */}
+                        <div className="card" style={{ marginBottom: "1.25rem" }}>
+                            <div className="card-header"><h3>Basic Info</h3></div>
+                            <div className="card-body">
+                                <div className="form-group">
+                                    <label className="form-label">Website URL</label>
+                                    <input type="url" name="url" className="form-input" defaultValue={website.url} placeholder="https://example.com" />
+                                </div>
+                                <div className="form-group" style={{ marginBottom: 0 }}>
+                                    <label className="form-label">Description</label>
+                                    <textarea name="desc" className="form-textarea" defaultValue={website.desc} placeholder="Brief description..." />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* SEO Metrics */}
+                        <div className="card" style={{ marginBottom: "1.25rem" }}>
+                            <div className="card-header"><h3>SEO Metrics</h3></div>
+                            <div className="card-body">
+                                <div className="form-grid three-col">
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">DA (Moz)</label>
+                                        <input type="number" name="da" className="form-input" defaultValue={website.da} min={0} max={100} placeholder="0-100" />
+                                    </div>
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">DR (Ahrefs)</label>
+                                        <input type="number" name="dr" className="form-input" defaultValue={website.dr} min={0} max={100} placeholder="0-100" />
+                                    </div>
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">Monthly Traffic</label>
+                                        <input type="number" name="traffic" className="form-input" defaultValue={website.traffic} min={0} placeholder="e.g. 50000" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Pricing */}
+                        <div className="card" style={{ marginBottom: "1.25rem" }}>
+                            <div className="card-header"><h3>Pricing</h3></div>
+                            <div className="card-body">
+                                <div className="form-grid three-col">
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">Guest Post ($)</label>
+                                        <input type="number" name="price" className="form-input" defaultValue={website.price} min={0} placeholder="e.g. 100" />
+                                    </div>
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">Link Insertion ($)</label>
+                                        <input type="number" name="linkInsertionPrice" className="form-input" defaultValue={website.linkInsertionPrice ?? ""} min={0} placeholder="e.g. 80" />
+                                    </div>
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">Casino Price ($)</label>
+                                        <input type="number" name="casinoPrice" className="form-input" defaultValue={website.casinoPrice ?? ""} min={0} placeholder="e.g. 300" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Details */}
+                        <div className="card">
+                            <div className="card-header"><h3>Details</h3></div>
+                            <div className="card-body">
+                                <div className="form-grid">
+                                    <div className="form-group">
+                                        <label className="form-label">Country</label>
+                                        <select name="country" className="form-select" defaultValue={website.country}>
+                                            <option value="">Select Country</option>
+                                            <option value="AZ">Azerbaijan</option>
+                                            <option value="KZ">Kazakhstan</option>
+                                            <option value="US">United States</option>
+                                            <option value="UK">United Kingdom</option>
+                                            <option value="DE">Germany</option>
+                                            <option value="FR">France</option>
+                                            <option value="ES">Spain</option>
+                                            <option value="IT">Italy</option>
+                                            <option value="TR">Turkey</option>
+                                            <option value="IN">India</option>
+                                            <option value="BR">Brazil</option>
+                                            <option value="Global">Global</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Language</label>
+                                        <select name="language" className="form-select" defaultValue={website.language}>
+                                            <option value="">Select Language</option>
+                                            <option value="Azerbaijani">Azerbaijani</option>
+                                            <option value="Kazakh">Kazakh</option>
+                                            <option value="English">English</option>
+                                            <option value="German">German</option>
+                                            <option value="French">French</option>
+                                            <option value="Spanish">Spanish</option>
+                                            <option value="Italian">Italian</option>
+                                            <option value="Turkish">Turkish</option>
+                                            <option value="Hindi">Hindi</option>
+                                            <option value="Portuguese">Portuguese</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">Topic / Category</label>
+                                        <select name="topic" className="form-select" defaultValue={website.topic}>
+                                            <option value="">Select Topic</option>
+                                            <option value="Technology">Technology</option>
+                                            <option value="Business">Business</option>
+                                            <option value="Finance">Finance</option>
+                                            <option value="Health">Health</option>
+                                            <option value="Travel">Travel</option>
+                                            <option value="Sports">Sports</option>
+                                            <option value="Lifestyle">Lifestyle</option>
+                                            <option value="Education">Education</option>
+                                            <option value="Entertainment">Entertainment</option>
+                                            <option value="News">News</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group" style={{ marginBottom: 0 }}>
+                                        <label className="form-label">Link Type</label>
+                                        <label style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "10px" }}>
+                                            <input type="checkbox" name="dofollow" defaultChecked={website.dofollow} />
+                                            <span>Dofollow Link</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* Right column — Status + Save */}
+                    <div>
+                        <div className="card" style={{ marginBottom: "1.25rem" }}>
+                            <div className="card-header"><h3>Status</h3></div>
+                            <div className="card-body">
+                                <div className="form-group" style={{ marginBottom: 0 }}>
+                                    <select name="status" className="form-select" defaultValue={website.status}>
+                                        <option value="pending">Pending</option>
+                                        <option value="published">Published</option>
+                                        <option value="draft">Draft</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="card-body">
+                                <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "1rem" }}>
+                                    <div style={{ marginBottom: "6px" }}>Owner ID:</div>
+                                    <div style={{ fontFamily: "monospace", fontSize: "0.75rem", wordBreak: "break-all" }}>{website.ownerId}</div>
+                                </div>
+                                <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>
+                                    Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
         </div>
     )
 }

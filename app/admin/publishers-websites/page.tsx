@@ -1,7 +1,7 @@
 import { getAllWebsites } from "@/app/lib/websites"
 import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
-import { approveWebsiteAction, rejectWebsiteAction } from "@/app/lib/actions"
+import { approveWebsiteAction, rejectWebsiteAction, approvePendingChangesAction, rejectPendingChangesAction } from "@/app/lib/actions"
 import Link from "next/link"
 
 export default async function AllWebsitesPage() {
@@ -45,7 +45,14 @@ export default async function AllWebsitesPage() {
                             <tr key={website._id}>
 
                                 {/* Website name */}
-                                <td>{website.name}</td>
+                                <td>
+                                    {website.name}
+                                    {website.pendingData && (
+                                        <span style={{ marginLeft: "8px", fontSize: "0.75rem", background: "#f59e0b", color: "#fff", padding: "2px 8px", borderRadius: "999px" }}>
+                                            Pending Changes
+                                        </span>
+                                    )}
+                                </td>
 
                                 {/* Publisher ID — later we can show their name */}
                                 <td style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>
@@ -73,6 +80,27 @@ export default async function AllWebsitesPage() {
                                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                             </svg>
                                         </Link>
+                                        {/* Approve/Reject pending changes */}
+                                        {website.pendingData && (
+                                            <>
+                                                <form action={approvePendingChangesAction.bind(null, website._id!)}>
+                                                    <button type="submit" className="action-btn view" title="Approve Changes">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                                <form action={rejectPendingChangesAction.bind(null, website._id!)}>
+                                                    <button type="submit" className="action-btn delete" title="Reject Changes">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </>
+                                        )}
+
                                         {website.status === "pending" && (
                                             <>
                                                 {/* Approve button — green checkmark */}

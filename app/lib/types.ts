@@ -14,9 +14,9 @@ export type Website = {
     price: number
     linkInsertionPrice?: number
     casinoPrice?: number
-    status: 'draft' | 'published' | 'pending_delete' | 'pending',
+    status: 'draft' | 'published' | 'pending_delete' | 'pending' | 'rejected',
     ownerId: string
-
+    pendingData?: Partial<Website>
     }
 
 export const faviconColors: Record<string, string> = {

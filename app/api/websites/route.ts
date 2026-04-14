@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAllWebsites, createWebsites, deleteWebsiteById, UpdatedWebsite, getWebsiteById, getPublishedWebsites } from "../../lib/websites";
+import { getAllWebsites, createWebsites, deleteWebsiteById, getWebsiteById, getPublishedWebsites, savePendingChanges, rejectPendingChanges  } from "../../lib/websites";
 import { getCurrentUser } from "@/app/lib/session";
 
 
@@ -51,7 +51,7 @@ import { getCurrentUser } from "@/app/lib/session";
  
     const { name, url, desc, dofollow, da, dr, traffic, country, language, topic, price, linkInsertionPrice, casinoPrice } = body 
 
-    const updated = await UpdatedWebsite(body._id, user._id.toString(), { name, url, desc, dofollow, da, dr, traffic, country, language, topic, price, linkInsertionPrice, casinoPrice 
+    const updated = await savePendingChanges(body._id, user._id.toString(), { name, url, desc, dofollow, da, dr, traffic, country, language, topic, price, linkInsertionPrice, casinoPrice 
     });
     return NextResponse.json({ updated })
   } catch (error) {
