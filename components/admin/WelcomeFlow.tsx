@@ -3,24 +3,22 @@
 import { useEffect, useRef, useState } from "react"
 import { Confetti, type ConfettiRef } from "@/components/ui/confetti"
 import FirstProjectPrompt from "./FirstProjectPrompt"
+import { markWelcomeBonusSeenAction } from "@/app/lib/actions"
 
 interface Props {
     userId: string
     canBuy: boolean
     showProjectPrompt: boolean
+    hasSeenWelcomeBonus: boolean
 }
 
-export default function WelcomeFlow({ userId, canBuy, showProjectPrompt }: Props) {
-    const bonusKey = `welcome_bonus_seen_${userId}`
-
+export default function WelcomeFlow({ userId, canBuy, showProjectPrompt, hasSeenWelcomeBonus }: Props) {
     const [showBonus, setShowBonus] = useState(false)
     const [showPrompt, setShowPrompt] = useState(false)
     const confettiRef = useRef<ConfettiRef>(null)
 
     useEffect(() => {
-        const alreadySeen = !!localStorage.getItem(bonusKey)
-
-        if (canBuy && !alreadySeen) {
+        if (canBuy && !hasSeenWelcomeBonus) {
             // First time buyer — show bonus first
             setShowBonus(true)
         } else if (showProjectPrompt) {
@@ -54,8 +52,8 @@ export default function WelcomeFlow({ userId, canBuy, showProjectPrompt }: Props
         }
     }, [showBonus])
 
-    function handleBonusClose() {
-        localStorage.setItem(bonusKey, "1")
+    async function handleBonusClose() {
+        await markWelcomeBonusSeenAction()
         setShowBonus(false)
         if (showProjectPrompt) {
             setTimeout(() => setShowPrompt(true), 3000)

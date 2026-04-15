@@ -30,6 +30,7 @@ export type User = {
     paypalEmail?: string
     hasSelectedRole: boolean
     registrationIp?: string
+    hasSeenWelcomeBonus?: boolean
 }
 
 // Get the users collection
@@ -93,6 +94,15 @@ export async function getAllUsers(){
     const collection = await getCollection()
     const users = await collection.find({}).toArray()
     return users as unknown as User[]
+}
+
+// Mark welcome bonus as seen
+export async function markWelcomeBonusSeen(userId: string) {
+    const collection = await getCollection()
+    await collection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: { hasSeenWelcomeBonus: true } }
+    )
 }
 
 // Count how many accounts were registered from this IP

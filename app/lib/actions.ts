@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { getCurrentUser } from "./session"
 import { updateOrderStatus, updateOrder, submitForReview, confirmOrderComplete, requestOrderRevision, getOrderById } from "./orders"
-import { adjustUserBalance } from "./user"
+import { adjustUserBalance, markWelcomeBonusSeen } from "./user"
 import { revalidatePath } from "next/cache"
 import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, approvePendingChanges, rejectPendingChanges } from "./websites"
 
@@ -172,10 +172,17 @@ export async function approvePendingChangesAction(websiteId: string) {
 }
 
 // Reject publisher pending changes
-  export async function rejectPendingChangesAction(websiteId: string) 
-  {                                                              
+  export async function rejectPendingChangesAction(websiteId: string)
+  {
       const admin = await getCurrentUser()
-      if (!admin || !admin.isAdmin) return                            
-      await rejectPendingChanges(websiteId)                 
+      if (!admin || !admin.isAdmin) return
+      await rejectPendingChanges(websiteId)
       revalidatePath("/admin/publishers-websites")
   }
+
+// Mark welcome bonus popup as seen for current user
+export async function markWelcomeBonusSeenAction() {
+    const user = await getCurrentUser()
+    if (!user) return
+    await markWelcomeBonusSeen(user._id!.toString())
+}

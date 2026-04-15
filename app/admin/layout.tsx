@@ -99,7 +99,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                 </div>
             </main>
 
-            <WelcomeFlow userId={user._id!.toString()} canBuy={user.canBuy} showProjectPrompt={showProjectPrompt} />
+            <WelcomeFlow userId={user._id!.toString()} canBuy={user.canBuy} showProjectPrompt={showProjectPrompt} hasSeenWelcomeBonus={!!user.hasSeenWelcomeBonus} />
     </div>
 
 );
