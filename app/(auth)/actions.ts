@@ -3,10 +3,12 @@ import { z } from "zod"
 import { signInSchema, signUpSchema } from "./schemas"
 import { redirect } from "next/navigation"
 import { generateSalt, hashPassword } from "./core/passwordHasher"
-import { getUserByEmail, createUser, switchUserMode } from "../lib/user"
+import { getUserByEmail, createUser, switchUserMode, countRegistrationsByIp } from "../lib/user"
 import { createSession, deleteSession, getCurrentUser } from "../lib/session"
-import { revalidatePath } from "next/cache"  
+import { revalidatePath } from "next/cache"
 import { updateUserRoles } from "./data/user"
+import { isDisposableEmail } from "../lib/blocked-domains"
+import { headers } from "next/headers"
 
     
 export async function signIn(unsafeData: z.infer<typeof signInSchema>)
@@ -32,22 +34,36 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
    if (!success) return "Unable to create account"
 
     const existingUser = await getUserByEmail(data.email)
-     if (existingUser) return "Email already in use"
+    if (existingUser) return "Email already in use"
 
-     const salt = generateSalt()
-     const passwordHash = await hashPassword(data.password, salt)
+    if (isDisposableEmail(data.email)) return "Please use a real email address"
 
-       await createUser({
-          name: data.name,
-          email: data.email,
-          passwordHash, salt,
-          canBuy: false,
-          canPublish: false,
-          activeMode: "buyer",
-          isAdmin: false,
-          hasSelectedRole: false
-       })
-             redirect("/login")
+    const headersList = await headers()
+    const ip = headersList.get("x-real-ip")
+               ?? headersList.get("x-forwarded-for")?.split(",")[0]?.trim()
+               ?? "unknown"
+
+    if (ip !== "unknown") {
+        const ipCount = await countRegistrationsByIp(ip)
+        if (ipCount >= 3) return "Too many accounts registered from this device"
+    }
+
+    const salt = generateSalt()
+    const passwordHash = await hashPassword(data.password, salt)
+
+    await createUser({
+        name: data.name,
+        email: data.email,
+        passwordHash, salt,
+        canBuy: false,
+        canPublish: false,
+        activeMode: "buyer",
+        isAdmin: false,
+        hasSelectedRole: false,
+        balance: 10,
+        registrationIp: ip,
+    })
+    redirect("/login")
 
        }
 

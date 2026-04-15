@@ -29,6 +29,7 @@ export type User = {
     paymentMethod?: string
     paypalEmail?: string
     hasSelectedRole: boolean
+    registrationIp?: string
 }
 
 // Get the users collection
@@ -92,6 +93,12 @@ export async function getAllUsers(){
     const collection = await getCollection()
     const users = await collection.find({}).toArray()
     return users as unknown as User[]
+}
+
+// Count how many accounts were registered from this IP
+export async function countRegistrationsByIp(ip: string): Promise<number> {
+    const collection = await getCollection()
+    return collection.countDocuments({ registrationIp: ip })
 }
 
 // Increase or decrease a user's balance (use negative amount to deduct)

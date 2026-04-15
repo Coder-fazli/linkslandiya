@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Card Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f9ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Overlay backdrop */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        /* Card */
+        .gift-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 48px 40px 36px;
+            width: 380px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 24px 64px rgba(14, 165, 233, 0.18), 0 4px 16px rgba(0,0,0,0.08);
+            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+
+        /* Close button */
+        .close-btn {
+            position: absolute;
+            top: 16px; right: 16px;
+            width: 28px; height: 28px;
+            border: none;
+            background: #f1f5f9;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #94a3b8;
+            font-size: 14px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .close-btn:hover { background: #e2e8f0; color: #475569; }
+
+        /* Gift icon */
+        .gift-icon {
+            width: 88px;
+            height: 88px;
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 42px;
+            animation: bounce 1s ease 0.4s both;
+        }
+
+        @keyframes bounce {
+            0%   { transform: scale(0); opacity: 0; }
+            60%  { transform: scale(1.15); opacity: 1; }
+            80%  { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        /* Confetti dots */
+        .confetti {
+            position: absolute;
+            top: 60px;
+            left: 0; right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+        .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            animation: fall 1.2s ease forwards;
+            opacity: 0;
+        }
+        .dot:nth-child(1) { background: #fbbf24; animation-delay: 0.5s; }
+        .dot:nth-child(2) { background: #f87171; animation-delay: 0.7s; }
+        .dot:nth-child(3) { background: #34d399; animation-delay: 0.6s; }
+        .dot:nth-child(4) { background: #a78bfa; animation-delay: 0.8s; }
+        .dot:nth-child(5) { background: #0ea5e9; animation-delay: 0.55s; }
+
+        @keyframes fall {
+            from { opacity: 1; transform: translateY(0) rotate(0deg); }
+            to   { opacity: 0; transform: translateY(40px) rotate(180deg); }
+        }
+
+        /* Label */
+        .label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #0ea5e9;
+            margin-bottom: 8px;
+        }
+
+        /* Amount */
+        .amount {
+            font-size: 56px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .amount span {
+            font-size: 28px;
+            font-weight: 700;
+            vertical-align: super;
+            color: #0ea5e9;
+        }
+
+        /* Description */
+        .desc {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            margin: 12px 0 28px;
+        }
+        .desc strong { color: #0f172a; }
+
+        /* CTA Button */
+        .cta-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 16px rgba(14, 165, 233, 0.4);
+        }
+        .cta-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+        }
+        .cta-btn:active { transform: translateY(0); }
+
+        /* Fine print */
+        .fine-print {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay">
+    <div class="gift-card">
+
+        <!-- Close -->
+        <button class="close-btn" onclick="document.getElementById('overlay').style.display='none'">✕</button>
+
+        <!-- Confetti -->
+        <div class="confetti">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <!-- Gift icon -->
+        <div class="gift-icon">🎁</div>
+
+        <!-- Text -->
+        <div class="label">Congratulations!</div>
+        <div class="amount"><span>$</span>10</div>
+        <p class="desc">
+            Free credit has been added to your account.<br>
+            Use it to place your <strong>first order</strong> on the Marketplace.
+        </p>
+
+        <!-- CTA -->
+        <a href="/admin" class="cta-btn">Start Exploring</a>
+
+        <p class="fine-print">* Credit is available immediately in your wallet.</p>
+
+    </div>
+</div>
+
+<script>
+    // Fire confetti on the card after 300ms
+    setTimeout(() => {
+        const card = document.querySelector('.gift-card')
+        const rect = card.getBoundingClientRect()
+        const x = (rect.left + rect.width / 2) / window.innerWidth
+        const y = (rect.top + rect.height / 2) / window.innerHeight
+
+        confetti({
+            particleCount: 200,
+            spread: 100,
+            startVelocity: 40,
+            origin: { x, y },
+            colors: ['#0ea5e9', '#38bdf8', '#fbbf24', '#f87171', '#34d399', '#a78bfa', '#fb923c'],
+            scalar: 1.2,
+        })
+
+        // Second burst for more coverage
+        setTimeout(() => {
+            confetti({
+                particleCount: 80,
+                spread: 60,
+                startVelocity: 25,
+                origin: { x, y },
+                colors: ['#0ea5e9', '#fbbf24', '#34d399', '#a78bfa'],
+                scalar: 1,
+            })
+        }, 200)
+    }, 300)
+</script>
+</body>
+</html>

@@ -5,7 +5,9 @@ import AdminNav from "../../components/admin/AdminNav";
 import ThemeSwitcher from "../../components/admin/ThemeSwitcher";
 import UserDropdown from "../../components/admin/UserDropdown";
 import RoleSelectionModal from "../../components/admin/RoleSelectionModal";
+import WelcomeFlow from "../../components/admin/WelcomeFlow";
 import { getCurrentUser } from "../lib/session";
+import { getProjectsByBuyer } from "../lib/projects";
 import { redirect } from "next/navigation"
 
 import { ReactNode } from "react";
@@ -17,6 +19,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     if (!user.hasSelectedRole) {
         return <RoleSelectionModal />
     }
+
+    const projects = user.canBuy ? await getProjectsByBuyer(user._id!.toString()) : []
+    const showProjectPrompt = user.canBuy && user.activeMode !== "publisher" && projects.length === 0
 
     return (
      <div className="admin">
@@ -93,6 +98,8 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                     {children}
                 </div>
             </main>
+
+            <WelcomeFlow userId={user._id!.toString()} canBuy={user.canBuy} showProjectPrompt={showProjectPrompt} />
     </div>
 
 );
