@@ -58,6 +58,8 @@ export async function getUserById(id: string) {
         activeMode: user.activeMode ?? "buyer",
         isAdmin: user.isAdmin ?? false,
         hasSelectedRole: user.hasSelectedRole ?? false,
+        hasSeenWelcomeBonus: user.hasSeenWelcomeBonus ?? false,
+        hasSeenProjectPrompt: user.hasSeenProjectPrompt ?? false,
     }
 }
 
