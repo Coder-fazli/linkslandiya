@@ -10,6 +10,7 @@ import { getCurrentUser } from "../lib/session";
 import { getProjectsByBuyer } from "../lib/projects";
 import { redirect } from "next/navigation"
 
+
 import { ReactNode } from "react";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
@@ -21,7 +22,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     }
 
     const projects = user.canBuy ? await getProjectsByBuyer(user._id!.toString()) : []
-    const showProjectPrompt = user.canBuy && user.activeMode !== "publisher" && projects.length === 0
+    const showProjectPrompt = user.canBuy && user.activeMode !== "publisher" && projects.length === 0 && !user.hasSeenProjectPrompt
 
     return (
      <div className="admin">

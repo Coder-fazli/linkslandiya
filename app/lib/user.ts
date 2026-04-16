@@ -31,6 +31,7 @@ export type User = {
     hasSelectedRole: boolean
     registrationIp?: string
     hasSeenWelcomeBonus?: boolean
+    hasSeenProjectPrompt?: boolean
 }
 
 // Get the users collection
@@ -119,3 +120,12 @@ export async function adjustUserBalance(userId: string, amount: number) {
         { $inc: { balance: amount } }
     )
 }
+
+export async function markProjectPromptSeen(userId: string) {
+    const collection = await getCollection()
+    await collection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: { hasSeenProjectPrompt: true } }
+    )
+}
+

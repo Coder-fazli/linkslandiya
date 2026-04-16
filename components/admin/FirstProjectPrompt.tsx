@@ -4,10 +4,21 @@ import { useState } from "react"
 import { ShineButton } from "@/components/ui/ShineButton"
 import NewProjectModal from "./NewProjectModal"
 import { useRouter } from "next/navigation"
+import { markProjectPromptSeenAction } from "@/app/lib/actions"
 
-export default function FirstProjectPrompt() {
+export default function FirstProjectPrompt({ onClose }: { onClose?: () => void }) {
   const [showForm, setShowForm] = useState(false)
   const router = useRouter()
+
+  async function handleCreate() {
+    await markProjectPromptSeenAction()
+    setShowForm(true)
+  }
+
+  async function handleSkip() {
+    await markProjectPromptSeenAction()
+    onClose?.()
+  }
 
   if (showForm) {
     return (
@@ -31,7 +42,18 @@ export default function FirstProjectPrompt() {
         padding: "48px 40px",
         boxShadow: "0 30px 80px rgba(0,0,0,0.18)",
         animation: "promptPop 0.4s cubic-bezier(0.34,1.56,0.64,1)",
+        position: "relative",
       }}>
+
+        {/* Skip button */}
+        <button onClick={handleSkip} style={{
+          position: "absolute", top: "16px", right: "16px",
+          width: "28px", height: "28px",
+          border: "none", background: "#f1f5f9", borderRadius: "50%",
+          cursor: "pointer", color: "#94a3b8", fontSize: "14px",
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>✕</button>
+
         {/* Icon */}
         <div style={{
           width: 80, height: 80, borderRadius: "50%",
@@ -54,7 +76,7 @@ export default function FirstProjectPrompt() {
         </p>
 
         <div style={{ width: "100%", marginBottom: "16px", display: "flex", justifyContent: "center" }}>
-          <ShineButton label="+ Create New Project" size="lg" onClick={() => setShowForm(true)} />
+          <ShineButton label="+ Create New Project" size="lg" onClick={handleCreate} />
         </div>
 
       </div>

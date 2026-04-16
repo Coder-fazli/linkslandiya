@@ -161,7 +161,7 @@ export default function WelcomeFlow({ userId, canBuy, showProjectPrompt, hasSeen
             )}
 
             {/* First Project Prompt — shown after bonus or immediately for returning users */}
-            {showPrompt && <FirstProjectPrompt />}
+            {showPrompt && <FirstProjectPrompt onClose={() => setShowPrompt(false)} />}
         </>
     )
 }

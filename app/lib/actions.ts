@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { getCurrentUser } from "./session"
 import { updateOrderStatus, updateOrder, submitForReview, confirmOrderComplete, requestOrderRevision, getOrderById } from "./orders"
-import { adjustUserBalance, markWelcomeBonusSeen } from "./user"
+import { adjustUserBalance, markWelcomeBonusSeen, markProjectPromptSeen } from "./user"
 import { revalidatePath } from "next/cache"
 import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, approvePendingChanges, rejectPendingChanges } from "./websites"
 
@@ -185,4 +185,10 @@ export async function markWelcomeBonusSeenAction() {
     const user = await getCurrentUser()
     if (!user) return
     await markWelcomeBonusSeen(user._id!.toString())
+}
+
+export async function markProjectPromptSeenAction(){
+    const user = await getCurrentUser()
+    if (!user) return
+    await markProjectPromptSeen(user._id!.toString())
 }
