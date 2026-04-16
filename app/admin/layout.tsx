@@ -22,7 +22,10 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     }
 
     const projects = user.canBuy ? await getProjectsByBuyer(user._id!.toString()) : []
-    const showProjectPrompt = user.canBuy && user.activeMode !== "publisher" && projects.length === 0 && !user.hasSeenProjectPrompt
+    const showProjectPrompt = user.canBuy 
+    && user.activeMode !== "publisher" 
+    && projects.length === 0 
+    && !user.hasSeenProjectPrompt
 
     return (
      <div className="admin">

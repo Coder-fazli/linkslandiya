@@ -15,16 +15,12 @@ export default function FirstProjectPrompt({ onClose }: { onClose?: () => void }
     setShowForm(true)
   }
 
-  async function handleSkip() {
-    await markProjectPromptSeenAction()
-    onClose?.()
-  }
 
   if (showForm) {
     return (
       <NewProjectModal
         onClose={() => setShowForm(false)}
-        onCreated={() => { router.push("/admin/projects"); router.refresh() }}
+        onCreated={() => { onClose?.(); router.push("/admin/projects"); router.refresh() }}
         required
       />
     )
@@ -44,15 +40,6 @@ export default function FirstProjectPrompt({ onClose }: { onClose?: () => void }
         animation: "promptPop 0.4s cubic-bezier(0.34,1.56,0.64,1)",
         position: "relative",
       }}>
-
-        {/* Skip button */}
-        <button onClick={handleSkip} style={{
-          position: "absolute", top: "16px", right: "16px",
-          width: "28px", height: "28px",
-          border: "none", background: "#f1f5f9", borderRadius: "50%",
-          cursor: "pointer", color: "#94a3b8", fontSize: "14px",
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>✕</button>
 
         {/* Icon */}
         <div style={{

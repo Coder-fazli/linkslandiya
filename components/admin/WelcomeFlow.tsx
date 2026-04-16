@@ -19,13 +19,15 @@ export default function WelcomeFlow({ userId, canBuy, showProjectPrompt, hasSeen
 
     useEffect(() => {
         if (canBuy && !hasSeenWelcomeBonus) {
-            // First time buyer — show bonus first
             setShowBonus(true)
         } else if (showProjectPrompt) {
-            // Returning user with no projects — show prompt immediately
             setShowPrompt(true)
         }
     }, [])
+
+    useEffect(() => {
+        if (!showProjectPrompt) setShowPrompt(false)
+    }, [showProjectPrompt])
 
     useEffect(() => {
         if (showBonus) {
