@@ -96,8 +96,7 @@ export async function adminCancelOrderAction(orderId: string) {
     if (order.status === "cancelled") return
     // If already completed, publisher was paid — reverse the payment
     if (order.status === "completed") {
-        await adjustUser
-        ce(order.publisherId, -order.amount) // deduct from publisher
+        await adjustUserBalance(order.publisherId, -order.amount) // deduct from publisher
         await adjustUserBalance(order.buyerId, order.amount)      // refund buyer
     }
     await updateOrderStatus(orderId, "cancelled")
