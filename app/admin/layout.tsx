@@ -8,6 +8,7 @@ import RoleSelectionModal from "../../components/admin/RoleSelectionModal";
 import WelcomeFlow from "../../components/admin/WelcomeFlow";
 import { getCurrentUser } from "../lib/session";
 import { getProjectsByBuyer } from "../lib/projects";
+import { getSiteSettings } from "../lib/site-settings";
 import { redirect } from "next/navigation"
 
 
@@ -21,6 +22,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         return <RoleSelectionModal />
     }
 
+    const settings = await getSiteSettings()
     const projects = user.canBuy ? await getProjectsByBuyer(user._id!.toString()) : []
     const showProjectPrompt = user.canBuy 
     && user.activeMode !== "publisher" 
@@ -32,16 +34,34 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <aside className="sidebar">
                 <div className="sidebar-nav">
                     <div className="logo">
-                        <div className="logo-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <span className="logo-text">Linkslandia</span>
-                            <span className="logo-subtitle">Link Building Platform</span>
-                        </div>
+                        {settings.logoUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                                src={settings.logoUrl}
+                                alt="Linkslandia"
+                                style={{
+                                    width: settings.logoWidth ? `${settings.logoWidth}px` : 'auto',
+                                    height: settings.logoHeight ? `${settings.logoHeight}px` : 'auto',
+                                    maxHeight: settings.logoHeight ? undefined : 40,
+                                    maxWidth: '100%',
+                                    objectFit: 'contain',
+                                    display: 'block',
+                                }}
+                            />
+                        ) : (
+                            <>
+                                <div className="logo-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span className="logo-text">Linkslandia</span>
+                                    <span className="logo-subtitle">Link Building Platform</span>
+                                </div>
+                            </>
+                        )}
                     </div>
 
                     <AdminNav

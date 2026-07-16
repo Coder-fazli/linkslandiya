@@ -1,5 +1,21 @@
 
 import "./globals.css"
+import type { Metadata } from "next"
+import { getSiteSettings } from "./lib/site-settings"
+
+// Favicon comes from admin-uploaded settings; /favicon.ico is the fallback
+export async function generateMetadata(): Promise<Metadata> {
+  let faviconUrl: string | undefined
+  try {
+    faviconUrl = (await getSiteSettings()).faviconUrl
+  } catch {
+    // DB unavailable (e.g. build-time prerender) — use the static fallback
+  }
+  return {
+    title: "Linkslandia",
+    icons: { icon: faviconUrl || "/favicon.ico" },
+  }
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 

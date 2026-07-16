@@ -15,9 +15,12 @@ const NAV_ITEMS = [
 type HeaderProps = {
  cartCount?: number;
  isLoggedIn?: boolean;
+ logoUrl?: string;
+ logoWidth?: number;
+ logoHeight?: number;
 }
 
-export default function Header ({ cartCount = 0, isLoggedIn = false}: HeaderProps) {
+export default function Header ({ cartCount = 0, isLoggedIn = false, logoUrl, logoWidth, logoHeight }: HeaderProps) {
  const[mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -26,8 +29,25 @@ export default function Header ({ cartCount = 0, isLoggedIn = false}: HeaderProp
            <div className="container">
             <div className="header-content">
                <Link href="/" className='logo'>
-                <div className='logo-icon'>L</div>
-                <span className='logo-text'>Linkslandia</span>   
+                {logoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={logoUrl}
+                    alt="Linkslandia"
+                    style={{
+                      width: logoWidth ? `${logoWidth}px` : 'auto',
+                      height: logoHeight ? `${logoHeight}px` : 'auto',
+                      maxHeight: logoHeight ? undefined : 48,
+                      objectFit: 'contain',
+                      display: 'block',
+                    }}
+                  />
+                ) : (
+                  <>
+                    <div className='logo-icon'>L</div>
+                    <span className='logo-text'>Linkslandia</span>
+                  </>
+                )}
                </Link>
                 <SparkleNavbar items={NAV_ITEMS} className="nav" linkClassName="nav-link" />
                    

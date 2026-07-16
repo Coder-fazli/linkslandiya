@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { getCurrentUser } from "@/app/lib/session"
+import { getSiteSettings } from "@/app/lib/site-settings"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button"
@@ -11,13 +12,32 @@ export default async function BrowseLayout({ children }: { children: React.React
   const user = await getCurrentUser()
   if (!user) return redirect("/login")
 
+  const settings = await getSiteSettings()
+
   return (
     <>
       <header className="browse-header">
         <div className="browse-header-inner">
           <Link href="/" className="browse-logo">
-            <div className="logo-icon-sm">L</div>
-            <span className="browse-logo-text">Linkslandia</span>
+            {settings.logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={settings.logoUrl}
+                alt="Linkslandia"
+                style={{
+                  width: settings.logoWidth ? `${settings.logoWidth}px` : 'auto',
+                  height: settings.logoHeight ? `${settings.logoHeight}px` : 'auto',
+                  maxHeight: settings.logoHeight ? undefined : 36,
+                  objectFit: 'contain',
+                  display: 'block',
+                }}
+              />
+            ) : (
+              <>
+                <div className="logo-icon-sm">L</div>
+                <span className="browse-logo-text">Linkslandia</span>
+              </>
+            )}
           </Link>
 
           <div className="browse-header-actions">
