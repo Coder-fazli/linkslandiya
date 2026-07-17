@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { submitContactAction } from "@/app/lib/contact-actions"
+import "../ui/landing.css"
 import "./Contact.css"
 
 declare global {
