@@ -177,7 +177,7 @@ export default function AppearanceForm({ logoUrl, faviconUrl, logoWidth, logoHei
             )}
           </div>
           <p style={{ fontSize: "12px", color: "var(--text-secondary, #64748b)", marginTop: "12px" }}>
-            Recommended: square PNG or ICO, at least 32×32px.
+            Any image works — it&apos;s automatically cropped to a square and resized to 256×256, like the WordPress site icon. Use an image with the subject centered, at least 64×64px.
           </p>
         </div>
       </div>

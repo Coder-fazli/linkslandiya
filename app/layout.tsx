@@ -13,7 +13,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
   return {
     title: "Linkslandia",
-    icons: { icon: faviconUrl || "/favicon.ico" },
+    icons: faviconUrl
+      ? { icon: faviconUrl, apple: faviconUrl, shortcut: faviconUrl }
+      : { icon: "/favicon.ico" },
   }
 }
 

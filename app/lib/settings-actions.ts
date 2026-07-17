@@ -2,6 +2,7 @@
 
 import { writeFile, mkdir, unlink } from "fs/promises"
 import path from "path"
+import sharp from "sharp"
 import { revalidatePath } from "next/cache"
 import { getCurrentUser } from "./session"
 import { getSiteSettings, updateSiteSettings } from "./site-settings"
@@ -44,14 +45,34 @@ function revalidateBranding() {
     revalidatePath("/", "layout")
 }
 
+// Raster formats sharp can crop/resize; SVG and ICO are kept as uploaded
+const RASTER_TYPES = ["image/png", "image/jpeg", "image/webp"]
+const FAVICON_SIZE = 256
+
 async function saveImage(file: File, kind: "logo" | "favicon"): Promise<{ url?: string; error?: string }> {
     const allowed = kind === "logo" ? LOGO_TYPES : FAVICON_TYPES
-    const ext = allowed[file.type]
+    let ext = allowed[file.type]
     if (!ext) return { error: `Invalid file type. Allowed: ${[...new Set(Object.values(allowed))].join(", ")}` }
     if (file.size === 0) return { error: "File is empty." }
     if (file.size > MAX_SIZE_BYTES) return { error: "File too large. Maximum size is 5 MB." }
 
-    const buffer = Buffer.from(await file.arrayBuffer())
+    let buffer = Buffer.from(await file.arrayBuffer())
+
+    // Favicons get center-cropped to a square and resized, like the WordPress site icon
+    if (kind === "favicon" && RASTER_TYPES.includes(file.type)) {
+        try {
+            buffer = Buffer.from(
+                await sharp(buffer)
+                    .resize(FAVICON_SIZE, FAVICON_SIZE, { fit: "cover", position: "centre" })
+                    .png()
+                    .toBuffer()
+            )
+            ext = ".png"
+        } catch {
+            return { error: "Could not process the image. Please try a different file." }
+        }
+    }
+
     const filename = `${kind}_${Date.now()}${ext}`
     await mkdir(BRANDING_DIR, { recursive: true })
     await writeFile(path.join(BRANDING_DIR, filename), buffer)
