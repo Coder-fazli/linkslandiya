@@ -58,12 +58,16 @@ async function saveImage(file: File, kind: "logo" | "favicon"): Promise<{ url?: 
 
     let buffer = Buffer.from(await file.arrayBuffer())
 
-    // Favicons get center-cropped to a square and resized, like the WordPress site icon
+    // Favicons are fitted into a square on a transparent background — the whole
+    // image stays visible, never squashed or cropped
     if (kind === "favicon" && RASTER_TYPES.includes(file.type)) {
         try {
             buffer = Buffer.from(
                 await sharp(buffer)
-                    .resize(FAVICON_SIZE, FAVICON_SIZE, { fit: "cover", position: "centre" })
+                    .resize(FAVICON_SIZE, FAVICON_SIZE, {
+                        fit: "contain",
+                        background: { r: 0, g: 0, b: 0, alpha: 0 },
+                    })
                     .png()
                     .toBuffer()
             )
