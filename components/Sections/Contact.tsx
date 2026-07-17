@@ -5,12 +5,6 @@ import { submitContactAction } from "@/app/lib/contact-actions"
 import "../ui/landing.css"
 import "./Contact.css"
 
-declare global {
-    interface Window {
-        $crisp?: unknown[]
-    }
-}
-
 const SUBJECTS = [
     "General Question",
     "Guest Posting & Link Building",
@@ -37,10 +31,6 @@ export default function Contact() {
             }
             setSent(true)
         })
-    }
-
-    function openLiveChat() {
-        window.$crisp?.push(["do", "chat:open"])
     }
 
     return (
@@ -79,21 +69,6 @@ export default function Contact() {
                         <div className="contact-card">
                             <div className="contact-card-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 className="contact-card-title">Live Chat</h3>
-                                <p className="contact-card-text">Fastest way to reach us — usually under a few minutes.</p>
-                                <button type="button" className="contact-card-link contact-chat-btn" onClick={openLiveChat}>
-                                    Start a conversation →
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="contact-card">
-                            <div className="contact-card-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polyline points="12 6 12 12 16 14"></polyline>
                                 </svg>
@@ -102,7 +77,7 @@ export default function Contact() {
                                 <h3 className="contact-card-title">Support Hours</h3>
                                 <p className="contact-card-text">
                                     Monday – Friday, 9:00 – 18:00 (CET).<br />
-                                    Live chat is available 24/7.
+                                    We reply to every message within 24 hours.
                                 </p>
                             </div>
                         </div>

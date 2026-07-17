@@ -35,13 +35,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
          { children }
-         <script dangerouslySetInnerHTML={{ __html: `
-           window.$crisp=[];
-           window.CRISP_WEBSITE_ID="b1163da2-88e0-4695-8efc-46f4abe71adf";
-           (function(){var d=document;var s=d.createElement("script");
-           s.src="https://client.crisp.chat/l.js";
-           s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
-         `}} />
          <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `
            (function(m,e,t,r,i,k,a){
              m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
