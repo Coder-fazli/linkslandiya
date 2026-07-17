@@ -8,22 +8,24 @@ import { revalidatePath } from "next/cache"
 import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, approvePendingChanges, rejectPendingChanges } from "./websites"
 
 
-export async function updateStatus(orderId:
-  string, status: "pending" | "in_progress" |
-  "review" | "revision" | "completed" | "cancelled"){
+// Publisher accepts an admin-approved order and starts working.
+// This is the ONLY status change a publisher can make directly.
+export async function updateStatus(orderId: string, status: "in_progress"){
 
    const user = await getCurrentUser()
    if(!user) return redirect("/login")
-   
+
       // Ensure user is publisher and owns the order
    const order = await getOrderById(orderId)
    if(!order) return
    if (order.publisherId !== user._id.toString()) return
+   // Publisher may only accept an order the admin has approved
+   if (status !== "in_progress" || order.status !== "approved") return
    await updateOrderStatus(orderId, status)
 
    revalidatePath(`/admin/publisher-orders/${orderId}`)
 }
- 
+
 // Publisher submits published link for buyer review
 export async function submitForReviewAction(orderId: string, publishedLink: string) {
   const user = await getCurrentUser()
@@ -31,6 +33,7 @@ export async function submitForReviewAction(orderId: string, publishedLink: stri
    const order = await getOrderById(orderId)
    if (!order) return
    if (order.publisherId !== user._id.toString()) return
+   if (order.status !== "in_progress" && order.status !== "revision") return
   await submitForReview(orderId, publishedLink)
   revalidatePath(`/admin/publisher-orders/${orderId}`)
 }
@@ -78,29 +81,52 @@ export async function approveWebsiteAction(websiteId: string){
     revalidatePath("/admin/publishers-websites")
 }
 
+const ORDER_STATUSES = ["pending", "approved", "in_progress", "review", "revision", "completed", "cancelled"] as const
+
 // Admin sets any order status
 export async function adminSetOrderStatusAction(orderId: string, formData: FormData) {
     const admin = await getCurrentUser()
     if (!admin || !admin.isAdmin) return
     const status = formData.get("status") as string
-    await updateOrderStatus(orderId, status as any)
+    if (!ORDER_STATUSES.includes(status as typeof ORDER_STATUSES[number])) return
+    await updateOrderStatus(orderId, status as typeof ORDER_STATUSES[number])
+    revalidatePath(`/admin/buyer-orders/${orderId}`)
+    revalidatePath("/admin/all-orders")
+}
+
+// Admin approves a new order — publisher can now see and accept it
+export async function adminApproveOrderAction(orderId: string) {
+    const admin = await getCurrentUser()
+    if (!admin || !admin.isAdmin) return
+    const order = await getOrderById(orderId)
+    if (!order) return
+    if (order.status !== "pending") return
+    await updateOrderStatus(orderId, "approved")
+    revalidatePath("/admin/all-orders")
     revalidatePath(`/admin/buyer-orders/${orderId}`)
 }
 
-// Admin cancels order and refunds buyer if order was completed
+// Admin rejects a new order — cancels it and refunds the buyer
+export async function adminRejectOrderAction(orderId: string) {
+    await adminCancelOrderAction(orderId)
+    revalidatePath("/admin/all-orders")
+}
+
+// Admin cancels order — buyer paid at creation, so always refund the buyer;
+// take the payout back from the publisher only if they were already paid
 export async function adminCancelOrderAction(orderId: string) {
     const admin = await getCurrentUser()
     if (!admin || !admin.isAdmin) return
     const order = await getOrderById(orderId)
     if (!order) return
     if (order.status === "cancelled") return
-    // If already completed, publisher was paid — reverse the payment
     if (order.status === "completed") {
         await adjustUserBalance(order.publisherId, -order.amount) // deduct from publisher
-        await adjustUserBalance(order.buyerId, order.amount)      // refund buyer
     }
+    await adjustUserBalance(order.buyerId, order.amount) // refund buyer
     await updateOrderStatus(orderId, "cancelled")
     revalidatePath(`/admin/buyer-orders/${orderId}`)
+    revalidatePath("/admin/all-orders")
 }
 
 // Admin updates any website (all fields)

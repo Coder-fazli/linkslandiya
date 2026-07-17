@@ -1,5 +1,6 @@
 import { getAllOrders } from "@/app/lib/orders"
 import { getCurrentUser } from "@/app/lib/session"
+import { adminApproveOrderAction, adminRejectOrderAction } from "@/app/lib/actions"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { colors } from "@/app/lib/colors"
@@ -28,7 +29,7 @@ export default async function AllOrdersPage() {
                     <div style={{ fontSize: 32, fontWeight: 700 }}>{totalOrders}</div>
                 </div>
                 <div className="card" style={{ padding: '20px' }}>
-                    <div style={{ fontSize: 13, color: '#64748b', marginBottom: 6 }}>Pending</div>
+                    <div style={{ fontSize: 13, color: '#64748b', marginBottom: 6 }}>Awaiting Your Approval</div>
                     <div style={{ fontSize: 32, fontWeight: 700, color: '#f59e0b' }}>{pending}</div>
                 </div>
                 <div className="card" style={{ padding: '20px' }}>
@@ -88,13 +89,35 @@ export default async function AllOrdersPage() {
                                     </span>
                                 </td>
                                 <td>
-                                    <div className="action-btns">
+                                    <div className="action-btns" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                                         <Link href={`/admin/buyer-orders/${order._id}`} className="action-btn view" title="View">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                                 <circle cx="12" cy="12" r="3"></circle>
                                             </svg>
                                         </Link>
+                                        {order.status === "pending" && (
+                                            <>
+                                                <form action={adminApproveOrderAction.bind(null, order._id!.toString())}>
+                                                    <button type="submit" title="Approve — publisher will see the order" style={{
+                                                        padding: "5px 12px", background: "rgba(34,197,94,0.1)", color: "#16a34a",
+                                                        border: "1px solid rgba(34,197,94,0.35)", borderRadius: "7px",
+                                                        fontSize: "12px", fontWeight: 700, cursor: "pointer",
+                                                    }}>
+                                                        Approve
+                                                    </button>
+                                                </form>
+                                                <form action={adminRejectOrderAction.bind(null, order._id!.toString())}>
+                                                    <button type="submit" title="Reject — order cancelled, buyer refunded" style={{
+                                                        padding: "5px 12px", background: "rgba(239,68,68,0.08)", color: "#dc2626",
+                                                        border: "1px solid rgba(239,68,68,0.3)", borderRadius: "7px",
+                                                        fontSize: "12px", fontWeight: 700, cursor: "pointer",
+                                                    }}>
+                                                        Reject
+                                                    </button>
+                                                </form>
+                                            </>
+                                        )}
                                     </div>
                                 </td>
                             </tr>

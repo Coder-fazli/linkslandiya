@@ -27,7 +27,9 @@ import { getDb } from "./db";
       // Publisher uploaded file (when buyer chose "get content from us")
       publisherFileUrl?: string
       publisherFileName?: string
-      status: "pending" | "in_progress" | "review" | "revision" | "completed" | "cancelled"
+      // pending = waiting for ADMIN approval (publisher can't see it yet)
+      // approved = admin approved, waiting for publisher to accept
+      status: "pending" | "approved" | "in_progress" | "review" | "revision" | "completed" | "cancelled"
       createdAt: Date
       publishedLink?: string
       revisionNote?: string
@@ -110,10 +112,11 @@ import { getDb } from "./db";
    }
 
    // Get orders where THIS user is the publisher("Orders Received" for publisher)
+   // Orders pending admin approval are hidden — publisher must never see them
   export async function getOrdersByPublisher(publisherId: string) {
       const db = await getDb()
       const orders = await db.collection("orders")
-        .find({ publisherId: publisherId })
+        .find({ publisherId: publisherId, status: { $ne: "pending" } })
         .sort({ createdAt: -1 })
         .toArray()
       return orders as unknown as Order[]

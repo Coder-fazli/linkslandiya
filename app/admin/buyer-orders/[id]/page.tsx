@@ -17,8 +17,14 @@ export default async function BuyerOrderDetailPage({ params }: {
     const order = await getOrderById(id)
     if (!order) return <div>Order not found</div>
 
+    // Only the order's buyer (or an admin) may view it
+    if (order.buyerId !== user._id.toString() && !user.isAdmin) {
+        return redirect("/admin/buyer-orders")
+    }
+
     const statusLabel: Record<string, string> = {
-        pending: "Pending",
+        pending: "Pending Approval",
+        approved: "Approved",
         in_progress: "In Progress",
         review: "Under Review",
         revision: "Revision Requested",
@@ -80,7 +86,8 @@ export default async function BuyerOrderDetailPage({ params }: {
                                     <div className="timeline-content">
                                         <div className="timeline-title">Being Published</div>
                                         <div className="timeline-date">
-                                            {order.status === "pending" ? "Waiting for publisher..." :
+                                            {order.status === "pending" ? "Order is being reviewed by our team..." :
+                                             order.status === "approved" ? "Waiting for publisher..." :
                                              order.status === "in_progress" ? "Publisher is working on it..." : "Done"}
                                         </div>
                                     </div>
@@ -224,7 +231,8 @@ export default async function BuyerOrderDetailPage({ params }: {
                                     <label className="form-label">Override Status</label>
                                     <div style={{ display: "flex", gap: "8px" }}>
                                         <select name="status" className="form-input" defaultValue={order.status}>
-                                            <option value="pending">Pending</option>
+                                            <option value="pending">Pending Approval</option>
+                                            <option value="approved">Approved</option>
                                             <option value="in_progress">In Progress</option>
                                             <option value="review">Review</option>
                                             <option value="revision">Revision</option>

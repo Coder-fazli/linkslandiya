@@ -20,6 +20,11 @@ export default async function OrderDetailPage({ params }: {
     const order = await getOrderById(id)
     if (!order) return <div>Order not found</div>
 
+    // Only the order's publisher (or an admin) may view it
+    if (order.publisherId !== user._id.toString() && !user.isAdmin) {
+        return redirect("/admin/publisher-orders")
+    }
+
     return (
         <div className="section-content active">
 
@@ -89,7 +94,7 @@ export default async function OrderDetailPage({ params }: {
                                     <div className="timeline-content">
                                         <div className="timeline-title">Work in Progress</div>
                                         <div className="timeline-date">
-                                            {order.status === "pending" ? "Waiting to accept..." :
+                                            {order.status === "pending" || order.status === "approved" ? "Waiting to accept..." :
                                              order.status === "in_progress" ? "Working on it..." : "Done"}
                                         </div>
                                     </div>

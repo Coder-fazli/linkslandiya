@@ -81,6 +81,20 @@ export default function OrderStatusUpdater({ orderId, currentStatus, currentLink
         )
     }
 
+    if (currentStatus === "pending") {
+        // Awaiting admin approval — publishers normally never see this state
+        return (
+            <div className="card" style={{ marginBottom: "1.25rem" }}>
+                <div className="card-header"><h3>Order Status</h3></div>
+                <div className="card-body">
+                    <div style={{ padding: "12px 16px", background: "#fffbeb", borderRadius: "8px", border: "1px solid #fde68a", fontWeight: 600, color: "#b45309" }}>
+                        Waiting for admin approval
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     if (currentStatus === "cancelled") {
         return (
             <div className="card" style={{ marginBottom: "1.25rem" }}>
@@ -110,8 +124,8 @@ export default function OrderStatusUpdater({ orderId, currentStatus, currentLink
                     </div>
                 )}
 
-                {/* Accept order button for pending */}
-                {currentStatus === "pending" && (
+                {/* Accept order button — only for admin-approved orders */}
+                {currentStatus === "approved" && (
                     <div style={{ marginBottom: "16px" }}>
                         <LiquidButton
                             onClick={handleAccept}
