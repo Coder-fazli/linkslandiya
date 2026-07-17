@@ -48,10 +48,10 @@ import { getDb } from "./db";
         return result.insertedId
   }
 
-  // Get all orders
+  // Get all orders, newest first
     export async function getAllOrders(){
         const db = await getDb()
-        const orders = await db.collection("orders").find({}).toArray()
+        const orders = await db.collection("orders").find({}).sort({ createdAt: -1 }).toArray()
         return orders as unknown as Order[]
     }
 

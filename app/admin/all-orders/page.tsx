@@ -1,22 +1,46 @@
 import { getAllOrders } from "@/app/lib/orders"
+import { getAllUsers, displayName } from "@/app/lib/user"
 import { getCurrentUser } from "@/app/lib/session"
 import { adminApproveOrderAction, adminRejectOrderAction } from "@/app/lib/actions"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { colors } from "@/app/lib/colors"
 
-export default async function AllOrdersPage() {
+const TABS = [
+    { key: "all", label: "All" },
+    { key: "pending", label: "Pending" },
+    { key: "approved", label: "Approved" },
+    { key: "in_progress", label: "In Progress" },
+    { key: "review", label: "Review" },
+    { key: "revision", label: "Revision" },
+    { key: "completed", label: "Completed" },
+    { key: "cancelled", label: "Cancelled" },
+] as const
+
+export default async function AllOrdersPage({ searchParams }: {
+    searchParams: Promise<{ status?: string }>
+}) {
 
     const user = await getCurrentUser()
     if (!user) return redirect("/login")
     if (!user.isAdmin) return redirect("/")
 
-    const orders = await getAllOrders()
+    const { status } = await searchParams
+    const activeTab = TABS.some(t => t.key === status) ? status! : "all"
+
+    const [orders, users] = await Promise.all([getAllOrders(), getAllUsers()])
+    const userById = new Map(users.map(u => [u._id!.toString(), u]))
+
+    const counts: Record<string, number> = { all: orders.length }
+    for (const t of TABS) {
+        if (t.key !== "all") counts[t.key] = orders.filter(o => o.status === t.key).length
+    }
+
+    const filtered = activeTab === "all" ? orders : orders.filter(o => o.status === activeTab)
 
     const totalOrders = orders.length
-    const pending = orders.filter(o => o.status === "pending").length
-    const inProgress = orders.filter(o => o.status === "in_progress").length
-    const completed = orders.filter(o => o.status === "completed").length
+    const pending = counts.pending
+    const inProgress = counts.in_progress
     const totalRevenue = orders.filter(o => o.status === "completed").reduce((sum, o) => sum + o.amount, 0)
 
     return (
@@ -42,6 +66,21 @@ export default async function AllOrdersPage() {
                 </div>
             </div>
 
+            {/* Status filter tabs */}
+            <div className="tabs" style={{ marginBottom: '16px', flexWrap: 'wrap' }}>
+                {TABS.map(t => (
+                    <Link
+                        key={t.key}
+                        href={t.key === "all" ? "/admin/all-orders" : `/admin/all-orders?status=${t.key}`}
+                        className={`tab ${activeTab === t.key ? "active" : ""}`}
+                        style={{ textDecoration: "none" }}
+                    >
+                        {t.label}
+                        <span style={{ marginLeft: 6, opacity: 0.65, fontSize: "0.85em" }}>{counts[t.key]}</span>
+                    </Link>
+                ))}
+            </div>
+
             {/* Orders table */}
             <div className="card">
                 <table className="table">
@@ -59,13 +98,15 @@ export default async function AllOrdersPage() {
                         </tr>
                     </thead>
                     <tbody>
-                    {orders.length === 0 ? (
+                    {filtered.length === 0 ? (
                         <tr>
-                            <td colSpan={9} style={{ textAlign: "center", padding: "2rem" }}>No orders yet.</td>
+                            <td colSpan={9} style={{ textAlign: "center", padding: "2rem" }}>
+                                {activeTab === "all" ? "No orders yet." : `No ${activeTab.replace("_", " ")} orders.`}
+                            </td>
                         </tr>
                     ) : (
-                        orders.map(order => (
-                            <tr key={order._id}>
+                        filtered.map(order => (
+                            <tr key={order._id?.toString()}>
                                 <td>#{order._id?.toString().slice(-6).toUpperCase()}</td>
                                 <td>{order.websiteName}</td>
                                 <td style={{ fontSize: "0.8rem" }}>
@@ -73,11 +114,17 @@ export default async function AllOrdersPage() {
                                         {order.orderType.replace("_", " ")}
                                     </span>
                                 </td>
-                                <td style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                                    {order.buyerId.slice(-6)}
+                                <td style={{ fontSize: "0.85rem" }}>
+                                    <Link href={`/admin/users/${order.buyerId}`}
+                                        style={{ color: "var(--brand-primary)", textDecoration: "none", fontWeight: 500 }}>
+                                        {displayName(userById.get(order.buyerId), order.buyerId)}
+                                    </Link>
                                 </td>
-                                <td style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                                    {order.publisherId.slice(-6)}
+                                <td style={{ fontSize: "0.85rem" }}>
+                                    <Link href={`/admin/users/${order.publisherId}`}
+                                        style={{ color: "var(--brand-primary)", textDecoration: "none", fontWeight: 500 }}>
+                                        {displayName(userById.get(order.publisherId), order.publisherId)}
+                                    </Link>
                                 </td>
                                 <td>${order.amount}</td>
                                 <td>{new Date(order.createdAt).toLocaleDateString("en-US", {

@@ -5,6 +5,7 @@ import Link from "next/link"
 import TipTapViewer from "@/components/admin/TipTapViewer"
 import BuyerOrderActions from "@/components/admin/BuyerOrderActions"
 import { adminSetOrderStatusAction, adminCancelOrderAction } from "@/app/lib/actions"
+import { getUserById, displayName } from "@/app/lib/user"
 
 export default async function BuyerOrderDetailPage({ params }: {
     params: Promise<{ id: string }>
@@ -21,6 +22,11 @@ export default async function BuyerOrderDetailPage({ params }: {
     if (order.buyerId !== user._id.toString() && !user.isAdmin) {
         return redirect("/admin/buyer-orders")
     }
+
+    // Admin sees who is on each side of the order — buyers/publishers never see each other
+    const [buyer, publisher] = user.isAdmin
+        ? await Promise.all([getUserById(order.buyerId), getUserById(order.publisherId)])
+        : [null, null]
 
     const statusLabel: Record<string, string> = {
         pending: "Pending Approval",
@@ -214,6 +220,43 @@ export default async function BuyerOrderDetailPage({ params }: {
                                 >
                                     {order.publishedLink}
                                 </a>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* People — admin only: who is on each side of this order */}
+                    {user.isAdmin && (
+                        <div className="card" style={{ marginBottom: "1.25rem" }}>
+                            <div className="card-header">
+                                <h3>People</h3>
+                            </div>
+                            <div className="card-body">
+                                {[
+                                    { role: "Buyer", person: buyer, id: order.buyerId },
+                                    { role: "Publisher", person: publisher, id: order.publisherId },
+                                ].map(({ role, person, id: personId }, i) => (
+                                    <div key={role} style={{
+                                        paddingTop: i === 0 ? 0 : "12px",
+                                        marginTop: i === 0 ? 0 : "12px",
+                                        borderTop: i === 0 ? "none" : "1px solid var(--border-color)",
+                                    }}>
+                                        <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase", color: "var(--text-secondary)", marginBottom: "4px" }}>
+                                            {role}
+                                        </div>
+                                        <div style={{ fontWeight: 600, marginBottom: "2px" }}>
+                                            {displayName(person, personId)}
+                                        </div>
+                                        {person?.email && (
+                                            <div style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "6px", wordBreak: "break-all" }}>
+                                                {person.email}
+                                            </div>
+                                        )}
+                                        <Link href={`/admin/users/${personId}`}
+                                            style={{ fontSize: "13px", color: "var(--brand-primary)", textDecoration: "none", fontWeight: 600 }}>
+                                            View profile →
+                                        </Link>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     )}
