@@ -3,6 +3,7 @@
 import { useState } from "react"
 import type { Order } from "@/app/lib/orders"
 import type { Website } from "@/app/lib/types"
+import type { Project } from "@/app/lib/projects"
 import { formatTraffic } from "@/app/lib/types"
 
 type SafeUser = {
@@ -25,14 +26,15 @@ type Props = {
   buyerOrders: Order[]
   publisherOrders: Order[]
   websites: Website[]
+  projects: Project[]
 }
 
-export default function UserDetailClient({ user, buyerOrders, publisherOrders, websites }: Props) {
+export default function UserDetailClient({ user, buyerOrders, publisherOrders, websites, projects }: Props) {
   const [balance, setBalance] = useState(user.balance)
   const [adjustAmount, setAdjustAmount] = useState("")
   const [adjustNote, setAdjustNote] = useState("")
   const [saving, setSaving] = useState(false)
-  const [activeTab, setActiveTab] = useState<"buyer" | "publisher" | "websites">("buyer")
+  const [activeTab, setActiveTab] = useState<"buyer" | "publisher" | "websites" | "projects">("buyer")
 
   async function handleAdjust(type: "add" | "deduct") {
     const amount = parseFloat(adjustAmount)
@@ -151,6 +153,7 @@ export default function UserDetailClient({ user, buyerOrders, publisherOrders, w
               { key: "buyer", label: `Buyer Orders (${buyerOrders.length})` },
               { key: "publisher", label: `Publisher Orders (${publisherOrders.length})` },
               { key: "websites", label: `Websites (${websites.length})` },
+              { key: "projects", label: `Projects (${projects.length})` },
             ] as const).map(tab => (
               <button key={tab.key} type="button" onClick={() => setActiveTab(tab.key)} style={{
                 flex: 1, padding: "10px 12px", borderRadius: "8px", border: "none", cursor: "pointer",
@@ -217,6 +220,27 @@ export default function UserDetailClient({ user, buyerOrders, publisherOrders, w
                     <td>{formatTraffic(w.traffic)}</td>
                     <td>${w.price}</td>
                     <td><span className={`status-badge ${w.status}`}>{w.status}</span></td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        )}
+
+        {/* Projects */}
+        {activeTab === "projects" && (
+          <table className="table">
+            <thead><tr><th>Name</th><th>Target Domain</th><th>Category</th><th>Note</th><th>Status</th><th>Created</th></tr></thead>
+            <tbody>
+              {projects.length === 0
+                ? <tr><td colSpan={6} style={{ textAlign: "center", color: "#94a3b8" }}>No projects yet</td></tr>
+                : projects.map(p => (
+                  <tr key={p._id}>
+                    <td style={{ fontWeight: 600 }}>{p.name}</td>
+                    <td>{p.targetDomain}</td>
+                    <td>{p.category || "—"}</td>
+                    <td style={{ maxWidth: 220, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.note || "—"}</td>
+                    <td><span className={`status-badge ${p.archived ? "" : "active"}`}>{p.archived ? "Archived" : "Active"}</span></td>
+                    <td>{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : "—"}</td>
                   </tr>
                 ))}
             </tbody>

@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/app/lib/session"
 import { getUserById } from "@/app/lib/user"
 import { getOrdersByBuyer, getOrdersByPublisher } from "@/app/lib/orders"
 import { getWebsitesByOwner } from "@/app/lib/websites"
+import { getProjectsByBuyer } from "@/app/lib/projects"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import UserDetailClient from "./UserDetailClient"
@@ -14,10 +15,11 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
   const user = await getUserById(id)
   if (!user) return <div>User not found</div>
 
-  const [buyerOrders, publisherOrders, websites] = await Promise.all([
+  const [buyerOrders, publisherOrders, websites, projects] = await Promise.all([
     getOrdersByBuyer(id),
     getOrdersByPublisher(id),
     getWebsitesByOwner(id),
+    getProjectsByBuyer(id),
   ])
 
   const safeUser = {
@@ -48,6 +50,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
         buyerOrders={JSON.parse(JSON.stringify(buyerOrders))}
         publisherOrders={JSON.parse(JSON.stringify(publisherOrders))}
         websites={JSON.parse(JSON.stringify(websites))}
+        projects={JSON.parse(JSON.stringify(projects))}
       />
     </div>
   )

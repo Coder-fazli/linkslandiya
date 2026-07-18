@@ -40,15 +40,12 @@ export async function updateProject(id: string, buyerId: string, data: Partial<P
   )
 }
 
+// Projects can only be paused, never deleted — buyers may have placed
+// orders that reference a project, and admins need the full history.
 export async function archiveProject(id: string, buyerId: string, archived: boolean) {
   const db = await getDb()
   await db.collection("projects").updateOne(
     { _id: new ObjectId(id), buyerId },
     { $set: { archived } }
   )
-}
-
-export async function deleteProject(id: string, buyerId: string) {
-  const db = await getDb()
-  await db.collection("projects").deleteOne({ _id: new ObjectId(id), buyerId })
 }

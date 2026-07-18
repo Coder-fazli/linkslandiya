@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { getCurrentUser } from "@/app/lib/session"
-import { getProjectsByBuyer, createProject, updateProject, archiveProject, deleteProject } from "@/app/lib/projects"
+import { getProjectsByBuyer, createProject, updateProject, archiveProject } from "@/app/lib/projects"
 
 export async function GET() {
   const user = await getCurrentUser()
@@ -38,13 +38,5 @@ export async function PATCH(req: Request) {
   } else {
     await updateProject(id, user._id.toString(), data)
   }
-  return NextResponse.json({ ok: true })
-}
-
-export async function DELETE(req: Request) {
-  const user = await getCurrentUser()
-  if (!user) return NextResponse.json({ error: "Not logged in" }, { status: 401 })
-  const { id } = await req.json()
-  await deleteProject(id, user._id.toString())
   return NextResponse.json({ ok: true })
 }
