@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation"
 import { getCurrentUser } from "./session"
-import { updateOrderStatus, updateOrder, submitForReview, confirmOrderComplete, requestOrderRevision, getOrderById } from "./orders"
+import { updateOrderStatus, updateOrder, submitForReview, requestOrderRevision, getOrderById, transitionOrderStatus } from "./orders"
 import { adjustUserBalance, markWelcomeBonusSeen, markProjectPromptSeen } from "./user"
 import { revalidatePath } from "next/cache"
 import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, approvePendingChanges, rejectPendingChanges } from "./websites"
@@ -10,7 +10,7 @@ import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, 
 
 // Publisher accepts an admin-approved order and starts working.
 // This is the ONLY status change a publisher can make directly.
-export async function updateStatus(orderId: string, status: "in_progress"){
+export async function acceptOrderAction(orderId: string){
 
    const user = await getCurrentUser()
    if(!user) return redirect("/login")
@@ -19,9 +19,8 @@ export async function updateStatus(orderId: string, status: "in_progress"){
    const order = await getOrderById(orderId)
    if(!order) return
    if (order.publisherId !== user._id.toString()) return
-   // Publisher may only accept an order the admin has approved
-   if (status !== "in_progress" || order.status !== "approved") return
-   await updateOrderStatus(orderId, status)
+   // Only an admin-approved order can be accepted
+   await transitionOrderStatus(orderId, ["approved"], "in_progress")
 
    revalidatePath(`/admin/publisher-orders/${orderId}`)
 }
@@ -45,10 +44,11 @@ export async function confirmOrderAction(orderId: string) {
   const order = await getOrderById(orderId)
   if (!order) return
   if (order.buyerId !== user._id.toString()) return
-  if (order.status === "completed") return
-  // Credit publisher now that buyer has confirmed
-  await adjustUserBalance(order.publisherId, order.amount)
-  await confirmOrderComplete(orderId)
+  // Atomic transition — the publisher can only ever be credited once
+  const confirmed = await transitionOrderStatus(orderId, ["approved", "in_progress", "review", "revision"], "completed")
+  if (confirmed) {
+    await adjustUserBalance(order.publisherId, order.amount)
+  }
   revalidatePath(`/admin/buyer-orders/${orderId}`)
 }
 
@@ -98,10 +98,7 @@ export async function adminSetOrderStatusAction(orderId: string, formData: FormD
 export async function adminApproveOrderAction(orderId: string) {
     const admin = await getCurrentUser()
     if (!admin || !admin.isAdmin) return
-    const order = await getOrderById(orderId)
-    if (!order) return
-    if (order.status !== "pending") return
-    await updateOrderStatus(orderId, "approved")
+    await transitionOrderStatus(orderId, ["pending"], "approved")
     revalidatePath("/admin/all-orders")
     revalidatePath(`/admin/buyer-orders/${orderId}`)
 }
@@ -113,18 +110,19 @@ export async function adminRejectOrderAction(orderId: string) {
 }
 
 // Admin cancels order — buyer paid at creation, so always refund the buyer;
-// take the payout back from the publisher only if they were already paid
+// take the payout back from the publisher only if they were already paid.
+// Each transition is atomic, so a double submission can never refund twice.
 export async function adminCancelOrderAction(orderId: string) {
     const admin = await getCurrentUser()
     if (!admin || !admin.isAdmin) return
     const order = await getOrderById(orderId)
     if (!order) return
-    if (order.status === "cancelled") return
-    if (order.status === "completed") {
+    if (await transitionOrderStatus(orderId, ["completed"], "cancelled")) {
         await adjustUserBalance(order.publisherId, -order.amount) // deduct from publisher
+        await adjustUserBalance(order.buyerId, order.amount)      // refund buyer
+    } else if (await transitionOrderStatus(orderId, ["pending", "approved", "in_progress", "review", "revision"], "cancelled")) {
+        await adjustUserBalance(order.buyerId, order.amount)      // refund buyer
     }
-    await adjustUserBalance(order.buyerId, order.amount) // refund buyer
-    await updateOrderStatus(orderId, "cancelled")
     revalidatePath(`/admin/buyer-orders/${orderId}`)
     revalidatePath("/admin/all-orders")
 }

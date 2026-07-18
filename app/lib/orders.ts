@@ -70,6 +70,18 @@ import { getDb } from "./db";
       { $set: {status} })
    }
 
+   // Atomically move an order from one of the given statuses to a new one.
+   // Returns true only for the caller that actually performed the transition,
+   // so money movements guarded by it can never run twice (e.g. double-click).
+   export async function transitionOrderStatus(id: string, from: Order["status"][], to: Order["status"]) {
+      const db = await getDb()
+      const result = await db.collection("orders").updateOne(
+        { _id: new ObjectId(id), status: { $in: from } },
+        { $set: { status: to } }
+      )
+      return result.modifiedCount > 0
+   }
+
    // Submit published link for buyer review
    export async function submitForReview(id: string, publishedLink: string) {
       const db = await getDb()

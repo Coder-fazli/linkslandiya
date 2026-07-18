@@ -13,7 +13,7 @@ export default async function BuyerOrdersPage(){
     // Get only orders where THIS user is the buyer (orders I placed)
     const orders = await getOrdersByBuyer(user._id.toString())
     const totalOrders = orders.length
-    const pendign = orders.filter(o => o.status === "pending" || o.status === "approved").length
+    const pending = orders.filter(o => o.status === "pending" || o.status === "approved").length
     const inProgress = orders.filter(o => o.status === "in_progress").length
     const completed  = orders.filter(o => o.status === "completed").length                          
     const totalSpent = orders.reduce((sum, o) => sum + o.amount, 0) 
@@ -30,7 +30,7 @@ export default async function BuyerOrdersPage(){
                 </div>
                 <div className="card" style={{ padding: '20px' }}>
                     <div style={{ fontSize: 13, color: '#64748b', marginBottom: 6 }}>Pending</div>
-                    <div style={{ fontSize: 32, fontWeight: 700, color: '#f59e0b' }}>{pendign}</div>
+                    <div style={{ fontSize: 32, fontWeight: 700, color: '#f59e0b' }}>{pending}</div>
                     <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4 }}>⏳ Approval & publisher</div>
                 </div>
                 <div className="card" style={{ padding: '20px' }}>

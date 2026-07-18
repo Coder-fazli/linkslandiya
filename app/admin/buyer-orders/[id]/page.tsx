@@ -5,7 +5,9 @@ import Link from "next/link"
 import TipTapViewer from "@/components/admin/TipTapViewer"
 import BuyerOrderActions from "@/components/admin/BuyerOrderActions"
 import { adminSetOrderStatusAction, adminCancelOrderAction } from "@/app/lib/actions"
-import { getUserById, displayName } from "@/app/lib/user"
+import { getUserById } from "@/app/lib/user"
+import { displayName } from "@/app/lib/format"
+import ConfirmSubmitButton from "@/components/admin/ConfirmSubmitButton"
 
 export default async function BuyerOrderDetailPage({ params }: {
     params: Promise<{ id: string }>
@@ -293,10 +295,14 @@ export default async function BuyerOrderDetailPage({ params }: {
                                 {/* Cancel & Refund */}
                                 {order.status !== "cancelled" && (
                                     <form action={adminCancelOrderAction.bind(null, id)}>
-                                        <button type="submit" className="action-btn delete" style={{ width: "100%", padding: "8px", borderRadius: "8px" }}
-                                            title={order.status === "completed" ? "Cancel & Refund buyer" : "Cancel order"}>
+                                        <ConfirmSubmitButton
+                                            className="action-btn delete"
+                                            style={{ width: "100%", padding: "8px", borderRadius: "8px" }}
+                                            title={order.status === "completed" ? "Cancel & Refund buyer" : "Cancel order"}
+                                            message={`Cancel this order? $${order.amount} will be refunded to the buyer${order.status === "completed" ? " and deducted from the publisher" : ""}.`}
+                                        >
                                             {order.status === "completed" ? "Cancel & Refund Buyer" : "Cancel Order"}
-                                        </button>
+                                        </ConfirmSubmitButton>
                                     </form>
                                 )}
 

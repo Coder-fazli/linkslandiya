@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { updateStatus, submitForReviewAction } from "@/app/lib/actions"
+import { acceptOrderAction, submitForReviewAction } from "@/app/lib/actions"
 import { LiquidButton } from "@/components/animate-ui/components/buttons/liquid"
 
 type Props = {
@@ -36,7 +36,7 @@ export default function OrderStatusUpdater({ orderId, currentStatus, currentLink
 
     async function handleAccept() {
         setSaving(true)
-        await updateStatus(orderId, "in_progress")
+        await acceptOrderAction(orderId)
         setSaving(false)
     }
 

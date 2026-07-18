@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button'
 import SparkleNavbar from '@/components/ui/SparkleNavbar'
+import SiteLogo from '@/components/layout/SiteLogo'
 
 const NAV_ITEMS = [
   { label: 'Websites', href: '/websites' },
@@ -29,25 +30,18 @@ export default function Header ({ cartCount = 0, isLoggedIn = false, logoUrl, lo
            <div className="container">
             <div className="header-content">
                <Link href="/" className='logo'>
-                {logoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={logoUrl}
-                    alt="Linkslandia"
-                    style={{
-                      width: logoWidth ? `${logoWidth}px` : 'auto',
-                      height: logoHeight ? `${logoHeight}px` : 'auto',
-                      maxHeight: logoHeight ? undefined : 48,
-                      objectFit: 'contain',
-                      display: 'block',
-                    }}
-                  />
-                ) : (
-                  <>
-                    <div className='logo-icon'>L</div>
-                    <span className='logo-text'>Linkslandia</span>
-                  </>
-                )}
+                <SiteLogo
+                  logoUrl={logoUrl}
+                  logoWidth={logoWidth}
+                  logoHeight={logoHeight}
+                  maxHeight={48}
+                  fallback={
+                    <>
+                      <div className='logo-icon'>L</div>
+                      <span className='logo-text'>Linkslandia</span>
+                    </>
+                  }
+                />
                </Link>
                 <SparkleNavbar items={NAV_ITEMS} className="nav" linkClassName="nav-link" />
                    

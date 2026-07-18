@@ -99,18 +99,13 @@ export async function getAllUsers(){
     return users as unknown as User[]
 }
 
-// Human-readable name for a user: real name → email prefix → short id
-export function displayName(
-    user?: Pick<User, "name" | "firstName" | "lastName" | "email"> | null,
-    fallbackId?: string
-): string {
-    if (user) {
-        if (user.name?.trim()) return user.name.trim()
-        const full = [user.firstName, user.lastName].filter(Boolean).join(" ").trim()
-        if (full) return full
-        if (user.email) return user.email.split("@")[0]
-    }
-    return fallbackId ? `#${fallbackId.slice(-6).toUpperCase()}` : "Unknown"
+// Fetch only the users with the given ids (e.g. to resolve names in a list)
+export async function getUsersByIds(ids: string[]) {
+    const validIds = [...new Set(ids)].filter(id => ObjectId.isValid(id))
+    if (validIds.length === 0) return []
+    const collection = await getCollection()
+    const users = await collection.find({ _id: { $in: validIds.map(id => new ObjectId(id)) } }).toArray()
+    return users as unknown as User[]
 }
 
 // Mark welcome bonus as seen

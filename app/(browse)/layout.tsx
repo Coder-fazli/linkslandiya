@@ -6,6 +6,7 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button"
 import AddFundsButton from "@/components/admin/AddFundsButton"
+import SiteLogo from "@/components/layout/SiteLogo"
 import "../admin/admin.css"
 
 export default async function BrowseLayout({ children }: { children: React.ReactNode }) {
@@ -19,25 +20,18 @@ export default async function BrowseLayout({ children }: { children: React.React
       <header className="browse-header">
         <div className="browse-header-inner">
           <Link href="/" className="browse-logo">
-            {settings.logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={settings.logoUrl}
-                alt="Linkslandia"
-                style={{
-                  width: settings.logoWidth ? `${settings.logoWidth}px` : 'auto',
-                  height: settings.logoHeight ? `${settings.logoHeight}px` : 'auto',
-                  maxHeight: settings.logoHeight ? undefined : 36,
-                  objectFit: 'contain',
-                  display: 'block',
-                }}
-              />
-            ) : (
-              <>
-                <div className="logo-icon-sm">L</div>
-                <span className="browse-logo-text">Linkslandia</span>
-              </>
-            )}
+            <SiteLogo
+              logoUrl={settings.logoUrl}
+              logoWidth={settings.logoWidth}
+              logoHeight={settings.logoHeight}
+              maxHeight={36}
+              fallback={
+                <>
+                  <div className="logo-icon-sm">L</div>
+                  <span className="browse-logo-text">Linkslandia</span>
+                </>
+              }
+            />
           </Link>
 
           <div className="browse-header-actions">

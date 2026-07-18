@@ -1,7 +1,9 @@
 import { getAllOrders } from "@/app/lib/orders"
-import { getAllUsers, displayName } from "@/app/lib/user"
+import { getUsersByIds } from "@/app/lib/user"
+import { displayName } from "@/app/lib/format"
 import { getCurrentUser } from "@/app/lib/session"
 import { adminApproveOrderAction, adminRejectOrderAction } from "@/app/lib/actions"
+import ConfirmSubmitButton from "@/components/admin/ConfirmSubmitButton"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { colors } from "@/app/lib/colors"
@@ -28,7 +30,8 @@ export default async function AllOrdersPage({ searchParams }: {
     const { status } = await searchParams
     const activeTab = TABS.some(t => t.key === status) ? status! : "all"
 
-    const [orders, users] = await Promise.all([getAllOrders(), getAllUsers()])
+    const orders = await getAllOrders()
+    const users = await getUsersByIds(orders.flatMap(o => [o.buyerId, o.publisherId]))
     const userById = new Map(users.map(u => [u._id!.toString(), u]))
 
     const counts: Record<string, number> = { all: orders.length }
@@ -146,22 +149,18 @@ export default async function AllOrdersPage({ searchParams }: {
                                         {order.status === "pending" && (
                                             <>
                                                 <form action={adminApproveOrderAction.bind(null, order._id!.toString())}>
-                                                    <button type="submit" title="Approve — publisher will see the order" style={{
-                                                        padding: "5px 12px", background: "rgba(34,197,94,0.1)", color: "#16a34a",
-                                                        border: "1px solid rgba(34,197,94,0.35)", borderRadius: "7px",
-                                                        fontSize: "12px", fontWeight: 700, cursor: "pointer",
-                                                    }}>
+                                                    <button type="submit" className="btn-approve" title="Approve — publisher will see the order">
                                                         Approve
                                                     </button>
                                                 </form>
                                                 <form action={adminRejectOrderAction.bind(null, order._id!.toString())}>
-                                                    <button type="submit" title="Reject — order cancelled, buyer refunded" style={{
-                                                        padding: "5px 12px", background: "rgba(239,68,68,0.08)", color: "#dc2626",
-                                                        border: "1px solid rgba(239,68,68,0.3)", borderRadius: "7px",
-                                                        fontSize: "12px", fontWeight: 700, cursor: "pointer",
-                                                    }}>
+                                                    <ConfirmSubmitButton
+                                                        className="btn-reject"
+                                                        title="Reject — order cancelled, buyer refunded"
+                                                        message={`Reject this order? It will be cancelled and $${order.amount} refunded to the buyer.`}
+                                                    >
                                                         Reject
-                                                    </button>
+                                                    </ConfirmSubmitButton>
                                                 </form>
                                             </>
                                         )}
