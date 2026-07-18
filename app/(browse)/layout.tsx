@@ -22,8 +22,7 @@ export default async function BrowseLayout({ children }: { children: React.React
           <Link href="/" className="browse-logo">
             <SiteLogo
               logoUrl={settings.logoUrl}
-              logoWidth={settings.logoWidth}
-              logoHeight={settings.logoHeight}
+              customSize={false}
               maxHeight={36}
               fallback={
                 <>

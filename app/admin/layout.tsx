@@ -10,6 +10,8 @@ import SiteLogo from "../../components/layout/SiteLogo";
 import { getCurrentUser } from "../lib/session";
 import { getProjectsByBuyer } from "../lib/projects";
 import { getSiteSettings } from "../lib/site-settings";
+import { countOrders } from "../lib/orders";
+import { countWebsitesNeedingReview } from "../lib/websites";
 import { redirect } from "next/navigation"
 
 
@@ -23,8 +25,17 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         return <RoleSelectionModal />
     }
 
+    const userId = user._id!.toString()
     const settings = await getSiteSettings()
-    const projects = user.canBuy ? await getProjectsByBuyer(user._id!.toString()) : []
+    const projects = user.canBuy ? await getProjectsByBuyer(userId) : []
+
+    // Sidebar notification counts — things waiting for this user's action
+    const [pendingOrders, websitesReview, ordersToAccept, ordersToConfirm] = await Promise.all([
+        user.isAdmin ? countOrders({ status: "pending" }) : 0,
+        user.isAdmin ? countWebsitesNeedingReview() : 0,
+        !user.isAdmin && user.canPublish ? countOrders({ status: "approved", publisherId: userId }) : 0,
+        !user.isAdmin && user.canBuy ? countOrders({ status: "review", buyerId: userId }) : 0,
+    ])
     const showProjectPrompt = user.canBuy 
     && user.activeMode !== "publisher" 
     && projects.length === 0 
@@ -37,8 +48,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                     <div className="logo">
                         <SiteLogo
                             logoUrl={settings.logoUrl}
-                            logoWidth={settings.logoWidth}
-                            logoHeight={settings.logoHeight}
+                            customSize={false}
                             maxHeight={40}
                             fallback={
                                 <>
@@ -62,6 +72,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                         canPublish={user.canPublish}
                         isAdmin={user.isAdmin}
                         canBuy={user.canBuy}
+                        badges={{ pendingOrders, websitesReview, ordersToAccept, ordersToConfirm }}
                     />
                 </div>
 

@@ -3,17 +3,30 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+type Badges = {
+    pendingOrders?: number   // admin: orders awaiting approval
+    websitesReview?: number  // admin: websites/edits awaiting review
+    ordersToAccept?: number  // publisher: approved orders to accept
+    ordersToConfirm?: number // buyer: published links to confirm
+}
+
 type Props = {
     activeMode: "buyer" | "publisher"
     canPublish: boolean
     isAdmin: boolean
     canBuy?: boolean
+    badges?: Badges
 }
 
 const isActive = (pathname: string, href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
-export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = true }: Props) {
+function NavBadge({ count }: { count?: number }) {
+    if (!count) return null
+    return <span className="nav-badge">{count > 99 ? "99+" : count}</span>
+}
+
+export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = true, badges = {} }: Props) {
    const pathName = usePathname();
 
    return(
@@ -63,6 +76,7 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
                   </svg>
                 </span>
                 Publishers Websites
+                <NavBadge count={badges.websitesReview} />
               </Link>
 
               <Link href="/admin/all-orders" className={`nav-item ${isActive(pathName, '/admin/all-orders') ? 'active' : ''}`}>
@@ -74,6 +88,7 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
                   </svg>
                 </span>
                 All Orders
+                <NavBadge count={badges.pendingOrders} />
               </Link>
             </div>
           </>
@@ -102,6 +117,7 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
                 </svg>
               </span>
               My Orders
+              <NavBadge count={badges.ordersToConfirm} />
             </Link>
 
             <a href="/websites" className={`nav-item ${isActive(pathName, '/websites') ? 'active' : ''}`} target="_blank" rel="noopener noreferrer">
@@ -140,6 +156,7 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
                 </svg>
               </span>
               Orders Received
+              <NavBadge count={badges.ordersToAccept} />
             </Link>
           </div>
         )}

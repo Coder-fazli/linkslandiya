@@ -134,6 +134,12 @@ import { getDb } from "./db";
       return orders as unknown as Order[]
   }
 
+  // Count orders in a status, optionally scoped to one side of the order
+  export async function countOrders(filter: { status: Order["status"]; publisherId?: string; buyerId?: string }) {
+    const db = await getDb()
+    return db.collection("orders").countDocuments(filter)
+  }
+
   // Get orders where THIS user is the buyer ("MyOrders" for buyer)
   export async function getOrdersByBuyer(buyerId: string) {
     const db = await getDb()

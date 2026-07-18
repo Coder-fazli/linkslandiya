@@ -106,6 +106,14 @@ export async function rejectWebsite(id: string) {
 
 // Save Publisher edits into Waiting room
 
+// Websites waiting for admin review: new submissions + edits pending approval
+export async function countWebsitesNeedingReview() {
+   const db = await getDb();
+   return db.collection("websites").countDocuments({
+      $or: [{ status: "pending" }, { pendingData: { $exists: true, $ne: null } }]
+   })
+}
+
 export async function savePendingChanges(id: string, ownerId: string, data: Partial<Website>) {
    const db = await getDb();
    const result = await db.collection("websites").updateOne(

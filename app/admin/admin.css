@@ -841,6 +841,24 @@
 .admin .status-badge.pending { background: rgba(245,158,11,0.1); color: #d97706; }
 .admin .status-badge.approved { background: rgba(0,180,216,0.1); color: #0096b7; }
 
+/* Sidebar notification badge — count of items waiting for action */
+.admin .nav-badge {
+    margin-left: auto;
+    background: #ef4444;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
 /* Small approve/reject buttons in order tables */
 .admin .btn-approve,
 .admin .btn-reject {
@@ -1752,13 +1770,20 @@
 }
 
 /* ── Browse layout header ─────────────────────────────── */
+/* Matches the main site header: translucent frosted bar */
 .browse-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+[data-theme="dark"] .browse-header {
+  background: rgba(15, 23, 42, 0.55);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .browse-header-inner {
