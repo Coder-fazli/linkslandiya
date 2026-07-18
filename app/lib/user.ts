@@ -1,5 +1,6 @@
 import { getClientPromise } from "@/mongodb";
 import { ObjectId } from "mongodb";
+import { CampaignAudience } from "@/models/campaign-audience";
 
 const DB_NAME = "linkslandiya"
 
@@ -111,6 +112,34 @@ export async function unlockPublisherMode(userId: string) {
 export async function getAllUsers(){
     const collection = await getCollection()
     const users = await collection.find({}).toArray()
+    return users as unknown as User[]
+}
+
+function matchesAudience(user: User, audience: string): boolean {
+    switch (audience) {
+        case "buyer": return !user.isAdmin && user.canBuy && !user.canPublish
+        case "publisher": return !user.isAdmin && user.canPublish && !user.canBuy
+        case "both": return !user.isAdmin && user.canBuy && user.canPublish
+        case "admin": return user.isAdmin
+        default: return true
+    }
+}
+
+// Registered users matching a role-based audience (excludes "specific"/"manual",
+// which are resolved separately since they aren't role-based)
+export async function getUsersByAudience(audience: CampaignAudience): Promise<User[]> {
+    if (audience === "specific" || audience === "manual") return []
+    const all = await getAllUsers()
+    return all.filter(u => matchesAudience(u, audience))
+}
+
+// Substring search on name/email for the "Specific User" picker
+export async function searchUsers(query: string): Promise<User[]> {
+    const q = query.trim()
+    if (q.length < 2) return []
+    const collection = await getCollection()
+    const regex = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i")
+    const users = await collection.find({ $or: [{ name: regex }, { email: regex }] }).limit(10).toArray()
     return users as unknown as User[]
 }
 
