@@ -20,6 +20,11 @@ export async function signIn(unsafeData: z.infer<typeof signInSchema>)
     const user = await getUserByEmail(data.email)
     if (!user) return "Invalid email or password"
 
+    // Account created via Google sign-in has no password
+    if (!user.passwordHash || !user.salt) {
+        return "This account uses Google sign-in — please use the Google button"
+    }
+
     const passwordHash = await hashPassword(data.password, user.salt)
     if (passwordHash !== user.passwordHash) {
           return "Invalid email or password"

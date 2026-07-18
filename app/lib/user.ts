@@ -8,8 +8,10 @@ export type User = {
     _id?: string | ObjectId
     name: string
     email: string
-    passwordHash: string
-    salt: string
+    // Password credentials — absent for accounts created via Google sign-in
+    passwordHash?: string
+    salt?: string
+    googleId?: string
     createdAt: Date
     // Role system
     canBuy: boolean
@@ -72,6 +74,15 @@ export async function createUser(user: Omit<User, "_id" | "createdAt">) {
         createdAt: new Date(),
     })
     return result
+}
+
+// Link a Google account to an existing user (first Google sign-in on this email)
+export async function linkGoogleAccount(userId: string, googleId: string) {
+    const collection = await getCollection()
+    await collection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: { googleId } }
+    )
 }
 
 // Switch user's active mode

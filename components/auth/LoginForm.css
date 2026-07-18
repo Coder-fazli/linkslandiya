@@ -172,6 +172,16 @@
   height: 1.25rem;
 }
 
+/* Full-width "Continue with Google" button */
+.google-btn {
+  width: 100%;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: inherit;
+  text-decoration: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
