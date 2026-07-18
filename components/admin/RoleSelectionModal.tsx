@@ -17,42 +17,30 @@ const ADVERTISER_BENEFITS = [
   "Dedicated support & campaign tracking",
 ]
 
-function PublisherAvatar() {
+// Identical gradient tiles with a role icon — same size and position on both cards
+function RoleIcon({ kind }: { kind: "publisher" | "advertiser" }) {
   return (
-    <svg viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg" width="110" height="120">
-      <rect x="25" y="80" width="70" height="50" rx="16" fill="#48cae4"/>
-      <rect x="48" y="70" width="24" height="18" rx="4" fill="#FFCCBC"/>
-      <ellipse cx="60" cy="52" rx="28" ry="30" fill="#FFCCBC"/>
-      <ellipse cx="60" cy="26" rx="28" ry="14" fill="#4E342E"/>
-      <ellipse cx="34" cy="42" rx="8" ry="14" fill="#4E342E"/>
-      <ellipse cx="86" cy="42" rx="8" ry="14" fill="#4E342E"/>
-      <ellipse cx="50" cy="50" rx="4" ry="4.5" fill="#fff"/>
-      <ellipse cx="70" cy="50" rx="4" ry="4.5" fill="#fff"/>
-      <circle cx="51" cy="51" r="2.5" fill="#333"/>
-      <circle cx="71" cy="51" r="2.5" fill="#333"/>
-      <path d="M52 62 Q60 70 68 62" stroke="#c0825a" strokeWidth="2" fill="none" strokeLinecap="round"/>
-      <path d="M48 88 L60 96 L72 88" stroke="#fff" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  )
-}
-
-function AdvertiserAvatar() {
-  return (
-    <svg viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg" width="110" height="120">
-      <rect x="22" y="80" width="76" height="50" rx="16" fill="#0096b7"/>
-      <rect x="50" y="82" width="20" height="48" rx="4" fill="#fff" opacity="0.15"/>
-      <rect x="48" y="70" width="24" height="18" rx="4" fill="#D7B49E"/>
-      <ellipse cx="60" cy="50" rx="27" ry="29" fill="#D7B49E"/>
-      <ellipse cx="60" cy="24" rx="27" ry="12" fill="#212121"/>
-      <ellipse cx="34" cy="38" rx="7" ry="12" fill="#212121"/>
-      <ellipse cx="86" cy="38" rx="7" ry="12" fill="#212121"/>
-      <path d="M36 58 Q60 80 84 58 Q84 72 60 76 Q36 72 36 58Z" fill="#4E342E" opacity="0.85"/>
-      <ellipse cx="50" cy="48" rx="4" ry="4.5" fill="#fff"/>
-      <ellipse cx="70" cy="48" rx="4" ry="4.5" fill="#fff"/>
-      <circle cx="51" cy="49" r="2.5" fill="#222"/>
-      <circle cx="71" cy="49" r="2.5" fill="#222"/>
-      <path d="M48 86 L60 95 L72 86" stroke="#fff" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+    <div style={{
+      width: "84px", height: "84px", borderRadius: "20px",
+      background: "linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      margin: "0 auto 18px",
+      boxShadow: "0 6px 18px var(--brand-primary-shadow)",
+      flexShrink: 0,
+    }}>
+      {kind === "publisher" ? (
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" width="42" height="42">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" width="42" height="42">
+          <path d="m3 11 18-5v12L3 14v-3z"/>
+          <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+        </svg>
+      )}
+    </div>
   )
 }
 
@@ -85,6 +73,11 @@ export default function RoleSelectionModal() {
     padding: "28px 20px 24px",
     borderRadius: "16px",
     cursor: "pointer",
+    // Top-align content — buttons vertically center it by default, which made
+    // the two cards' images sit at different heights
+    display: "flex",
+    flexDirection: "column" as const,
+    justifyContent: "flex-start",
     border: selected
       ? "2.5px solid var(--brand-primary)"
       : "2px solid #e2e8f0",
@@ -180,18 +173,7 @@ export default function RoleSelectionModal() {
               )}
             </div>
 
-            <div style={{
-              width: "110px", height: "110px", borderRadius: "16px",
-              background: isPublisher ? "var(--brand-primary-bg)" : "#f0f9fb",
-              border: isPublisher
-                ? "2px solid var(--brand-primary-border)"
-                : "2px solid #caf0f8",
-              display: "flex", alignItems: "flex-end", justifyContent: "center",
-              margin: "0 auto 18px", overflow: "hidden",
-              transition: "border-color 0.2s",
-            }}>
-              <PublisherAvatar />
-            </div>
+            <RoleIcon kind="publisher" />
 
             <div style={{
               fontWeight: 700, fontSize: "17px", marginBottom: "14px",
@@ -225,18 +207,7 @@ export default function RoleSelectionModal() {
               )}
             </div>
 
-            <div style={{
-              width: "110px", height: "110px", borderRadius: "16px",
-              background: isAdvertiser ? "var(--brand-primary-bg)" : "#f0f9fb",
-              border: isAdvertiser
-                ? "2px solid var(--brand-primary-border)"
-                : "2px solid #caf0f8",
-              display: "flex", alignItems: "flex-end", justifyContent: "center",
-              margin: "0 auto 18px", overflow: "hidden",
-              transition: "border-color 0.2s",
-            }}>
-              <AdvertiserAvatar />
-            </div>
+            <RoleIcon kind="advertiser" />
 
             <div style={{
               fontWeight: 700, fontSize: "17px", marginBottom: "14px",
