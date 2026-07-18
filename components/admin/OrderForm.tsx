@@ -299,8 +299,13 @@ export default function OrderForm({
         </div>
       )}
 
-      {/* Form body */}
-      <div className="card">
+      {/* Form body — blur-locked when balance can't cover the selected order type */}
+      <div style={{ position: 'relative' }}>
+      <div
+        className="card"
+        aria-hidden={!hasEnoughBalance}
+        style={!hasEnoughBalance ? { filter: 'blur(6px)', pointerEvents: 'none', userSelect: 'none', opacity: 0.9 } : undefined}
+      >
         <div className="card-body">
 
           {/* Project selector — all order types */}
@@ -562,6 +567,52 @@ export default function OrderForm({
           </div>
 
         </div>
+      </div>
+
+      {/* Lock overlay on top of the blurred form */}
+      {!hasEnoughBalance && (
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 5,
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          justifyContent: 'flex-start', paddingTop: '90px',
+        }}>
+          <div style={{
+            background: 'var(--bg-card, #fff)', borderRadius: '16px',
+            padding: '28px 32px', textAlign: 'center', maxWidth: '360px',
+            boxShadow: '0 12px 40px rgba(0,0,0,0.12)',
+            border: '1px solid var(--border-color, #e2e8f0)',
+          }}>
+            <div style={{
+              width: '48px', height: '48px', borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 14px', boxShadow: '0 6px 18px var(--brand-primary-shadow)',
+            }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" width="22" height="22">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <div style={{ fontWeight: 700, fontSize: '15px', color: 'var(--text-primary, #0f172a)', marginBottom: '6px' }}>
+              Top up your balance to place this order
+            </div>
+            <p style={{ margin: '0 0 16px', fontSize: '13px', color: 'var(--text-secondary, #64748b)' }}>
+              You need ${shortfall.toFixed(2)} more for this order type.
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowFundsModal(true)}
+              style={{
+                padding: '10px 28px', background: '#f97316', color: '#fff',
+                borderRadius: '9999px', fontWeight: 700, fontSize: '14px',
+                border: 'none', cursor: 'pointer',
+              }}
+            >
+              + Add Funds
+            </button>
+          </div>
+        </div>
+      )}
       </div>
     </form>
 
