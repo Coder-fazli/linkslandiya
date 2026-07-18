@@ -8,7 +8,7 @@ const quickLinks = [
         links: [
             { label: "How It Works", href: "/#how-it-works" },
             { label: "Browse Websites", href: "/websites" },
-            { label: "Packages", href: "/#packages" },
+            { label: "Packages", href: "/packages" },
             { label: "Blog", href: "/blog" },
         ],
     },

@@ -13,6 +13,7 @@ import { getSiteSettings } from "../lib/site-settings";
 import { countOrders } from "../lib/orders";
 import { countWebsitesNeedingReview } from "../lib/websites";
 import { countUnread } from "../lib/inbox";
+import { countPendingPackageOrders } from "../lib/package-orders";
 import { redirect } from "next/navigation"
 import Link from "next/link"
 
@@ -32,12 +33,13 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     const projects = user.canBuy ? await getProjectsByBuyer(userId) : []
 
     // Sidebar notification counts — things waiting for this user's action
-    const [pendingOrders, websitesReview, ordersToAccept, ordersToConfirm, unreadMessages] = await Promise.all([
+    const [pendingOrders, websitesReview, ordersToAccept, ordersToConfirm, unreadMessages, pendingPackageOrders] = await Promise.all([
         user.isAdmin ? countOrders({ status: "pending" }) : 0,
         user.isAdmin ? countWebsitesNeedingReview() : 0,
         !user.isAdmin && user.canPublish ? countOrders({ status: "approved", publisherId: userId }) : 0,
         !user.isAdmin && user.canBuy ? countOrders({ status: "review", buyerId: userId }) : 0,
         countUnread(user.isAdmin ? "admin" : "user", user.isAdmin ? undefined : userId),
+        user.isAdmin ? countPendingPackageOrders() : 0,
     ])
     const showProjectPrompt = user.canBuy 
     && user.activeMode !== "publisher" 
@@ -78,7 +80,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                         canPublish={user.canPublish}
                         isAdmin={user.isAdmin}
                         canBuy={user.canBuy}
-                        badges={{ pendingOrders, websitesReview, ordersToAccept, ordersToConfirm, unreadMessages }}
+                        badges={{ pendingOrders, websitesReview, ordersToAccept, ordersToConfirm, unreadMessages, pendingPackageOrders }}
                     />
                 </div>
 

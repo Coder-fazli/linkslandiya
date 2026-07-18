@@ -17,6 +17,7 @@ const TABS = [
     { key: "all", label: "All" },
     { key: "payment", label: "💳 Payments" },
     { key: "orders", label: "📦 Orders" },
+    { key: "package", label: "🎁 Packages" },
     { key: "support", label: "🛟 Support" },
     { key: "archived", label: "Archived" },
 ] as const
@@ -24,6 +25,7 @@ const TABS = [
 const TOPIC_PILL: Record<string, string> = {
     payment: "TOP-UP",
     orders: "ORDER",
+    package: "PACKAGE",
     support: "SUPPORT",
 }
 

@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb"
 
 // Which "door" the conversation came through — set by code, never by the user
-export const CONVERSATION_TOPICS = ["payment", "support", "orders"] as const
+export const CONVERSATION_TOPICS = ["payment", "support", "orders", "package"] as const
 export type ConversationTopic = (typeof CONVERSATION_TOPICS)[number]
 
 // User-selected when starting a support conversation (server-validated whitelist)
@@ -36,6 +36,7 @@ export type Conversation = {
     lastPreview: string
     createdAt: Date
     topupRequestId?: string     // set for topic "payment"
+    packageOrderId?: string     // set for topic "package"
 }
 
 export type Message = {
