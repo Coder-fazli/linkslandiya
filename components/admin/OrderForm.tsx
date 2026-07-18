@@ -26,6 +26,9 @@ type OrderFormProps = {
   websitePrice: number
   websiteLinkInsertionPrice?: number
   websiteCasinoPrice?: number
+  // Gray-topic (casino) orders are hidden from every buyer unless an admin
+  // has explicitly granted access after a private conversation
+  buyerHasGrayTopicAccess?: boolean
   websiteLanguage?: string
   userBalance: number
   projects?: { id: string; domain: string }[]
@@ -68,6 +71,7 @@ function validateFile(file: File): string | null {
 export default function OrderForm({
   websiteId, websiteName, websiteUrl, websiteDA, websiteDR,
   websitePrice, websiteLinkInsertionPrice, websiteCasinoPrice,
+  buyerHasGrayTopicAccess = false,
   websiteLanguage, userBalance, projects = [], createOrderAction,
 }: OrderFormProps) {
 
@@ -228,7 +232,7 @@ export default function OrderForm({
   const tabs: { type: OrderType; label: string; price?: number }[] = [
     { type: 'guest_post', label: 'Guest Post', price: websitePrice },
     ...(websiteLinkInsertionPrice != null ? [{ type: 'link_insertion' as OrderType, label: 'Link Insertion', price: websiteLinkInsertionPrice }] : []),
-    ...(websiteCasinoPrice != null ? [{ type: 'casino' as OrderType, label: 'Casino', price: websiteCasinoPrice }] : []),
+    ...(websiteCasinoPrice != null && buyerHasGrayTopicAccess ? [{ type: 'casino' as OrderType, label: 'Casino', price: websiteCasinoPrice }] : []),
   ]
 
   return (

@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import type { Order } from "@/app/lib/orders"
 import type { Website } from "@/app/lib/types"
 import type { Project } from "@/app/lib/projects"
 import { formatTraffic } from "@/app/lib/types"
+import { setGrayTopicAccessAction } from "@/app/lib/actions"
 
 type SafeUser = {
   _id: string
@@ -19,6 +20,7 @@ type SafeUser = {
   country?: string
   phone?: string
   companyWebsite?: string
+  grayTopicAccess: boolean
 }
 
 type Props = {
@@ -35,6 +37,14 @@ export default function UserDetailClient({ user, buyerOrders, publisherOrders, w
   const [adjustNote, setAdjustNote] = useState("")
   const [saving, setSaving] = useState(false)
   const [activeTab, setActiveTab] = useState<"buyer" | "publisher" | "websites" | "projects">("buyer")
+  const [grayTopicAccess, setGrayTopicAccess] = useState(user.grayTopicAccess)
+  const [grayTopicPending, startGrayTopicTransition] = useTransition()
+
+  function toggleGrayTopicAccess() {
+    const next = !grayTopicAccess
+    setGrayTopicAccess(next)
+    startGrayTopicTransition(() => setGrayTopicAccessAction(user._id, next))
+  }
 
   async function handleAdjust(type: "add" | "deduct") {
     const amount = parseFloat(adjustAmount)
@@ -95,6 +105,38 @@ export default function UserDetailClient({ user, buyerOrders, publisherOrders, w
                   {user.companyWebsite && <span>Website: <strong>{user.companyWebsite}</strong></span>}
                 </div>
               </div>
+            </div>
+
+            {/* Gray-topic (casino) access — hidden from every buyer until an
+                admin enables it here, after a private conversation */}
+            <div style={{
+              marginTop: "16px", paddingTop: "14px", borderTop: "1px solid var(--border-color, #e2e8f0)",
+              display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px",
+            }}>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: "13px" }}>Gray Topic Access</div>
+                <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
+                  Lets this buyer see and order gray-topic (casino) listings
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={toggleGrayTopicAccess}
+                disabled={grayTopicPending}
+                title={grayTopicAccess ? "Click to disable" : "Click to enable"}
+                style={{
+                  position: "relative", width: 42, height: 24, borderRadius: 9999, border: "none",
+                  cursor: grayTopicPending ? "wait" : "pointer", flexShrink: 0,
+                  background: grayTopicAccess ? "var(--brand-primary)" : "#cbd5e1",
+                  transition: "background 0.2s", opacity: grayTopicPending ? 0.7 : 1,
+                }}
+              >
+                <span style={{
+                  position: "absolute", top: 3, left: grayTopicAccess ? 21 : 3,
+                  width: 18, height: 18, borderRadius: "50%", background: "#fff",
+                  transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                }} />
+              </button>
             </div>
           </div>
         </div>

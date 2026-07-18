@@ -198,3 +198,17 @@ export async function updateSupportNameAction(formData: FormData) {
     revalidatePath("/admin/inbox")
     return { ok: true }
 }
+
+// ── Site title (shown beside the logo image) ────────────
+
+export async function updateSiteTitleAction(formData: FormData) {
+    const admin = await requireAdmin()
+    const title = String(formData.get("siteTitle") ?? "").trim()
+    const showTitle = formData.get("showSiteTitle") === "on"
+    if (!title) return { error: "Title cannot be empty." }
+    if (title.length > 60) return { error: "Title is too long (max 60 characters)." }
+
+    await updateSiteSettings({ siteTitle: title, showSiteTitle: showTitle }, admin._id!.toString())
+    revalidateBranding()
+    return { ok: true }
+}

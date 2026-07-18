@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode } from "react"
+import { DEFAULT_SITE_TITLE } from "@/models/site-settings"
 
 type Props = {
     logoUrl?: string
@@ -15,11 +16,19 @@ type Props = {
     /** Rendered when no logo has been uploaded */
     fallback: ReactNode
     alt?: string
+    /** Site title text, shown beside the logo image when showTitle is true */
+    title?: string
+    showTitle?: boolean
+    /** CSS class for the title text — pass the placement's existing style */
+    titleClassName?: string
 }
 
 // The admin-uploaded site logo, sized by the appearance settings.
 // Falls back to the given markup when no logo is uploaded.
-export default function SiteLogo({ logoUrl, logoWidth, logoHeight, maxHeight = 48, customSize = true, fallback, alt = "Linkslandia" }: Props) {
+export default function SiteLogo({
+    logoUrl, logoWidth, logoHeight, maxHeight = 48, customSize = true, fallback, alt = DEFAULT_SITE_TITLE,
+    title = DEFAULT_SITE_TITLE, showTitle = true, titleClassName,
+}: Props) {
     if (!logoUrl) return <>{fallback}</>
 
     const style: CSSProperties = customSize
@@ -33,7 +42,7 @@ export default function SiteLogo({ logoUrl, logoWidth, logoHeight, maxHeight = 4
             height: maxHeight,
         }
 
-    return (
+    const image = (
         // eslint-disable-next-line @next/next/no-img-element
         <img
             src={logoUrl}
@@ -45,5 +54,14 @@ export default function SiteLogo({ logoUrl, logoWidth, logoHeight, maxHeight = 4
                 display: "block",
             }}
         />
+    )
+
+    if (!showTitle || !title) return image
+
+    return (
+        <>
+            {image}
+            <span className={titleClassName}>{title}</span>
+        </>
     )
 }

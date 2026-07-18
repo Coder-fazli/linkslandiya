@@ -8,6 +8,7 @@ import {
   updateLogoSizeAction,
   uploadFaviconAction,
   deleteFaviconAction,
+  updateSiteTitleAction,
 } from "@/app/lib/settings-actions"
 import { LOGO_MIN_SIZE, LOGO_MAX_SIZE } from "@/models/site-settings"
 
@@ -16,9 +17,11 @@ type Props = {
   faviconUrl?: string
   logoWidth?: number
   logoHeight?: number
+  siteTitle: string
+  showSiteTitle: boolean
 }
 
-export default function AppearanceForm({ logoUrl, faviconUrl, logoWidth, logoHeight }: Props) {
+export default function AppearanceForm({ logoUrl, faviconUrl, logoWidth, logoHeight, siteTitle, showSiteTitle }: Props) {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [error, setError] = useState("")
@@ -26,6 +29,8 @@ export default function AppearanceForm({ logoUrl, faviconUrl, logoWidth, logoHei
 
   const [width, setWidth] = useState(logoWidth ? String(logoWidth) : "")
   const [height, setHeight] = useState(logoHeight ? String(logoHeight) : "")
+  const [title, setTitle] = useState(siteTitle)
+  const [showTitle, setShowTitle] = useState(showSiteTitle)
 
   const logoInputRef = useRef<HTMLInputElement>(null)
   const faviconInputRef = useRef<HTMLInputElement>(null)
@@ -59,6 +64,13 @@ export default function AppearanceForm({ logoUrl, faviconUrl, logoWidth, logoHei
     fd.append("logoWidth", width)
     fd.append("logoHeight", height)
     run(() => updateLogoSizeAction(fd), "Logo size saved")
+  }
+
+  function handleSaveTitle() {
+    const fd = new FormData()
+    fd.append("siteTitle", title)
+    if (showTitle) fd.append("showSiteTitle", "on")
+    run(() => updateSiteTitleAction(fd), "Title saved")
   }
 
   const previewStyle = {
@@ -139,6 +151,61 @@ export default function AppearanceForm({ logoUrl, faviconUrl, logoWidth, logoHei
                 Allowed range: {LOGO_MIN_SIZE}–{LOGO_MAX_SIZE}px. Leave a field empty to keep the aspect ratio automatic.
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Site Title ───────────────────────────── */}
+      <div className="card" style={{ marginBottom: "20px" }}>
+        <div className="card-header"><h3>Site Title</h3></div>
+        <div className="card-body">
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+
+            {/* Live preview, matching the real header layout */}
+            <div style={{
+              border: "1px dashed var(--border-color)", borderRadius: "10px",
+              padding: "20px 24px", display: "flex", alignItems: "center", gap: "10px", minHeight: "60px",
+            }}>
+              {logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logoUrl} alt="Site logo" style={{ height: 40, width: "auto", objectFit: "contain" }} />
+              ) : (
+                <div style={{
+                  width: 36, height: 36, borderRadius: 10, background: "var(--brand-primary)",
+                  color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700,
+                }}>L</div>
+              )}
+              {showTitle && (
+                <span style={{
+                  fontSize: "22px", fontWeight: 700,
+                  background: "linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                }}>
+                  {title || "Linkslandia"}
+                </span>
+              )}
+            </div>
+
+            <div className="form-grid" style={{ alignItems: "end" }}>
+              <div className="form-group" style={{ margin: 0 }}>
+                <label className="form-label">Title text</label>
+                <input type="text" className="form-input" value={title}
+                  onChange={e => setTitle(e.target.value)} maxLength={60} placeholder="Linkslandia" />
+              </div>
+              <div className="form-group" style={{ margin: 0 }}>
+                <button className="btn btn-secondary" disabled={pending || !title.trim()} onClick={handleSaveTitle}>
+                  Save Title
+                </button>
+              </div>
+            </div>
+
+            <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", cursor: "pointer" }}>
+              <input type="checkbox" checked={showTitle} onChange={e => setShowTitle(e.target.checked)} />
+              Show this title beside the logo
+            </label>
+            <p style={{ fontSize: "12px", color: "var(--text-secondary, #64748b)", margin: 0 }}>
+              Applies wherever the logo appears (site header, browse header, admin sidebar) once a logo image is uploaded above.
+            </p>
           </div>
         </div>
       </div>

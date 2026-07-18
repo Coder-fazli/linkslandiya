@@ -53,6 +53,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                             logoUrl={settings.logoUrl}
                             customSize={false}
                             maxHeight={40}
+                            title={settings.siteTitle}
+                            showTitle={settings.showSiteTitle}
+                            titleClassName="logo-text"
                             fallback={
                                 <>
                                     <div className="logo-icon">

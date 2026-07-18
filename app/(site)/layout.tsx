@@ -15,6 +15,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         logoUrl={settings.logoUrl}
         logoWidth={settings.logoWidth}
         logoHeight={settings.logoHeight}
+        siteTitle={settings.siteTitle}
+        showSiteTitle={settings.showSiteTitle}
       />
       {children}
       <Footer />

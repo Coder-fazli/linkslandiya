@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { getCurrentUser } from "./session"
 import { updateOrderStatus, updateOrder, submitForReview, requestOrderRevision, getOrderById, transitionOrderStatus } from "./orders"
-import { adjustUserBalance, markWelcomeBonusSeen, markProjectPromptSeen } from "./user"
+import { adjustUserBalance, markWelcomeBonusSeen, markProjectPromptSeen, setGrayTopicAccess } from "./user"
 import { revalidatePath } from "next/cache"
 import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, approvePendingChanges, rejectPendingChanges } from "./websites"
 
@@ -215,4 +215,13 @@ export async function markProjectPromptSeenAction(){
     const user = await getCurrentUser()
     if (!user) return
     await markProjectPromptSeen(user._id!.toString())
+}
+
+// Admin grants/revokes a buyer's ability to see gray-topic (casino) orders.
+// Hidden from everyone by default — enabled only after a private conversation.
+export async function setGrayTopicAccessAction(userId: string, enabled: boolean) {
+    const admin = await getCurrentUser()
+    if (!admin || !admin.isAdmin) return
+    await setGrayTopicAccess(userId, enabled)
+    revalidatePath(`/admin/users/${userId}`)
 }

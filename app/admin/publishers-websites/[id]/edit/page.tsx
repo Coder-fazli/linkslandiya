@@ -88,7 +88,7 @@ export default async function AdminEditWebsitePage({ params }: { params: Promise
                                         <input type="number" name="linkInsertionPrice" className="form-input" defaultValue={website.linkInsertionPrice ?? ""} min={0} placeholder="e.g. 80" />
                                     </div>
                                     <div className="form-group" style={{ marginBottom: 0 }}>
-                                        <label className="form-label">Casino Price ($)</label>
+                                        <label className="form-label">Gray Niche Price ($)</label>
                                         <input type="number" name="casinoPrice" className="form-input" defaultValue={website.casinoPrice ?? ""} min={0} placeholder="e.g. 300" />
                                     </div>
                                 </div>

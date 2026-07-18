@@ -34,6 +34,9 @@ export type User = {
     registrationIp?: string
     hasSeenWelcomeBonus?: boolean
     hasSeenProjectPrompt?: boolean
+    // Gray-topic (casino/gambling) orders are hidden from every buyer by
+    // default — an admin grants this per user after a private conversation
+    grayTopicAccess?: boolean
 }
 
 // Get the users collection
@@ -148,6 +151,14 @@ export async function markProjectPromptSeen(userId: string) {
     await collection.updateOne(
         { _id: new ObjectId(userId) },
         { $set: { hasSeenProjectPrompt: true } }
+    )
+}
+
+export async function setGrayTopicAccess(userId: string, enabled: boolean) {
+    const collection = await getCollection()
+    await collection.updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: { grayTopicAccess: enabled } }
     )
 }
 

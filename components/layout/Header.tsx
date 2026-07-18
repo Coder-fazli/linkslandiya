@@ -19,9 +19,11 @@ type HeaderProps = {
  logoUrl?: string;
  logoWidth?: number;
  logoHeight?: number;
+ siteTitle?: string;
+ showSiteTitle?: boolean;
 }
 
-export default function Header ({ cartCount = 0, isLoggedIn = false, logoUrl, logoWidth, logoHeight }: HeaderProps) {
+export default function Header ({ cartCount = 0, isLoggedIn = false, logoUrl, logoWidth, logoHeight, siteTitle, showSiteTitle }: HeaderProps) {
  const[mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
@@ -35,6 +37,9 @@ export default function Header ({ cartCount = 0, isLoggedIn = false, logoUrl, lo
                   logoWidth={logoWidth}
                   logoHeight={logoHeight}
                   maxHeight={48}
+                  title={siteTitle}
+                  showTitle={showSiteTitle}
+                  titleClassName="logo-text"
                   fallback={
                     <>
                       <div className='logo-icon'>L</div>

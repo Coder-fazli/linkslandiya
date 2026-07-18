@@ -30,6 +30,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
     isAdmin: user.isAdmin ?? false,
     canPublish: user.canPublish ?? false,
     canBuy: user.canBuy ?? true,
+    grayTopicAccess: user.grayTopicAccess ?? false,
     activeMode: user.activeMode ?? "buyer",
     createdAt: user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—",
     country: user.country,

@@ -24,6 +24,9 @@ export default async function BrowseLayout({ children }: { children: React.React
               logoUrl={settings.logoUrl}
               customSize={false}
               maxHeight={36}
+              title={settings.siteTitle}
+              showTitle={settings.showSiteTitle}
+              titleClassName="browse-logo-text"
               fallback={
                 <>
                   <div className="logo-icon-sm">L</div>

@@ -40,6 +40,10 @@ import { getCurrentUser } from "@/app/lib/session"
         if (!user) return redirect("/login")
         if (!website) return
 
+        // Gray-topic (casino) orders are hidden by default — enforce here too,
+        // since hiding the tab client-side is not real access control
+        if (data.orderType === 'casino' && !user.grayTopicAccess) return
+
         // Pick correct price based on order type
         const amount =
           data.orderType === 'link_insertion' ? (website.linkInsertionPrice ?? website.price) :
@@ -74,6 +78,7 @@ import { getCurrentUser } from "@/app/lib/session"
                   websitePrice={website.price}
                   websiteLinkInsertionPrice={website.linkInsertionPrice}
                   websiteCasinoPrice={website.casinoPrice}
+                  buyerHasGrayTopicAccess={user?.grayTopicAccess ?? false}
                   websiteLanguage={website.language}
                   userBalance={user?.balance ?? 0}
                   projects={projects.map(p => ({ id: p._id!, domain: p.targetDomain }))}
