@@ -24,7 +24,7 @@
     --accent-light: var(--brand-primary-bg);
     --accent-border: var(--brand-primary-light);
 
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-helvetica), Helvetica, Arial, -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-dark);
     color: var(--text-primary);
     min-height: 100vh;

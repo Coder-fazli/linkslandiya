@@ -26,6 +26,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
     _id: user._id?.toString() ?? id,
     name: user.name,
     email: user.email,
+    avatarUrl: user.avatarUrl,
     balance: user.balance ?? 0,
     isAdmin: user.isAdmin ?? false,
     canPublish: user.canPublish ?? false,

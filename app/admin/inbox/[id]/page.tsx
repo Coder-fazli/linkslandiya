@@ -15,6 +15,7 @@ import ConfirmSubmitButton from "@/components/admin/ConfirmSubmitButton"
 import MessageInput from "@/components/inbox/MessageInput"
 import ThreadLive from "@/components/inbox/ThreadLive"
 import SupportAvatar from "@/components/inbox/SupportAvatar"
+import UserAvatar from "@/components/admin/UserAvatar"
 import { Message } from "@/models/conversation"
 
 function dayLabel(d: Date) {
@@ -51,7 +52,6 @@ export default async function ThreadPage({ params }: {
 
     const supportName = settings.supportName || DEFAULT_SUPPORT_NAME
     const title = viewerSide === "admin" ? displayName(otherUser, conversation.userId) : supportName
-    const initial = title.charAt(0).toUpperCase()
 
     // A message is "own" (right side) when it was sent by the viewer's side;
     // system messages count as Administration
@@ -81,7 +81,7 @@ export default async function ThreadPage({ params }: {
 
             <div className="thread-header">
                 {viewerSide === "admin" ? (
-                    <div className="inbox-avatar">{initial}</div>
+                    <UserAvatar avatarUrl={otherUser?.avatarUrl} name={title} className="inbox-avatar" />
                 ) : (
                     <SupportAvatar avatarUrl={settings.supportAvatarUrl} name={supportName} />
                 )}
@@ -162,7 +162,7 @@ export default async function ThreadPage({ params }: {
                                 <div key={m._id!.toString()} className={`msg-row ${own ? "own" : ""}`}>
                                     {!own && (
                                         viewerSide === "admin" ? (
-                                            <div className="msg-avatar">{initial}</div>
+                                            <UserAvatar avatarUrl={otherUser?.avatarUrl} name={title} className="msg-avatar" />
                                         ) : (
                                             <SupportAvatar avatarUrl={settings.supportAvatarUrl} name={supportName} className="msg-avatar" />
                                         )

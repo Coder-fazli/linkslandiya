@@ -10,6 +10,7 @@ export default async function SettingsPage() {
     _id: user._id?.toString(),
     name: user.name,
     email: user.email,
+    avatarUrl: user.avatarUrl,
     createdAt: user.createdAt,
     activeMode: user.activeMode,
     isAdmin: user.isAdmin,

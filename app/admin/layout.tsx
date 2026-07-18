@@ -7,6 +7,7 @@ import UserDropdown from "../../components/admin/UserDropdown";
 import RoleSelectionModal from "../../components/admin/RoleSelectionModal";
 import WelcomeFlow from "../../components/admin/WelcomeFlow";
 import SiteLogo from "../../components/layout/SiteLogo";
+import UserAvatar from "../../components/admin/UserAvatar";
 import { getCurrentUser } from "../lib/session";
 import { getProjectsByBuyer } from "../lib/projects";
 import { getSiteSettings } from "../lib/site-settings";
@@ -86,9 +87,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
                 <div className="sidebar-footer">
                     <div className="sidebar-user">
-                        <div className="sidebar-user-avatar">
-                            {user.name?.charAt(0).toUpperCase() || "U"}
-                        </div>
+                        <UserAvatar avatarUrl={user.avatarUrl} name={user.name} className="sidebar-user-avatar" />
                         <div className="sidebar-user-info">
                             <span className="sidebar-user-name">{user.name}</span>
                             <span className="sidebar-user-email">{user.email}</span>
@@ -132,6 +131,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                         <UserDropdown
                             name={user.name}
                             email={user.email}
+                            avatarUrl={user.avatarUrl}
                             balance={user.balance ?? 0}
                             activeMode={user.isAdmin ? undefined : user.activeMode}
                             canPublish={user.canPublish}

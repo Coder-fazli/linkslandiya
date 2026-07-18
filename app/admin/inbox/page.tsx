@@ -11,6 +11,7 @@ import { archiveConversationAction } from "@/app/lib/inbox-actions"
 import { getSiteSettings } from "@/app/lib/site-settings"
 import { DEFAULT_SUPPORT_NAME } from "@/models/site-settings"
 import SupportAvatar from "@/components/inbox/SupportAvatar"
+import UserAvatar from "@/components/admin/UserAvatar"
 import { Conversation, ConversationTopic } from "@/models/conversation"
 
 const TABS = [
@@ -118,7 +119,7 @@ export default async function InboxPage({ searchParams }: {
                             <div key={id} className={`inbox-row ${unread ? "unread" : ""}`}>
                                 <Link href={`/admin/inbox/${id}`} className="inbox-row-link">
                                     {forAdmin ? (
-                                        <div className="inbox-avatar">{name.charAt(0).toUpperCase()}</div>
+                                        <UserAvatar avatarUrl={other?.avatarUrl} name={name} className="inbox-avatar" />
                                     ) : (
                                         <SupportAvatar avatarUrl={settings.supportAvatarUrl} name={supportName} />
                                     )}

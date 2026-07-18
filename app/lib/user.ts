@@ -20,6 +20,7 @@ export type User = {
     isAdmin: boolean
     balance?: number
     // Profile
+    avatarUrl?: string
     firstName?: string
     lastName?: string
     country?: string
@@ -160,5 +161,14 @@ export async function setGrayTopicAccess(userId: string, enabled: boolean) {
         { _id: new ObjectId(userId) },
         { $set: { grayTopicAccess: enabled } }
     )
+}
+
+export async function setUserAvatar(userId: string, url?: string) {
+    const collection = await getCollection()
+    if (url) {
+        await collection.updateOne({ _id: new ObjectId(userId) }, { $set: { avatarUrl: url } })
+    } else {
+        await collection.updateOne({ _id: new ObjectId(userId) }, { $unset: { avatarUrl: "" } })
+    }
 }
 

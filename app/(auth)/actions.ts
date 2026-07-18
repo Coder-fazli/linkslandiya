@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache"
 import { updateUserRoles } from "./data/user"
 import { isDisposableEmail } from "../lib/blocked-domains"
 import { headers } from "next/headers"
+import { sendWelcomeEmail } from "../lib/welcome-email"
 
     
 export async function signIn(unsafeData: z.infer<typeof signInSchema>)
@@ -68,6 +69,7 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
         balance: 10,
         registrationIp: ip,
     })
+    await sendWelcomeEmail(data.name, data.email)
     redirect("/login")
 
        }

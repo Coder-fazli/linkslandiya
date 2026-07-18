@@ -11,6 +11,7 @@ type SafeUser = {
   _id: string
   name: string
   email: string
+  avatarUrl?: string
   balance: number
   isAdmin: boolean
   canPublish: boolean
@@ -85,9 +86,12 @@ export default function UserDetailClient({ user, buyerOrders, publisherOrders, w
               <div style={{
                 width: 56, height: 56, borderRadius: "50%", background: "var(--brand-primary)",
                 color: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "22px", fontWeight: 700, flexShrink: 0,
+                fontSize: "22px", fontWeight: 700, flexShrink: 0, overflow: "hidden",
               }}>
-                {user.name.charAt(0).toUpperCase()}
+                {user.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={user.avatarUrl} alt={user.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : user.name.charAt(0).toUpperCase()}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "4px" }}>

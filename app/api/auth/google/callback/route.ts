@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { cookies, headers } from "next/headers"
 import { getUserByEmail, createUser, linkGoogleAccount } from "@/app/lib/user"
 import { createSession } from "@/app/lib/session"
+import { sendWelcomeEmail } from "@/app/lib/welcome-email"
 
 // Step 2 of Google sign-in: Google redirects back here with a one-time code.
 // Exchange it for the user's profile, then find-or-create the account and log in.
@@ -64,8 +65,9 @@ export async function GET(req: Request) {
         ?? headersList.get("x-forwarded-for")?.split(",")[0]?.trim()
         ?? "unknown"
 
+    const name = profile.name?.trim() || email.split("@")[0]
     const result = await createUser({
-        name: profile.name?.trim() || email.split("@")[0],
+        name,
         email,
         googleId: profile.sub,
         canBuy: false,
@@ -76,6 +78,7 @@ export async function GET(req: Request) {
         balance: 10,
         registrationIp: ip,
     })
+    await sendWelcomeEmail(name, email)
 
     await createSession(result.insertedId.toString())
     return NextResponse.redirect(`${appUrl}/admin`)

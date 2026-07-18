@@ -2,6 +2,7 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { getSiteSettings } from "./lib/site-settings"
+import { helvetica } from "./fonts"
 
 // Favicon comes from admin-uploaded settings; /favicon.ico is the fallback
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
    return(
-    <html suppressHydrationWarning>
+    <html suppressHydrationWarning className={helvetica.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {

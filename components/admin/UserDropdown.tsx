@@ -6,15 +6,27 @@ import { logOut, switchMode } from "@/app/(auth)/actions"
 type Props = {
   name: string
   email: string
+  avatarUrl?: string
   balance?: number
   activeMode?: "buyer" | "publisher"
   canPublish?: boolean
   canBuy?: boolean
 }
 
-export default function UserDropdown({ name, email, balance = 0, activeMode, canPublish, canBuy }: Props) {
+export default function UserDropdown({ name, email, avatarUrl, balance = 0, activeMode, canPublish, canBuy }: Props) {
   const showModeSwitcher = !!activeMode && !!(canPublish && canBuy)
   const initial = name?.charAt(0).toUpperCase() || "U"
+
+  function renderAvatar(className: string) {
+    return (
+      <div className={className} style={avatarUrl ? { overflow: "hidden" } : undefined}>
+        {avatarUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={avatarUrl} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        ) : initial}
+      </div>
+    )
+  }
 
   return (
     <>
@@ -22,7 +34,7 @@ export default function UserDropdown({ name, email, balance = 0, activeMode, can
         {/* Trigger — gradient ring avatar */}
         <button className="udm-trigger" aria-label="User menu">
           <div className="udm-ring">
-            <div className="udm-initial">{initial}</div>
+            {renderAvatar("udm-initial")}
           </div>
         </button>
 
@@ -36,7 +48,7 @@ export default function UserDropdown({ name, email, balance = 0, activeMode, can
               <span className="udm-profile-email">{email}</span>
             </div>
             <div className="udm-ring udm-ring--sm">
-              <div className="udm-initial udm-initial--sm">{initial}</div>
+              {renderAvatar("udm-initial udm-initial--sm")}
             </div>
           </div>
 

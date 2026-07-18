@@ -1,5 +1,7 @@
 "use client"
-import { useState } from "react"
+import { useRef, useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { uploadAvatarAction, deleteAvatarAction } from "@/app/lib/avatar-actions"
 import "./settings.css"
 
 type Props = {
@@ -7,6 +9,7 @@ type Props = {
     _id?: string
     name: string
     email: string
+    avatarUrl?: string
     createdAt: Date
     activeMode: string
     isAdmin: boolean
@@ -26,10 +29,41 @@ type Props = {
 }
 
 export default function SettingsForm({ user }: Props) {
+  const router = useRouter()
   const initial = user.name?.charAt(0).toUpperCase() || "U"
   const joinDate = new Date(user.createdAt).toLocaleDateString("en-US", {
     day: "numeric", month: "long", year: "numeric"
   })
+
+  const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl)
+  const [avatarPending, startAvatarTransition] = useTransition()
+  const [avatarError, setAvatarError] = useState("")
+  const avatarInputRef = useRef<HTMLInputElement>(null)
+
+  function handleAvatarChange() {
+    const file = avatarInputRef.current?.files?.[0]
+    if (!file) return
+    setAvatarError("")
+    const fd = new FormData()
+    fd.append("file", file)
+    startAvatarTransition(async () => {
+      const result = await uploadAvatarAction(fd)
+      if (result.error) { setAvatarError(result.error); return }
+      setAvatarUrl(result.url)
+      router.refresh()
+    })
+    if (avatarInputRef.current) avatarInputRef.current.value = ""
+  }
+
+  function handleAvatarRemove() {
+    setAvatarError("")
+    startAvatarTransition(async () => {
+      const result = await deleteAvatarAction()
+      if (result.error) { setAvatarError(result.error); return }
+      setAvatarUrl(undefined)
+      router.refresh()
+    })
+  }
 
   const [basic, setBasic] = useState({
     firstName: user.firstName,
@@ -58,9 +92,36 @@ export default function SettingsForm({ user }: Props) {
 
           <div className="profile-card profile-identity-card">
             <div className="profile-avatar-wrap">
-              <div className="profile-avatar">{initial}</div>
+              <div className="profile-avatar" style={{ overflow: "hidden" }}>
+                {avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={avatarUrl} alt={user.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : initial}
+              </div>
               <div className="profile-online-dot" />
             </div>
+
+            <input
+              ref={avatarInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              style={{ display: "none" }}
+              onChange={handleAvatarChange}
+            />
+            <div style={{ display: "flex", gap: "8px", justifyContent: "center", margin: "10px 0" }}>
+              <button type="button" className="btn btn-secondary" disabled={avatarPending}
+                onClick={() => avatarInputRef.current?.click()} style={{ fontSize: "12px", padding: "6px 14px" }}>
+                {avatarUrl ? "Change Photo" : "Upload Photo"}
+              </button>
+              {avatarUrl && (
+                <button type="button" className="btn btn-secondary" disabled={avatarPending}
+                  onClick={handleAvatarRemove} style={{ fontSize: "12px", padding: "6px 14px" }}>
+                  Remove
+                </button>
+              )}
+            </div>
+            {avatarError && <p style={{ color: "#ef4444", fontSize: "12px", margin: "0 0 10px" }}>{avatarError}</p>}
+
             <div className="profile-name">{user.name}</div>
             <div className="profile-role">{user.activeMode === "publisher" ? "Publisher" : "Advertiser"}</div>
 

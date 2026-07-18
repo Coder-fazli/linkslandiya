@@ -2,6 +2,7 @@ import { getAllUsers, User } from "@/app/lib/user"
 import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 import Link from "next/link"
+import UserAvatar from "@/components/admin/UserAvatar"
 
 const ROLE_TABS = [
     { key: "all", label: "All" },
@@ -83,9 +84,7 @@ export default async function UsersPage({ searchParams }: {
                                 <td>
                                     <Link href={`/admin/users/${user._id?.toString()}`} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
                                         <div className="user-cell">
-                                            <div className="user-cell-avatar">
-                                                {user.name.charAt(0).toUpperCase()}
-                                            </div>
+                                            <UserAvatar avatarUrl={user.avatarUrl} name={user.name} className="user-cell-avatar" />
                                             <span className="user-cell-name">{user.name}</span>
                                         </div>
                                     </Link>
