@@ -49,7 +49,7 @@ function revalidateBranding() {
 const RASTER_TYPES = ["image/png", "image/jpeg", "image/webp"]
 const FAVICON_SIZE = 256
 
-async function saveImage(file: File, kind: "logo" | "favicon"): Promise<{ url?: string; error?: string }> {
+async function saveImage(file: File, kind: "logo" | "favicon" | "supportAvatar"): Promise<{ url?: string; error?: string }> {
     const allowed = kind === "logo" ? LOGO_TYPES : FAVICON_TYPES
     let ext = allowed[file.type]
     if (!ext) return { error: `Invalid file type. Allowed: ${[...new Set(Object.values(allowed))].join(", ")}` }
@@ -58,9 +58,9 @@ async function saveImage(file: File, kind: "logo" | "favicon"): Promise<{ url?: 
 
     let buffer = Buffer.from(await file.arrayBuffer())
 
-    // Favicons are fitted into a square on a transparent background — the whole
-    // image stays visible, never squashed or cropped
-    if (kind === "favicon" && RASTER_TYPES.includes(file.type)) {
+    // Favicon and support avatar are fitted into a square on a transparent
+    // background — the whole image stays visible, never squashed or cropped
+    if ((kind === "favicon" || kind === "supportAvatar") && RASTER_TYPES.includes(file.type)) {
         try {
             buffer = Buffer.from(
                 await sharp(buffer)
@@ -157,5 +157,44 @@ export async function deleteFaviconAction() {
     await removeBrandingFile(current.faviconUrl)
 
     revalidateBranding()
+    return { ok: true }
+}
+
+// ── Support identity (shown to users in the inbox) ──────
+
+export async function uploadSupportAvatarAction(formData: FormData) {
+    const admin = await requireAdmin()
+    const file = formData.get("file") as File | null
+    if (!file) return { error: "No file provided" }
+
+    const { url, error } = await saveImage(file, "supportAvatar")
+    if (error) return { error }
+
+    const current = await getSiteSettings()
+    await updateSiteSettings({ supportAvatarUrl: url }, admin._id!.toString())
+    await removeBrandingFile(current.supportAvatarUrl)
+
+    revalidatePath("/admin/inbox")
+    return { url }
+}
+
+export async function deleteSupportAvatarAction() {
+    const admin = await requireAdmin()
+    const current = await getSiteSettings()
+    await updateSiteSettings({ supportAvatarUrl: undefined }, admin._id!.toString())
+    await removeBrandingFile(current.supportAvatarUrl)
+
+    revalidatePath("/admin/inbox")
+    return { ok: true }
+}
+
+export async function updateSupportNameAction(formData: FormData) {
+    const admin = await requireAdmin()
+    const name = String(formData.get("supportName") ?? "").trim()
+    if (!name) return { error: "Name cannot be empty." }
+    if (name.length > 60) return { error: "Name is too long (max 60 characters)." }
+
+    await updateSiteSettings({ supportName: name }, admin._id!.toString())
+    revalidatePath("/admin/inbox")
     return { ok: true }
 }

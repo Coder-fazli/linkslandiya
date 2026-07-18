@@ -1,9 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import { logOut, switchMode } from "@/app/(auth)/actions"
-import AddFundsModal from "./AddFundsModal"
 
 type Props = {
   name: string
@@ -15,7 +13,6 @@ type Props = {
 }
 
 export default function UserDropdown({ name, email, balance = 0, activeMode, canPublish, canBuy }: Props) {
-  const [fundsOpen, setFundsOpen] = useState(false)
   const showModeSwitcher = !!activeMode && !!(canPublish && canBuy)
   const initial = name?.charAt(0).toUpperCase() || "U"
 
@@ -49,13 +46,9 @@ export default function UserDropdown({ name, email, balance = 0, activeMode, can
               <span className="udm-balance-label">Balance</span>
               <span className="udm-balance-amount">${balance.toFixed(2)}</span>
             </div>
-            <button
-              type="button"
-              className="udm-add-funds-btn"
-              onClick={() => setFundsOpen(true)}
-            >
+            <Link href="/admin/top-up" target="_blank" rel="noopener noreferrer" className="udm-add-funds-btn">
               + Add Funds
-            </button>
+            </Link>
           </div>
 
           {/* Mode switcher */}
@@ -109,8 +102,6 @@ export default function UserDropdown({ name, email, balance = 0, activeMode, can
 
         </div>
       </div>
-
-      {fundsOpen && <AddFundsModal onClose={() => setFundsOpen(false)} />}
     </>
   )
 }

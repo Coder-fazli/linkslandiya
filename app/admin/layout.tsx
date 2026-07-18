@@ -12,7 +12,9 @@ import { getProjectsByBuyer } from "../lib/projects";
 import { getSiteSettings } from "../lib/site-settings";
 import { countOrders } from "../lib/orders";
 import { countWebsitesNeedingReview } from "../lib/websites";
+import { countUnread } from "../lib/inbox";
 import { redirect } from "next/navigation"
+import Link from "next/link"
 
 
 import { ReactNode } from "react";
@@ -30,11 +32,12 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     const projects = user.canBuy ? await getProjectsByBuyer(userId) : []
 
     // Sidebar notification counts — things waiting for this user's action
-    const [pendingOrders, websitesReview, ordersToAccept, ordersToConfirm] = await Promise.all([
+    const [pendingOrders, websitesReview, ordersToAccept, ordersToConfirm, unreadMessages] = await Promise.all([
         user.isAdmin ? countOrders({ status: "pending" }) : 0,
         user.isAdmin ? countWebsitesNeedingReview() : 0,
         !user.isAdmin && user.canPublish ? countOrders({ status: "approved", publisherId: userId }) : 0,
         !user.isAdmin && user.canBuy ? countOrders({ status: "review", buyerId: userId }) : 0,
+        countUnread(user.isAdmin ? "admin" : "user", user.isAdmin ? undefined : userId),
     ])
     const showProjectPrompt = user.canBuy 
     && user.activeMode !== "publisher" 
@@ -72,7 +75,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                         canPublish={user.canPublish}
                         isAdmin={user.isAdmin}
                         canBuy={user.canBuy}
-                        badges={{ pendingOrders, websitesReview, ordersToAccept, ordersToConfirm }}
+                        badges={{ pendingOrders, websitesReview, ordersToAccept, ordersToConfirm, unreadMessages }}
                     />
                 </div>
 
@@ -103,6 +106,15 @@ export default async function AdminLayout({ children }: { children: ReactNode })
                                 {user.activeMode === "buyer" ? "Buyer" : "Publisher"}
                             </div>
                         )}
+                        <Link href="/admin/inbox" className="inbox-header-btn" title="Messages" aria-label="Messages">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            {unreadMessages > 0 && (
+                                <span className="inbox-header-badge">{unreadMessages > 99 ? "99+" : unreadMessages}</span>
+                            )}
+                        </Link>
                         <ThemeSwitcher />
                         <div className="balance-pill">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">

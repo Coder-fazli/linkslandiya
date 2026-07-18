@@ -8,6 +8,7 @@ type Badges = {
     websitesReview?: number  // admin: websites/edits awaiting review
     ordersToAccept?: number  // publisher: approved orders to accept
     ordersToConfirm?: number // buyer: published links to confirm
+    unreadMessages?: number  // everyone: unread inbox messages
 }
 
 type Props = {
@@ -46,6 +47,17 @@ export default function AdminNav({ activeMode, canPublish, isAdmin, canBuy = tru
             </span>
             Dashboard
             {pathName === '/admin' && <span className="nav-dot"></span>}
+          </Link>
+
+          <Link href="/admin/inbox" className={`nav-item ${isActive(pathName, '/admin/inbox') ? 'active' : ''}`}>
+            <span className="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            Messages
+            <NavBadge count={badges.unreadMessages} />
           </Link>
         </div>
 

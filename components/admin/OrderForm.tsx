@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { SimpleEditor } from "../tiptap-templates/simple/simple-editor"
 import { cleanDomain } from "@/app/lib/types"
-import AddFundsModal from "./AddFundsModal"
 import { LiquidButton } from "@/components/animate-ui/components/buttons/liquid"
 
 type OrderType = 'guest_post' | 'link_insertion' | 'casino'
@@ -73,7 +72,6 @@ export default function OrderForm({
 }: OrderFormProps) {
 
   const [orderType, setOrderType] = useState<OrderType>('guest_post')
-  const [showFundsModal, setShowFundsModal] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [selectedProject, setSelectedProject] = useState<string>("")
   const [contentMode, setContentMode] = useState<ContentMode>('provide')
@@ -293,9 +291,9 @@ export default function OrderForm({
               You need <strong>${shortfall.toFixed(2)} more</strong> to place this order. Your balance: <strong>${userBalance.toFixed(2)}</strong>
             </span>
           </div>
-          <button onClick={() => setShowFundsModal(true)} style={{ padding: '7px 16px', background: '#f97316', color: '#fff', borderRadius: '9999px', fontWeight: 700, fontSize: '13px', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+          <a href="/admin/top-up" target="_blank" rel="noopener noreferrer" style={{ padding: '7px 16px', background: '#f97316', color: '#fff', borderRadius: '9999px', fontWeight: 700, fontSize: '13px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
             + Add Funds
-          </button>
+          </a>
         </div>
       )}
 
@@ -599,24 +597,22 @@ export default function OrderForm({
             <p style={{ margin: '0 0 16px', fontSize: '13px', color: 'var(--text-secondary, #64748b)' }}>
               You need ${shortfall.toFixed(2)} more for this order type.
             </p>
-            <button
-              type="button"
-              onClick={() => setShowFundsModal(true)}
+            <a
+              href="/admin/top-up" target="_blank" rel="noopener noreferrer"
               style={{
+                display: 'inline-block',
                 padding: '10px 28px', background: '#f97316', color: '#fff',
                 borderRadius: '9999px', fontWeight: 700, fontSize: '14px',
-                border: 'none', cursor: 'pointer',
+                textDecoration: 'none',
               }}
             >
               + Add Funds
-            </button>
+            </a>
           </div>
         </div>
       )}
       </div>
     </form>
-
-    {showFundsModal && <AddFundsModal onClose={() => setShowFundsModal(false)} />}
 
     {showSuccess && (
       <div style={{
