@@ -21,6 +21,7 @@ export type Website = {
     screenshotUrl?: string
     screenshotStatus?: 'pending' | 'ready' | 'failed'
     screenshotUpdatedAt?: string
+    screenshotError?: string
     }
 
 export const faviconColors: Record<string, string> = {

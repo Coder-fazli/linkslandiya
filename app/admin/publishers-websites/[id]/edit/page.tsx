@@ -1,7 +1,10 @@
+export const dynamic = 'force-dynamic'
+
 import { getWebsiteById } from "@/app/lib/websites"
 import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 import { adminUpdateWebsiteAction, refreshWebsiteScreenshotAction } from "@/app/lib/actions"
+import ScreenshotStatusPoller from "@/components/admin/ScreenshotStatusPoller"
 import Link from "next/link"
 
 export default async function AdminEditWebsitePage({ params }: { params: Promise<{ id: string }> }) {
@@ -57,12 +60,18 @@ export default async function AdminEditWebsitePage({ params }: { params: Promise
                         <p style={{ fontSize: "13px", color: "var(--text-secondary)", margin: "0 0 12px", maxWidth: "360px" }}>
                             Captured automatically when this website is approved or its URL changes. Refresh manually if the homepage has changed since.
                         </p>
+                        {website.screenshotStatus === "failed" && website.screenshotError && (
+                            <p style={{ fontSize: "13px", color: "#ef4444", margin: "0 0 12px", maxWidth: "360px" }}>
+                                {website.screenshotError}
+                            </p>
+                        )}
                         <form action={refreshWebsiteScreenshotAction.bind(null, id)}>
                             <button type="submit" className="btn btn-secondary">Refresh Screenshot</button>
                         </form>
                     </div>
                 </div>
             </div>
+            {website.screenshotStatus === "pending" && <ScreenshotStatusPoller />}
 
             <form action={adminUpdateWebsiteAction.bind(null, id)}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "1.25rem", alignItems: "start" }}>
