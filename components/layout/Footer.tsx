@@ -2,11 +2,13 @@
 import Link from "next/link"
 import { colors } from "@/app/lib/colors"
 
+// Disabled for now — social accounts aren't set up yet (links are placeholders)
+const SHOW_SOCIAL_LINKS = false
+
 const quickLinks = [
     {
         title: "About Us",
         links: [
-            { label: "How It Works", href: "/#how-it-works" },
             { label: "Browse Websites", href: "/websites" },
             { label: "Packages", href: "/packages" },
             { label: "Blog", href: "/blog" },
@@ -124,18 +126,20 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div style={{ borderTop: "1px solid #1f2937", padding: "1.75rem 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div style={{ display: "flex", gap: "1.25rem" }}>
-                        {socialLinks.map((s) => (
-                            <a key={s.label} href={s.href} aria-label={s.label}
-                                style={{ color: "#4b5563", textDecoration: "none", transition: "color 0.2s" }}
-                                onMouseEnter={e => (e.currentTarget.style.color = "#ffffff")}
-                                onMouseLeave={e => (e.currentTarget.style.color = "#4b5563")}
-                            >
-                                {s.icon}
-                            </a>
-                        ))}
-                    </div>
+                <div style={{ borderTop: "1px solid #1f2937", padding: "1.75rem 0", display: "flex", justifyContent: SHOW_SOCIAL_LINKS ? "space-between" : "flex-end", alignItems: "center" }}>
+                    {SHOW_SOCIAL_LINKS && (
+                        <div style={{ display: "flex", gap: "1.25rem" }}>
+                            {socialLinks.map((s) => (
+                                <a key={s.label} href={s.href} aria-label={s.label}
+                                    style={{ color: "#4b5563", textDecoration: "none", transition: "color 0.2s" }}
+                                    onMouseEnter={e => (e.currentTarget.style.color = "#ffffff")}
+                                    onMouseLeave={e => (e.currentTarget.style.color = "#4b5563")}
+                                >
+                                    {s.icon}
+                                </a>
+                            ))}
+                        </div>
+                    )}
                     <div style={{ textAlign: "right", fontSize: "0.875rem", color: "#4b5563" }}>
                         <p>© {new Date().getFullYear()} Linkslandia. All rights reserved.</p>
                         <div style={{ display: "flex", gap: "1rem", marginTop: "0.25rem", justifyContent: "flex-end" }}>

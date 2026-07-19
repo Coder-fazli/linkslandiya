@@ -154,6 +154,7 @@ export default function FilterSidebar({
                   onChange={(e) => setFilters({...filters, country: e.target.value})}
                 >
                   <option value="">All Countries</option>
+                  <option value="RU">Russia</option>
                   <option value="US">United States</option>
                   <option value="UK">United Kingdom</option>
                   <option value="DE">Germany</option>
@@ -187,6 +188,7 @@ export default function FilterSidebar({
                 >
                   <option value="">All Languages</option>
                   <option value="English">English</option>
+                  <option value="Russian">Russian</option>
                   <option value="Azerbaijani">Azerbaijan</option>
                   <option value="Kazakh">Kazakhstan</option>
                   <option value="German">German</option>

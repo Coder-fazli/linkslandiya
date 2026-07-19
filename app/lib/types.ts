@@ -31,7 +31,7 @@ export const faviconColors: Record<string, string> = {
 
 export const countryFlags: Record<string, string> = {
     'US': '🇺🇸', 'UK': '🇬🇧', 'DE': '🇩🇪', 'FR': '🇫🇷',
-    'ES': '🇪🇸', 'IT': '🇮🇹', 'TR': '🇹🇷', 'IN': '🇮🇳', 'AZ': '🇦🇿', 'KZ': '🇰🇿',
+    'ES': '🇪🇸', 'IT': '🇮🇹', 'TR': '🇹🇷', 'IN': '🇮🇳', 'AZ': '🇦🇿', 'KZ': '🇰🇿', 'RU': '🇷🇺',
     'BR': '🇧🇷', 'Global': '🌍'
 }
 

@@ -9,7 +9,6 @@ import SiteLogo from '@/components/layout/SiteLogo'
 const NAV_ITEMS = [
   { label: 'Websites', href: '/websites' },
   { label: 'Packages', href: '/packages' },
-  { label: 'How It Works', href: '/how-it-works' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -98,9 +97,6 @@ export default function Header ({ cartCount = 0, isLoggedIn = false, logoUrl, lo
                     </Link>
                       <Link href="/packages" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
                       Packages
-                      </Link>
-                      <Link href="/how-it-works" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
-                          How It Works
                       </Link>
                       <Link href="/contact" className="nav-link" onClick={() => setMobileMenuOpen(false)}>
                       Contact
