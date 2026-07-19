@@ -204,6 +204,12 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
                 {/* Expanded panel */}
                 {isExpanded && (
                   <div className="site-expand-panel">
+                    {site.screenshotUrl && (
+                      <div className="expand-screenshot">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={site.screenshotUrl} alt={`${site.name} homepage preview`} />
+                      </div>
+                    )}
                     <div className="expand-info-row">
                       <div className="expand-info-item">
                         <span className="expand-info-label">Language</span>

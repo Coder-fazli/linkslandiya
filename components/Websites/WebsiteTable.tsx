@@ -1,5 +1,5 @@
 "use client"
-import FilterSidebar from './FilterSidebar'
+import FilterBar from './FilterBar'
 import WebsiteTablePreview from './WebsiteTablePreview'
 import { useState } from 'react'
 import Link from 'next/link'
@@ -28,12 +28,11 @@ export default function WebsiteTable({ initialWebsites }: WebsiteTableProps) {
       trafficMin: ''
   })
 
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1)
-   // items per page
-  const itemsPerPage = 10
-   // Filter for mobile
-  const [filtersOpen, setFiltersOpen] = useState(false)
+  // Load More state — how many results are currently shown
+  const INITIAL_VISIBLE = 20
+  const LOAD_MORE_STEP = 20
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE)
+  const [prevFilters, setPrevFilters] = useState(filters)
   // Modal Pop up
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedSite, setSelectedSite] = useState<Website | null>(null)
@@ -90,11 +89,17 @@ export default function WebsiteTable({ initialWebsites }: WebsiteTableProps) {
      })
 
 
-     // Pagination logic
+     // Load More — show only the first `visibleCount` results
+      const visibleWebsites = filteredWebsites.slice(0, visibleCount)
+      const hasMore = visibleCount < filteredWebsites.length
 
-      const totalPages = Math.ceil(filteredWebsites.length / itemsPerPage)
-      const startIndex = (currentPage -1) * itemsPerPage
-      const paginatedWebsites = filteredWebsites.slice(startIndex, startIndex + itemsPerPage)
+      // Changing filters invalidates how far the user had scrolled — start over.
+      // Adjusted during render (React's recommended pattern for this), not in
+      // an effect, so there's no extra render pass.
+      if (prevFilters !== filters) {
+        setPrevFilters(filters)
+        setVisibleCount(INITIAL_VISIBLE)
+      }
 
       // Reset filters function
       const resetFilters = () => {
@@ -102,7 +107,6 @@ export default function WebsiteTable({ initialWebsites }: WebsiteTableProps) {
           search: '', priceMin: '', priceMax: '', country: '',
           language: '', topic: '', da: '', dr: '', trafficMin: ''
         })
-        setCurrentPage(1)
       }
 
       // Count active filters
@@ -110,45 +114,37 @@ export default function WebsiteTable({ initialWebsites }: WebsiteTableProps) {
 
       return (
         <>
-        {/* Main Layout with Sidebar */}
-
-
-
-          {/* Mobile Filter Toggle */}
-          <button
-            className="mobile-filter-btn"
-            onClick={() => setFiltersOpen(true)}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
-            Filters
-            {activeFilterCount > 0 && (
-              <span className="filter-badge">{activeFilterCount}</span>
-            )}
-          </button>
-
           {/* Main Content */}
           <div className="main-content">
-          <div className="page-layout">
-  <FilterSidebar
-    filters={filters}
-    setFilters={setFilters}
-    filtersOpen={filtersOpen}
-    setFiltersOpen={setFiltersOpen}
-    activeFilterCount={activeFilterCount}
-    resultsCount={filteredWebsites.length}
-    resetFilters={resetFilters}
-  />
+            <FilterBar
+              filters={filters}
+              setFilters={setFilters}
+              activeFilterCount={activeFilterCount}
+              resultsCount={filteredWebsites.length}
+              resetFilters={resetFilters}
+            />
 
-    <WebsiteTablePreview websites={paginatedWebsites} showActions={true} />
-</div>
-</div>
+            <div className="websites-results-col">
+              <WebsiteTablePreview websites={visibleWebsites} showActions={true} />
 
-        {/* Overlay for mobile */}
-        {filtersOpen && (
-          <div className="sidebar-overlay" onClick={() => setFiltersOpen(false)}></div>
-        )}
+              {filteredWebsites.length > 0 && (
+                <div className="load-more-row">
+                  <p className="load-more-count">
+                    Showing {visibleWebsites.length} of {filteredWebsites.length} websites
+                  </p>
+                  {hasMore && (
+                    <button
+                      type="button"
+                      className="load-more-btn"
+                      onClick={() => setVisibleCount(c => c + LOAD_MORE_STEP)}
+                    >
+                      Load More
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
 
         {/* Modal */}
         {modalOpen && selectedSite && (

@@ -5,7 +5,8 @@ import { getCurrentUser } from "./session"
 import { updateOrderStatus, updateOrder, submitForReview, requestOrderRevision, getOrderById, transitionOrderStatus } from "./orders"
 import { adjustUserBalance, markWelcomeBonusSeen, markProjectPromptSeen, setGrayTopicAccess } from "./user"
 import { revalidatePath } from "next/cache"
-import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, approvePendingChanges, rejectPendingChanges } from "./websites"
+import { getWebsitesByOwner, approveWebsite, rejectWebsite, adminUpdateWebsite, approvePendingChanges, rejectPendingChanges, getWebsiteById } from "./websites"
+import { enqueueScreenshotCapture } from "./screenshot"
 
 
 // Publisher accepts an admin-approved order and starts working.
@@ -79,6 +80,10 @@ export async function approveWebsiteAction(websiteId: string){
     if (!admin || !admin.isAdmin) return
     await approveWebsite(websiteId)
     revalidatePath("/admin/publishers-websites")
+
+    // Fire-and-forget — capture runs in the background, approval doesn't wait on it
+    const website = await getWebsiteById(websiteId)
+    if (website) enqueueScreenshotCapture(websiteId, website.url)
 }
 
 const ORDER_STATUSES = ["pending", "approved", "in_progress", "review", "revision", "completed", "cancelled"] as const
@@ -149,8 +154,22 @@ export async function adminUpdateWebsiteAction(websiteId: string, formData: Form
         dofollow: formData.get("dofollow") === "on",
         status: formData.get("status") as any,
     })
+
+    const newUrl = formData.get("url") as string
+    if (newUrl) enqueueScreenshotCapture(websiteId, newUrl)
+
     revalidatePath("/admin/publishers-websites")
     redirect("/admin/publishers-websites")
+}
+
+// Admin manually re-captures a website's homepage screenshot
+export async function refreshWebsiteScreenshotAction(websiteId: string) {
+    const admin = await getCurrentUser()
+    if (!admin || !admin.isAdmin) return
+    const website = await getWebsiteById(websiteId)
+    if (!website) return
+    enqueueScreenshotCapture(websiteId, website.url)
+    revalidatePath(`/admin/publishers-websites/${websiteId}/edit`)
 }
 
 // Reject website
@@ -192,7 +211,11 @@ export async function approvePendingChangesAction(websiteId: string) {
     const admin = await getCurrentUser()
     if (!admin || !admin.isAdmin) return
     await approvePendingChanges(websiteId)
-    revalidatePath("/admin/publishers-websites")  
+    revalidatePath("/admin/publishers-websites")
+
+    // The URL (or homepage content) may have changed — refresh the screenshot
+    const website = await getWebsiteById(websiteId)
+    if (website) enqueueScreenshotCapture(websiteId, website.url)
 }
 
 // Reject publisher pending changes

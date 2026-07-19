@@ -17,6 +17,10 @@ export type Website = {
     status: 'draft' | 'published' | 'pending_delete' | 'pending' | 'rejected',
     ownerId: string
     pendingData?: Partial<Website>
+    // Automated homepage screenshot — captured server-side, not on every view
+    screenshotUrl?: string
+    screenshotStatus?: 'pending' | 'ready' | 'failed'
+    screenshotUpdatedAt?: string
     }
 
 export const faviconColors: Record<string, string> = {

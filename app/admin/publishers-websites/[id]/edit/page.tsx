@@ -1,7 +1,7 @@
 import { getWebsiteById } from "@/app/lib/websites"
 import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
-import { adminUpdateWebsiteAction } from "@/app/lib/actions"
+import { adminUpdateWebsiteAction, refreshWebsiteScreenshotAction } from "@/app/lib/actions"
 import Link from "next/link"
 
 export default async function AdminEditWebsitePage({ params }: { params: Promise<{ id: string }> }) {
@@ -30,6 +30,38 @@ export default async function AdminEditWebsitePage({ params }: { params: Promise
                 <span className={`status-badge ${website.status}`}>
                     {website.status.charAt(0).toUpperCase() + website.status.slice(1)}
                 </span>
+            </div>
+
+            {/* Homepage screenshot — captured automatically on approval/URL change */}
+            <div className="card" style={{ marginBottom: "1.25rem" }}>
+                <div className="card-header">
+                    <h3>Homepage Screenshot</h3>
+                    <span className={`status-badge ${website.screenshotStatus === "failed" ? "rejected" : website.screenshotStatus === "ready" ? "active" : "pending"}`}>
+                        {website.screenshotStatus === "failed" ? "Failed" : website.screenshotStatus === "ready" ? "Ready" : website.screenshotStatus === "pending" ? "Capturing…" : "Not captured yet"}
+                    </span>
+                </div>
+                <div className="card-body" style={{ display: "flex", gap: "1.25rem", alignItems: "center", flexWrap: "wrap" }}>
+                    <div style={{
+                        width: "220px", height: "138px", borderRadius: "10px", overflow: "hidden",
+                        background: "var(--bg-hover, #f1f5f9)", border: "1px solid var(--border-color, #e2e8f0)",
+                        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                    }}>
+                        {website.screenshotUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={website.screenshotUrl} alt={`${website.name} homepage`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        ) : (
+                            <span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>No screenshot yet</span>
+                        )}
+                    </div>
+                    <div>
+                        <p style={{ fontSize: "13px", color: "var(--text-secondary)", margin: "0 0 12px", maxWidth: "360px" }}>
+                            Captured automatically when this website is approved or its URL changes. Refresh manually if the homepage has changed since.
+                        </p>
+                        <form action={refreshWebsiteScreenshotAction.bind(null, id)}>
+                            <button type="submit" className="btn btn-secondary">Refresh Screenshot</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <form action={adminUpdateWebsiteAction.bind(null, id)}>
