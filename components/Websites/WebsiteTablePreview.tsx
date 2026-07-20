@@ -260,76 +260,80 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
             </svg>
           </button>
           <div className="modal-content">
-            <div className="modal-header">
-              <WebsiteFavicon url={previewSite.url} name={previewSite.name} className="modal-favicon" size={50} />
-              <div>
-                <div className="modal-title">{cleanDomain(previewSite.url, previewSite.name)}</div>
-                <div className="modal-subtitle">{previewSite.desc || "Guest Post Opportunity"}</div>
-              </div>
-            </div>
-
             {previewSite.screenshotUrl && (
-              <div className="modal-screenshot">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={previewSite.screenshotUrl} alt={`${previewSite.name} homepage preview`} />
+              <div className="preview-modal-visual">
+                <div className="modal-screenshot">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={previewSite.screenshotUrl} alt={`${previewSite.name} homepage preview`} />
+                </div>
               </div>
             )}
 
-            <div className="modal-stats modal-stats-3">
-              <div className="modal-stat">
-                <div className="modal-stat-label">
-                  DA
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/moz.svg" alt="Moz" style={{ height: "9px", width: "auto" }} />
-                </div>
-                <div className="modal-stat-value">{previewSite.da}</div>
-                <div className="modal-stat-bar">
-                  <div className="modal-stat-bar-fill" style={{ width: `${previewSite.da}%` }}></div>
+            <div className="preview-modal-info">
+              <div className="modal-header">
+                <WebsiteFavicon url={previewSite.url} name={previewSite.name} className="modal-favicon" size={50} />
+                <div>
+                  <div className="modal-title">{cleanDomain(previewSite.url, previewSite.name)}</div>
+                  <div className="modal-subtitle">{previewSite.desc || "Guest Post Opportunity"}</div>
                 </div>
               </div>
-              <div className="modal-stat">
-                <div className="modal-stat-label">
-                  DR
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/ahrefs.svg" alt="Ahrefs" style={{ height: "9px", width: "auto" }} />
+
+              <div className="modal-stats modal-stats-3">
+                <div className="modal-stat">
+                  <div className="modal-stat-label">
+                    DA
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/icons/moz.svg" alt="Moz" style={{ height: "9px", width: "auto" }} />
+                  </div>
+                  <div className="modal-stat-value">{previewSite.da}</div>
+                  <div className="modal-stat-bar">
+                    <div className="modal-stat-bar-fill" style={{ width: `${previewSite.da}%` }}></div>
+                  </div>
                 </div>
-                <div className="modal-stat-value">{previewSite.dr}</div>
-                <div className="modal-stat-bar">
-                  <div className="modal-stat-bar-fill" style={{ width: `${previewSite.dr}%`, background: "linear-gradient(90deg, #ff6b35 0%, #ffa07a 100%)" }}></div>
+                <div className="modal-stat">
+                  <div className="modal-stat-label">
+                    DR
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/icons/ahrefs.svg" alt="Ahrefs" style={{ height: "9px", width: "auto" }} />
+                  </div>
+                  <div className="modal-stat-value">{previewSite.dr}</div>
+                  <div className="modal-stat-bar">
+                    <div className="modal-stat-bar-fill" style={{ width: `${previewSite.dr}%`, background: "linear-gradient(90deg, #ff6b35 0%, #ffa07a 100%)" }}></div>
+                  </div>
+                </div>
+                <div className="modal-stat">
+                  <div className="modal-stat-label">Traffic</div>
+                  <div className="modal-stat-value">{formatTraffic(previewSite.traffic)}</div>
+                  <div className="modal-stat-bar">
+                    <div className="modal-stat-bar-fill" style={{ width: `${Math.min((previewSite.traffic / 500000) * 100, 100)}%`, background: 'linear-gradient(90deg, #6366f1 0%, #818cf8 100%)' }}></div>
+                  </div>
                 </div>
               </div>
-              <div className="modal-stat">
-                <div className="modal-stat-label">Traffic</div>
-                <div className="modal-stat-value">{formatTraffic(previewSite.traffic)}</div>
-                <div className="modal-stat-bar">
-                  <div className="modal-stat-bar-fill" style={{ width: `${Math.min((previewSite.traffic / 500000) * 100, 100)}%`, background: 'linear-gradient(90deg, #6366f1 0%, #818cf8 100%)' }}></div>
-                </div>
+
+              <div className="modal-tags">
+                <span className="modal-tag country">{countryFlags[previewSite.country]} {previewSite.country}</span>
+                <span className="modal-tag language">{previewSite.language}</span>
+                <span className="modal-tag topic">{previewSite.topic}</span>
+                <span className={`modal-tag ${previewSite.dofollow ? 'dofollow' : 'nofollow'}`}>
+                  {previewSite.dofollow ? 'Dofollow' : 'Nofollow'}
+                </span>
               </div>
-            </div>
 
-            <div className="modal-tags">
-              <span className="modal-tag country">{countryFlags[previewSite.country]} {previewSite.country}</span>
-              <span className="modal-tag language">{previewSite.language}</span>
-              <span className="modal-tag topic">{previewSite.topic}</span>
-              <span className={`modal-tag ${previewSite.dofollow ? 'dofollow' : 'nofollow'}`}>
-                {previewSite.dofollow ? 'Dofollow' : 'Nofollow'}
-              </span>
-            </div>
+              <div className="modal-price">
+                <div className="modal-price-label">Price</div>
+                <div className="modal-price-value">${previewSite.price}</div>
+              </div>
 
-            <div className="modal-price">
-              <div className="modal-price-label">Price</div>
-              <div className="modal-price-value">${previewSite.price}</div>
-            </div>
-
-            <div className="modal-actions">
-              <a href={previewSite.url} target="_blank" rel="noopener noreferrer" className="modal-btn modal-btn-secondary">
-                View Website
-              </a>
-              <ShineButton
-                label="Post Article"
-                href={`/admin/buyer-orders/new?websiteId=${previewSite._id}`}
-                className="modal-btn"
-              />
+              <div className="modal-actions">
+                <a href={previewSite.url} target="_blank" rel="noopener noreferrer" className="modal-btn modal-btn-secondary">
+                  View Website
+                </a>
+                <ShineButton
+                  label="Post Article"
+                  href={`/admin/buyer-orders/new?websiteId=${previewSite._id}`}
+                  className="modal-btn"
+                />
+              </div>
             </div>
           </div>
         </div>

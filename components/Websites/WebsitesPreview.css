@@ -48,11 +48,11 @@
 
 /* ── Header row ───────────────────────────────────────── */
 .sites-grid-header {
-  padding: 12px 14px;
-  font-size: 13px;
+  padding: 10px 14px;
+  font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: #475569;
   background: #eef2f7;
   border: 1px solid #cbd5e1;
@@ -81,7 +81,7 @@
 
 /* Real brand logos (Moz / Ahrefs) above the DA / DR columns */
 .col-brand-icon {
-  height: 9px;
+  height: 8px;
   width: auto;
   display: block;
   margin: 0 auto 2px;
@@ -462,12 +462,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   background: #94a3b8;
   color: #fff;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
   line-height: 1;
   flex-shrink: 0;
@@ -553,7 +553,7 @@
   }
 
   .sites-grid-header {
-    font-size: 9px;
+    font-size: 8px;
   }
 }
 
@@ -563,9 +563,36 @@
   }
 }
 
-/* ── Website preview modal (eye icon) ────────────────────── */
+/* ── Website preview modal (eye icon) ─────────────────────
+   Wide two-column layout: screenshot on the left, info on
+   the right — avoids the tall single-column card look. */
 .preview-modal {
-  max-width: 460px;
+  max-width: 800px;
+}
+
+.preview-modal .modal-content {
+  display: flex;
+  gap: 28px;
+  padding: 28px;
+}
+
+.preview-modal-visual {
+  flex: 1 1 320px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-modal-info {
+  flex: 1 1 380px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-modal .modal-header {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
 }
 
 .modal-screenshot {
@@ -573,15 +600,19 @@
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
-  margin-bottom: 20px;
+  flex: 1;
 }
 
 .modal-screenshot img {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 1280 / 800;
+  height: 100%;
+  min-height: 220px;
   object-fit: cover;
+}
+
+.preview-modal .modal-stats {
+  margin-bottom: 16px;
 }
 
 .modal-stats-3 {
@@ -592,4 +623,33 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.preview-modal .modal-tags {
+  margin-bottom: 16px;
+}
+
+.preview-modal .modal-price {
+  padding: 14px 20px;
+  margin-bottom: 16px;
+}
+
+.preview-modal .modal-actions {
+  margin-top: auto;
+}
+
+@media (max-width: 700px) {
+  .preview-modal .modal-content {
+    flex-direction: column;
+    padding: 24px;
+  }
+
+  .preview-modal-visual {
+    max-width: 100%;
+  }
+
+  .modal-screenshot img {
+    aspect-ratio: 1280 / 800;
+    min-height: 0;
+  }
 }
