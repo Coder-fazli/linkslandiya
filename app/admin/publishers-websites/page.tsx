@@ -2,9 +2,27 @@ import { getAllWebsites } from "@/app/lib/websites"
 import { getCurrentUser } from "@/app/lib/session"
 import { redirect } from "next/navigation"
 import { approveWebsiteAction, rejectWebsiteAction, approvePendingChangesAction, rejectPendingChangesAction } from "@/app/lib/actions"
+import { Website } from "@/app/lib/types"
 import Link from "next/link"
 
-export default async function AllWebsitesPage() {
+const STATUS_TABS = [
+    { key: "all", label: "All" },
+    { key: "pending", label: "Pending" },
+    { key: "published", label: "Published" },
+    { key: "draft", label: "Draft" },
+    { key: "rejected", label: "Rejected" },
+    { key: "pending_changes", label: "Pending Changes" },
+] as const
+
+function matchesTab(site: Website, tab: string): boolean {
+    if (tab === "pending_changes") return !!site.pendingData
+    if (tab === "all") return true
+    return site.status === tab
+}
+
+export default async function AllWebsitesPage({ searchParams }: {
+    searchParams: Promise<{ status?: string }>
+}) {
 
     // Check who is logged in
     const user = await getCurrentUser()
@@ -16,8 +34,31 @@ export default async function AllWebsitesPage() {
     // Get every website from every publisher
     const websites = await getAllWebsites()
 
+    const { status } = await searchParams
+    const activeTab = STATUS_TABS.some(t => t.key === status) ? status! : "all"
+
+    const counts: Record<string, number> = {}
+    for (const t of STATUS_TABS) counts[t.key] = websites.filter(w => matchesTab(w, t.key)).length
+
+    const filtered = websites.filter(w => matchesTab(w, activeTab))
+
     return (
         <div className="section-content active">
+
+            {/* Status filter tabs */}
+            <div className="tabs" style={{ marginBottom: '16px', flexWrap: 'wrap' }}>
+                {STATUS_TABS.map(t => (
+                    <Link
+                        key={t.key}
+                        href={t.key === "all" ? "/admin/publishers-websites" : `/admin/publishers-websites?status=${t.key}`}
+                        className={`tab ${activeTab === t.key ? "active" : ""}`}
+                        style={{ textDecoration: "none" }}
+                    >
+                        {t.label}
+                        <span className="tab-count">{counts[t.key]}</span>
+                    </Link>
+                ))}
+            </div>
 
             <div className="card">
                 <table className="table">
@@ -34,14 +75,14 @@ export default async function AllWebsitesPage() {
                     </thead>
                     <tbody>
 
-                    {websites.length === 0 ? (
+                    {filtered.length === 0 ? (
                         <tr>
                             <td colSpan={7} style={{ textAlign: "center", padding: "2rem" }}>
-                                No websites yet.
+                                {activeTab === "all" ? "No websites yet." : "No websites in this category."}
                             </td>
                         </tr>
                     ) : (
-                        websites.map(website => (
+                        filtered.map(website => (
                             <tr key={website._id}>
 
                                 {/* Website name */}
