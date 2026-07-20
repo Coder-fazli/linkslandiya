@@ -23,19 +23,28 @@ function matchesRole(user: User, role: string): boolean {
 }
 
 export default async function UsersPage({ searchParams }: {
-    searchParams: Promise<{ role?: string }>
+    searchParams: Promise<{ role?: string; dateFrom?: string; dateTo?: string }>
 }) {
     const admin = await getCurrentUser()
     if (!admin || !admin.isAdmin) return redirect("/")
 
-    const { role } = await searchParams
+    const { role, dateFrom, dateTo } = await searchParams
     const activeTab = ROLE_TABS.some(t => t.key === role) ? role! : "all"
 
     const users = await getAllUsers()
     const counts: Record<string, number> = {}
     for (const t of ROLE_TABS) counts[t.key] = users.filter(u => matchesRole(u, t.key)).length
 
-    const filtered = users.filter(u => matchesRole(u, activeTab))
+    const fromDate = dateFrom ? new Date(dateFrom) : null
+    // Include the entire "to" day, not just midnight
+    const toDate = dateTo ? new Date(new Date(dateTo).getTime() + 24 * 60 * 60 * 1000 - 1) : null
+
+    const filtered = users
+        .filter(u => matchesRole(u, activeTab))
+        .filter(u => !fromDate || new Date(u.createdAt) >= fromDate)
+        .filter(u => !toDate || new Date(u.createdAt) <= toDate)
+
+    const roleQuery = activeTab !== "all" ? `role=${activeTab}` : ""
 
     return (
         <div className="section-content active">
@@ -46,18 +55,44 @@ export default async function UsersPage({ searchParams }: {
 
             {/* Role filter tabs */}
             <div className="tabs" style={{ marginBottom: '16px', flexWrap: 'wrap' }}>
-                {ROLE_TABS.map(t => (
-                    <Link
-                        key={t.key}
-                        href={t.key === "all" ? "/admin/users" : `/admin/users?role=${t.key}`}
-                        className={`tab ${activeTab === t.key ? "active" : ""}`}
-                        style={{ textDecoration: "none" }}
-                    >
-                        {t.label}
-                        <span style={{ marginLeft: 6, opacity: 0.65, fontSize: "0.85em" }}>{counts[t.key]}</span>
-                    </Link>
-                ))}
+                {ROLE_TABS.map(t => {
+                    const params = new URLSearchParams()
+                    if (t.key !== "all") params.set("role", t.key)
+                    if (dateFrom) params.set("dateFrom", dateFrom)
+                    if (dateTo) params.set("dateTo", dateTo)
+                    const qs = params.toString()
+                    return (
+                        <Link
+                            key={t.key}
+                            href={qs ? `/admin/users?${qs}` : "/admin/users"}
+                            className={`tab ${activeTab === t.key ? "active" : ""}`}
+                            style={{ textDecoration: "none" }}
+                        >
+                            {t.label}
+                            <span className="tab-count">{counts[t.key]}</span>
+                        </Link>
+                    )
+                })}
             </div>
+
+            {/* Registration date filter */}
+            <form method="get" className="card" style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', flexWrap: 'wrap', padding: '16px', marginBottom: '16px' }}>
+                {activeTab !== "all" && <input type="hidden" name="role" value={activeTab} />}
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label">Joined From</label>
+                    <input type="date" name="dateFrom" className="form-input" defaultValue={dateFrom ?? ""} />
+                </div>
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label">Joined To</label>
+                    <input type="date" name="dateTo" className="form-input" defaultValue={dateTo ?? ""} />
+                </div>
+                <button type="submit" className="btn btn-secondary">Apply</button>
+                {(dateFrom || dateTo) && (
+                    <Link href={roleQuery ? `/admin/users?${roleQuery}` : "/admin/users"} className="btn btn-secondary" style={{ textDecoration: "none" }}>
+                        Clear Dates
+                    </Link>
+                )}
+            </form>
 
             <div className="card">
                 <table className="table">

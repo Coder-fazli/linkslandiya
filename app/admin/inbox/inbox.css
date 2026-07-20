@@ -131,12 +131,6 @@
     color: var(--text-primary, #0f172a);
 }
 
-.inbox-empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-secondary, #64748b);
-}
-
 /* ── Thread view ── */
 .thread-back {
     display: inline-flex;

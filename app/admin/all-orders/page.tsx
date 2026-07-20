@@ -79,7 +79,7 @@ export default async function AllOrdersPage({ searchParams }: {
                         style={{ textDecoration: "none" }}
                     >
                         {t.label}
-                        <span style={{ marginLeft: 6, opacity: 0.65, fontSize: "0.85em" }}>{counts[t.key]}</span>
+                        <span className="tab-count">{counts[t.key]}</span>
                     </Link>
                 ))}
             </div>

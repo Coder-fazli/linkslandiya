@@ -2,9 +2,12 @@ export const dynamic = 'force-dynamic'
 
 import { getWebsiteById } from "@/app/lib/websites"
 import { getCurrentUser } from "@/app/lib/session"
+import { getUserById } from "@/app/lib/user"
+import { displayName } from "@/app/lib/format"
 import { redirect } from "next/navigation"
 import { adminUpdateWebsiteAction, refreshWebsiteScreenshotAction } from "@/app/lib/actions"
 import ScreenshotStatusPoller from "@/components/admin/ScreenshotStatusPoller"
+import UserAvatar from "@/components/admin/UserAvatar"
 import Link from "next/link"
 
 export default async function AdminEditWebsitePage({ params }: { params: Promise<{ id: string }> }) {
@@ -15,6 +18,9 @@ export default async function AdminEditWebsitePage({ params }: { params: Promise
     const { id } = await params
     const website = await getWebsiteById(id)
     if (!website) return <div>Website not found</div>
+
+    const owner = website.ownerId ? await getUserById(website.ownerId) : null
+    const ownerName = displayName(owner, website.ownerId)
 
     return (
         <div className="section-content active">
@@ -206,7 +212,7 @@ export default async function AdminEditWebsitePage({ params }: { params: Promise
 
                     </div>
 
-                    {/* Right column — Status + Save */}
+                    {/* Right column — Status + Publisher + Save */}
                     <div>
                         <div className="card" style={{ marginBottom: "1.25rem" }}>
                             <div className="card-header"><h3>Status</h3></div>
@@ -222,12 +228,42 @@ export default async function AdminEditWebsitePage({ params }: { params: Promise
                             </div>
                         </div>
 
+                        {/* Publisher — who owns this website */}
+                        <div className="card" style={{ marginBottom: "1.25rem" }}>
+                            <div className="card-header"><h3>Publisher</h3></div>
+                            <div className="card-body">
+                                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1rem" }}>
+                                    <UserAvatar
+                                        avatarUrl={owner?.avatarUrl}
+                                        name={ownerName}
+                                        className="user-cell-avatar"
+                                        style={{ width: "44px", height: "44px", fontSize: "1rem" }}
+                                    />
+                                    <div style={{ minWidth: 0 }}>
+                                        <div style={{ fontWeight: 600, fontSize: "0.9rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                            {ownerName}
+                                        </div>
+                                        {owner?.email && (
+                                            <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                {owner.email}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                {owner ? (
+                                    <Link href={`/admin/users/${website.ownerId}`} className="btn btn-secondary" style={{ width: "100%", textAlign: "center", display: "block", textDecoration: "none" }}>
+                                        View Full Profile
+                                    </Link>
+                                ) : (
+                                    <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)" }}>
+                                        User not found (ID: {website.ownerId})
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="card">
                             <div className="card-body">
-                                <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "1rem" }}>
-                                    <div style={{ marginBottom: "6px" }}>Owner ID:</div>
-                                    <div style={{ fontFamily: "monospace", fontSize: "0.75rem", wordBreak: "break-all" }}>{website.ownerId}</div>
-                                </div>
                                 <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>
                                     Save Changes
                                 </button>

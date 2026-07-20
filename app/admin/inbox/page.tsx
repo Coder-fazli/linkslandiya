@@ -16,10 +16,10 @@ import { Conversation, ConversationTopic } from "@/models/conversation"
 
 const TABS = [
     { key: "all", label: "All" },
-    { key: "payment", label: "💳 Payments" },
-    { key: "orders", label: "📦 Orders" },
-    { key: "package", label: "🎁 Packages" },
-    { key: "support", label: "🛟 Support" },
+    { key: "payment", label: "Payments" },
+    { key: "orders", label: "Orders" },
+    { key: "package", label: "Packages" },
+    { key: "support", label: "Support" },
     { key: "archived", label: "Archived" },
 ] as const
 
@@ -104,9 +104,12 @@ export default async function InboxPage({ searchParams }: {
             </div>
 
             {conversations.length === 0 ? (
-                <div className="card inbox-empty">
-                    <div style={{ fontSize: 36, marginBottom: 10 }}>📭</div>
-                    {activeTab === "archived" ? "No archived conversations." : "No messages here yet."}
+                <div className="card empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+                        <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                    </svg>
+                    <p>{activeTab === "archived" ? "No archived conversations." : "No messages here yet."}</p>
                 </div>
             ) : (
                 <div className="inbox-list">

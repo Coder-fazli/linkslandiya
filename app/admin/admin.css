@@ -903,6 +903,8 @@
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     font-weight: 600; font-size: 0.8rem; color: white;
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark));
+    flex-shrink: 0;
 }
 .admin .user-cell-info { display: flex; flex-direction: column; }
 .admin .user-cell-name { font-weight: 500; }
@@ -950,6 +952,24 @@
 .admin .tab.draft { background: linear-gradient(135deg, #ef4444, #f87171); color: white; }
 .admin .tab.draft:hover { background: linear-gradient(135deg, #dc2626, #ef4444); }
 [data-theme="dark"] .admin .tab.active { background: #ffffff; color: #09090b; }
+
+.admin .tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    margin-left: 6px;
+    border-radius: 9999px;
+    background: rgba(15, 23, 42, 0.08);
+    color: inherit;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+.admin .tab.active .tab-count { background: rgba(255, 255, 255, 0.25); }
+[data-theme="dark"] .admin .tab-count { background: rgba(255, 255, 255, 0.1); }
+[data-theme="dark"] .admin .tab.active .tab-count { background: rgba(0, 0, 0, 0.25); }
 
 .admin .section-content { display: none; }
 .admin .section-content.active { display: block; }
