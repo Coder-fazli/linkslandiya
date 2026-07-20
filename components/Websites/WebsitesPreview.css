@@ -74,19 +74,17 @@
   letter-spacing: 0.03em;
 }
 
-.moz-badge {
-  background: var(--brand-primary);
-  color: #fff;
-}
-
-.ahrefs-badge {
-  background: #ff6b35;
-  color: #fff;
-}
-
 .traffic-badge {
   background: #6d28d9;
   color: #fff;
+}
+
+/* Real brand logos (Moz / Ahrefs) above the DA / DR columns */
+.col-brand-icon {
+  height: 9px;
+  width: auto;
+  display: block;
+  margin: 0 auto 2px;
 }
 
 /* ── Scrollable container for overflow ───────────────── */
@@ -299,8 +297,11 @@
   height: 34px;
   background: #f1f5f9;
   color: #64748b;
+  border: none;
   border-radius: 9999px;
   text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
   transition: background 0.2s ease, color 0.2s ease;
   flex-shrink: 0;
 }
@@ -560,4 +561,35 @@
   .table-scroll-inner {
     min-width: 620px;
   }
+}
+
+/* ── Website preview modal (eye icon) ────────────────────── */
+.preview-modal {
+  max-width: 460px;
+}
+
+.modal-screenshot {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.modal-screenshot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1280 / 800;
+  object-fit: cover;
+}
+
+.modal-stats-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.modal-stats-3 .modal-stat-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }

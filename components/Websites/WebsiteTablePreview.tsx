@@ -23,6 +23,7 @@ type TooltipState = { x: number; y: number; text: string } | null
 export default function WebsiteTablePreview({ websites, limit, showBlur = false, showActions = false }: WebsiteTablePreviewProps) {
   const visible = typeof limit === "number" ? websites.slice(0, limit) : websites;
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [previewSite, setPreviewSite] = useState<Website | null>(null)
   const [tooltip, setTooltip] = useState<TooltipState>(null)
 
   function toggleExpand(id: string) {
@@ -39,6 +40,7 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
   }
 
   return (
+    <>
     <div className="table-preview-wrapper">
       {showBlur && <div className="blur-bottom"></div>}
 
@@ -64,16 +66,18 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
 
           {/* MOZ DA */}
           <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
-            <span className="col-brand-badge moz-badge">MOZ</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/moz.svg" alt="Moz" className="col-brand-icon" />
             <div className="col-tooltip-wrapper" onMouseEnter={e => showTip(e, "A search engine ranking score by Moz that predicts how well a website is likely to rank on SERPs. The score ranges from 1 to 100, with higher scores indicating a better ability to rank.")} onMouseLeave={hideTip}>
               <span>DA</span>
               <span className="col-tooltip-icon">?</span>
             </div>
           </div>
 
-          {/* AHR DR */}
+          {/* Ahrefs DR */}
           <div className="col-center" style={{ flexDirection: 'column', gap: '2px' }}>
-            <span className="col-brand-badge ahrefs-badge">AHR</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/ahrefs.svg" alt="Ahrefs" className="col-brand-icon" />
             <div className="col-tooltip-wrapper" onMouseEnter={e => showTip(e, "Ahrefs Domain Rating — measures the strength of a website's backlink profile on a scale from 1 to 100.")} onMouseLeave={hideTip}>
               <span>DR</span>
               <span className="col-tooltip-icon">?</span>
@@ -172,12 +176,12 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
                   {/* Actions */}
                   {showActions && (
                     <div className="col-center" style={{ display: 'flex', gap: '8px' }}>
-                      <a href={`/site/${id}`} target="_blank" rel="noopener noreferrer" className="btn-eye" title="View website">
+                      <button type="button" onClick={() => setPreviewSite(site)} className="btn-eye" title="Preview website">
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                           <circle cx="12" cy="12" r="3"></circle>
                         </svg>
-                      </a>
+                      </button>
                       <ShineButton
                         label="Post"
                         href={`/admin/buyer-orders/new?websiteId=${id}`}
@@ -245,5 +249,92 @@ export default function WebsiteTablePreview({ websites, limit, showBlur = false,
         </div>
       </div>
     </div>
+
+    {/* Preview modal — opened from the eye icon */}
+    {previewSite && (
+      <div className="modal-overlay show" onClick={() => setPreviewSite(null)}>
+        <div className="modal preview-modal" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close" onClick={() => setPreviewSite(null)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </button>
+          <div className="modal-content">
+            <div className="modal-header">
+              <WebsiteFavicon url={previewSite.url} name={previewSite.name} className="modal-favicon" size={50} />
+              <div>
+                <div className="modal-title">{cleanDomain(previewSite.url, previewSite.name)}</div>
+                <div className="modal-subtitle">{previewSite.desc || "Guest Post Opportunity"}</div>
+              </div>
+            </div>
+
+            {previewSite.screenshotUrl && (
+              <div className="modal-screenshot">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={previewSite.screenshotUrl} alt={`${previewSite.name} homepage preview`} />
+              </div>
+            )}
+
+            <div className="modal-stats modal-stats-3">
+              <div className="modal-stat">
+                <div className="modal-stat-label">
+                  DA
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/moz.svg" alt="Moz" style={{ height: "9px", width: "auto" }} />
+                </div>
+                <div className="modal-stat-value">{previewSite.da}</div>
+                <div className="modal-stat-bar">
+                  <div className="modal-stat-bar-fill" style={{ width: `${previewSite.da}%` }}></div>
+                </div>
+              </div>
+              <div className="modal-stat">
+                <div className="modal-stat-label">
+                  DR
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/ahrefs.svg" alt="Ahrefs" style={{ height: "9px", width: "auto" }} />
+                </div>
+                <div className="modal-stat-value">{previewSite.dr}</div>
+                <div className="modal-stat-bar">
+                  <div className="modal-stat-bar-fill" style={{ width: `${previewSite.dr}%`, background: "linear-gradient(90deg, #ff6b35 0%, #ffa07a 100%)" }}></div>
+                </div>
+              </div>
+              <div className="modal-stat">
+                <div className="modal-stat-label">Traffic</div>
+                <div className="modal-stat-value">{formatTraffic(previewSite.traffic)}</div>
+                <div className="modal-stat-bar">
+                  <div className="modal-stat-bar-fill" style={{ width: `${Math.min((previewSite.traffic / 500000) * 100, 100)}%`, background: 'linear-gradient(90deg, #6366f1 0%, #818cf8 100%)' }}></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="modal-tags">
+              <span className="modal-tag country">{countryFlags[previewSite.country]} {previewSite.country}</span>
+              <span className="modal-tag language">{previewSite.language}</span>
+              <span className="modal-tag topic">{previewSite.topic}</span>
+              <span className={`modal-tag ${previewSite.dofollow ? 'dofollow' : 'nofollow'}`}>
+                {previewSite.dofollow ? 'Dofollow' : 'Nofollow'}
+              </span>
+            </div>
+
+            <div className="modal-price">
+              <div className="modal-price-label">Price</div>
+              <div className="modal-price-value">${previewSite.price}</div>
+            </div>
+
+            <div className="modal-actions">
+              <a href={previewSite.url} target="_blank" rel="noopener noreferrer" className="modal-btn modal-btn-secondary">
+                View Website
+              </a>
+              <ShineButton
+                label="Post Article"
+                href={`/admin/buyer-orders/new?websiteId=${previewSite._id}`}
+                className="modal-btn"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   )
 }

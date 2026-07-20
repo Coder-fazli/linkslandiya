@@ -110,8 +110,12 @@ return (
   <div className="site-metrics">
     <div className="site-metric">
       <div className="site-metric-header">
-        <span className="site-metric-label">DA (Moz)</span>        
-        <span className="site-metric-value">{site.da}</span>       
+        <span className="site-metric-label" style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
+          DA
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/icons/moz.svg" alt="Moz" style={{ height: "9px", width: "auto" }} />
+        </span>
+        <span className="site-metric-value">{site.da}</span>
       </div>
       <div className="site-metric-bar">
         <div className="site-metric-fill da" style={{ width: `${site.da}%` }}></div>

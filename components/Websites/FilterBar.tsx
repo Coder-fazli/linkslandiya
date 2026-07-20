@@ -112,7 +112,11 @@ export default function FilterBar({
                 </div>
 
                 <div className="filter-bar-field">
-                    <label>DA (Moz)</label>
+                    <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                        DA
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/icons/moz.svg" alt="Moz" style={{ height: "8px", width: "auto" }} />
+                    </label>
                     <select value={filters.da} onChange={(e) => setFilters({ ...filters, da: e.target.value })}>
                         <option value="">All DA</option>
                         <option value="0-20">0 - 20</option>
